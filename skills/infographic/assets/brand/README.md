@@ -5,7 +5,7 @@ Swap the files, keep the names, and `/infographic` picks them up.
 
 ```
 brand/
-  frame.md          the styling law — colors, type, spacing, ground, closing card
+  frame.md          styling: colors, type, spacing, ground, closing card
   ground.webp       background photo, used as a ~18% texture on every scene
   logo.svg          monochrome lockup (for light-on-dark use)
   logo-color.webp   full-color lockup
@@ -39,17 +39,16 @@ Either way you can also point at a specific file per run:
 
 ## What to change
 
-1. **`frame.md` frontmatter** — `colors`, `typography`, `spacing`, `assets`,
+1. **`frame.md` frontmatter:** `colors`, `typography`, `spacing`, `assets`,
    `cta`. The `assets` paths are relative to `frame.md` itself, so if you keep
    the filenames above you do not need to touch them.
-2. **`frame.md` prose** — the design law. This is the part that actually
-   constrains the agent: what your brand does, and what it must never do. The
+2. **`frame.md` prose:** instructions for applying the brand. The
    ground stack and closing-card spec live here. Rewrite them for your look;
    delete the ground section entirely if you want a plain flat field.
-3. **`ground.webp`** — any image works. It renders at ~18% opacity as texture,
+3. **`ground.webp`:** it renders at ~18% opacity as texture,
    not as a picture, so pick something with broad tonal areas rather than fine
    detail or text.
-4. **`icons/`** — one monochrome SVG per platform in `cta.platforms`, from
+4. **`icons/`:** one monochrome SVG per platform in `cta.platforms`, from
    the same icon family. The bundled frame uses Bootstrap Icons; name each
    file after its platform and follow the frame's color treatment.
 
@@ -57,5 +56,5 @@ Either way you can also point at a specific file per run:
 
 Run `hyperframes check` for text contrast and layout, then inspect the actual
 frames. Automated checks do not establish logo legibility or brand fidelity.
-Prefer an allowed text color or adjust the ground when contrast fails; report
+Prefer an allowed text color, reposition text, or add local backing when contrast fails; report
 a conflict if the selected brand cannot meet the required readability.

@@ -1,6 +1,6 @@
 ---
 name: infographic
-description: Create a researched, narrated infographic video from a topic, article URL, or notes using HyperFrames and a brand frame.md. Use for social explainers, comparisons, and mechanism diagrams; not product launch trailers or captioning existing footage.
+description: Create a researched, narrated infographic video from a topic, article URL, or notes using HyperFrames and a brand frame.md. Use for social explainers, comparisons, timelines, and how-tos; not product launch trailers or captioning existing footage.
 ---
 
 # /infographic
@@ -16,7 +16,8 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
 `--research <json>`. Ask for a subject only when it is missing.
 
 - Default: vertical 1080×1920, 30–90 seconds including the closing card, narrated with Kokoro
-  `af_heart`, phrase captions, quiet music, sparse SFX.
+  `af_heart`, phrase captions highlighting the current spoken word, quiet music,
+  sparse SFX.
 - Honor `--frame <path>`, `--tone <direction>`, `--duration <seconds>`,
   `--format vertical|square|landscape`, `--platform`, `--title`, `--scenes`.
   Square is 1080×1080; landscape is 1920×1080. Tone is freeform, not a preset
@@ -24,6 +25,8 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
 - Honor `--no-voice`, `--no-captions`, `--no-music`, `--no-sfx`.
   Without narration, omit speech captions unless timed speech is supplied;
   keep explanatory labels and allow enough reading time.
+- Every completed video includes a separately designed `thumbnail.jpg` and every
+  decoded video frame as a PNG under `composition/frames/`.
 - `--refresh-research` refreshes cached facts. `--script-only` is equivalent
   to `--stop-after plan`; `--stop-after research|plan|compose` ends at that stage.
   Compose includes narration, captions, and validation, but no video encode.
@@ -31,6 +34,23 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
   project. Never create a sibling of `video-output/`. For revisions, reuse
   the run directory unless retaining a comparison; then create a new run
   subdirectory. Keep renders, temporary media, and previews inside that run.
+- For a new run, do not list or inspect earlier runs in `video-output/`. Open one
+  only when the user explicitly asks to review, revise, or resume it.
+
+## Execution environment
+
+This skill ships instructions and assets, not a `scripts/` package. It can be
+loaded by a CLI agent or uploaded as a custom skill in a web app. Flags above
+are instructions to the agent, not a separately installed command-line parser.
+Research and script planning need browsing and file creation. Full production
+also needs Node.js, HyperFrames and its domain guidance, FFmpeg, a browser
+renderer, and the selected speech/transcription tooling in the **current execution
+environment**. A web session does not inherit software installed on the user's PC.
+Check capabilities once; use available native tools and registry components.
+If production is unavailable, complete research/script/planning and report the
+specific missing dependency and resume stage. Do not claim to have rendered,
+silently change providers, or simulate word timing. When browsing is unavailable,
+use supplied sources and mark claims that still need verification.
 
 ## Brand
 
@@ -61,28 +81,45 @@ or compress the story to fit a preselected layout. Use the user's tone and
 any supplied writing examples; visual references do not establish a narrator's
 voice.
 
-For agent-written narration:
+Use plain language in narration and delivery notes. Do not use em dashes.
+When writing examples are supplied, follow their level of detail, rhythm, and
+point of view without copying their claims or anecdotes.
 
-- Open with the specific question, situation, or consequence the video will
-  explain. Avoid a generic promise to transform the viewer's life or business.
-- Develop the reasoning. For comparisons, explain when an option helps and
-  the tradeoff that affects the choice; for mechanisms, connect cause and
-  effect through an example. Names, prices, and feature labels alone are
-  not an explanation. Keep examples illustrative unless backed by evidence.
-- Write sentences someone would say to one interested person. Use natural
-  contractions and varied sentence lengths; do not make every sentence a
-  slogan or repeat the same introduction for every item. Let transitions
-  connect ideas instead of repeatedly announcing the next section.
-- End by answering the opening question or giving a specific next step that
-  follows from the explanation. The branded follow card is separate.
+For agent-written narration, choose a specific viewer situation and a question
+the video can answer. Write the explanation as connected paragraphs before
+splitting it into scenes. Develop an example far enough to show what happens
+and why it matters. In a comparison, connect the options through the viewer's
+needs instead of restarting with a product name, price, and feature list.
 
-Before TTS, make one editorial pass: read the draft as continuous speech,
-replace lines that could fit almost any topic with concrete details, repair
-awkward phrasing, and remove repeated claims. Preserve examples, reasoning,
-and factual qualifications. For example, replace "Save time and boost
-productivity" with the actual task and how it changes. Do not invent personal
-experience, product superiority, or savings to make the copy sound human.
-This is an internal revision, not another approval checkpoint or deliverable.
+Use complete spoken sentences as the default. Keep the connecting words that
+carry the reasoning, such as "because", "if", and "so". Read the paragraphs
+without their headings: the subject and the move to the next idea should still
+be clear. Vary sentence length where the thought calls for it. Do not turn
+qualifications into slogans, append feature fragments, or manufacture a voice
+with slang and fake personal anecdotes.
+
+Examples of the intended edit, assuming the underlying facts are verified:
+
+- "One license, one person." becomes "That price covers one person, so check
+  the team pricing if someone else needs access too."
+- "A research assistant, not a writer." becomes "It includes links with its
+  answers, which gives you a way to check where the information came from."
+- "Gamma: nine dollars ... a thousand AI credits a month." becomes "If you
+  already have notes for a supplier pitch, Gamma can turn them into a slide
+  deck. You'll still need to check the wording before you send it."
+
+These are examples of sentence structure, not reusable product claims. Put
+secondary specs on screen when they interrupt the explanation; keep purchase
+conditions visible beside prices. End with a recommendation or answer supported
+by the example, rather than a generic instruction to upgrade or save time.
+
+Before TTS, make one editorial pass on the whole script. Repair abrupt jumps,
+repeated openings, sentence fragments, and canned contrasts such as "X, not Y".
+Remove em dashes by rewriting the relationship between clauses, not swapping
+punctuation. Check that research supports the opening and conclusion as well
+as individual facts. Preserve useful detail and qualifications. When shortening,
+cut a secondary feature or repeated setup before cutting the connective wording
+that makes the explanation flow. This pass needs no extra approval or file.
 
 Then divide the draft into scenes and write `SCRIPT.md` with a heading per
 scene and only spoken text beneath each heading. This is the editable narration
@@ -101,13 +138,33 @@ For each scene record:
 - Estimated duration, then measured duration after TTS; entrance, settled
   reading time, and handoff to the next scene.
 
-Choose visuals by the explanation: a shared-scale comparison, a process
-changing state, a timeline, or a concrete example. A number counting from zero
-is an entrance effect; it does not explain a fact by itself. A mechanism
-without numbers is a valid infographic. Reuse an object across scenes when
-that helps the viewer follow the reasoning.
+### Choosing what to show
 
-Make the subject and stakes visible in the opening, even with sound off.
+Choose visuals that help the viewer understand this scene. Photos, captured
+interfaces, illustrations, diagrams, charts, and text can work together.
+Record the chosen visual and its role in the storyboard; no ranking or account
+of rejected alternatives is needed. Preserve the brand ground and overlay.
+For visual planning, read `hyperframes-creative` and its relevant composition
+guidance. The selected frame overrides its generic palette and ambient-motion defaults.
+
+Specify the object, what happens to it, and what the viewer learns. Show a
+customer question becoming a useful reply, or rough menu notes becoming a
+finished menu with real content. Avoid placeholder bars standing in for the
+result. Label invented interfaces and example data as illustrative on screen.
+Keep useful objects across scenes when that makes the explanation easier to follow.
+
+Use `media-use` for relevant images and consistent icons, and search
+`hyperframes-registry` for reusable components before building them. Adapt
+selected assets to the frame. Use a finished icon from one family instead of
+approximating it with CSS shapes. Custom SVG is useful for diagrams whose
+geometry explains the subject; inspect it at phone size before animating it.
+
+Put a visual hook in the first decoded frame of the video. Show the actual
+subject and a short reason to keep watching, readable with sound off at time
+zero. Keep the spoken hook to one brief sentence, roughly five seconds or less,
+then move into the first useful example. Lead with an included subject rather
+than explaining an excluded alternative. Place exclusions where they affect a
+choice. Do not open on an empty ground, fading title, or generic promise.
 Keep one dominant proof object per beat and labels readable at phone size.
 Use visuals to carry comparisons and show the changes the narration explains;
 the voice should add reasoning rather than simply read all on-screen text.
@@ -130,14 +187,15 @@ restarting a generic video intake interview. If required tooling is missing,
 report the concrete dependency and keep the completed plan.
 
 Generate and measure narration before final animation timing. Build the
-composition, captions, and audio. Check one representative evidence scene
-and the brand closing card visually before expanding the remaining scenes.
+composition using the existing tools and components in production guidance;
+avoid generating standalone helper scripts for routine operations. Check one representative evidence scene with
+captions, the audio mix, and the closing card before expanding remaining scenes.
 Then validate and inspect the full sequence. Stop here for
 `--stop-after compose`; otherwise render the requested deliverable.
 
 ## Delivery
 
-Return `video.mp4`, `video.jpg`, `share-copy.txt`, `research.json`,
+Return `video.mp4`, the separately designed `thumbnail.jpg`, `share-copy.txt`, `research.json`,
 `SCRIPT.md`, `video-plan.md`, and the editable `composition/`. Report duration, dimensions,
-validation status, and unresolved limitations. For partial runs, state the
+frame count, validation status, and unresolved limitations. For partial runs, state the
 completed stage and how to resume it without regenerating approved material.

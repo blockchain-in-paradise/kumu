@@ -1,5 +1,5 @@
 ---
-name: "Pūpūkahi Tech Foundation — ocean editorial motion"
+name: "Pūpūkahi Tech Foundation: ocean editorial motion"
 source: "https://pupukahitech.org/"
 colors:
   canvas: "#0e394e"
@@ -19,6 +19,7 @@ typography:
 spacing:
   edge: "92px"
   platform_ui_bottom: "420px"
+  caption_bottom: "340px"
 assets:
   ground: "ground.webp"
   logo: "logo.svg"
@@ -39,17 +40,21 @@ cta:
 The website establishes the brand: warm off-white editorial surfaces, ocean
 navy photographic overlays, teal action color, sand-gold highlights, Inter,
 rounded controls, generous spacing, and direct community language. Video uses
-the darker website register so white type and the official lockup remain clear.
+the darker website register so white type and the closing handle remain clear.
 
-One headline, one proof object, and no more than three evidence rows per scene.
+One headline and one dominant proof object per scene. Row count follows phone-size
+readability: a five-item comparison can stay together if its labels remain legible.
+Do not collapse and rebuild a chart just to meet an arbitrary three-row limit.
 The frame is an editorial field, not a dashboard. Compose each scene's hero
 object freely within this law: the colors, type, spacing, safe areas, logo
 treatment, and CTA structure above are fixed, and the layout and motion of the
-hero object are yours to design per scene. Reuse a hero object by promoting it
-to a block, never by forcing every scene through one layout.
+hero object are yours to design per scene. Preserve useful object identity across
+beats; extract a shared block only when it simplifies real reuse.
 
 Motion reveals information in stages. The film current is left. Ordinary seams
-use a left push; one zoom-through may mark the major reveal. No crossfades,
+use a left push. A zoom-through is optional, not a required beat; omit it unless
+spatial continuity explains the reveal. Keep one readable scene at the handoff,
+with no blank landing or overlapping headlines. No crossfades,
 floating, breathing, wobble, glassmorphism, card grids, emoji, or decorative
 pseudo-Hawaiian motifs.
 
@@ -59,7 +64,7 @@ pseudo-Hawaiian motifs.
 
 Every scene sits on the same four-layer ground, in this order, bottom to top.
 Copy the assets into `composition/assets/brand/` and reference them relatively.
-This stack is **mandatory** — it is what makes consecutive scenes read as one
+This stack is **mandatory**. It makes consecutive scenes read as one
 film instead of a stack of slides. Do not substitute a plain flat fill, and do
 not raise the photo opacity to make it "visible": it is a texture, not an image.
 
@@ -71,7 +76,7 @@ not raise the photo opacity to make it "visible": it is a texture, not an image.
 .ground-photo {                 /* 2. the brand photo, barely there */
   position: absolute; inset: 0;
   background: url("assets/brand/ground.webp") center / cover no-repeat;
-  opacity: .18;
+  opacity: .15;
 }
 .ambient {                      /* 3a. teal bloom, top-right */
   position: absolute; width: 900px; height: 900px;
@@ -92,19 +97,41 @@ not raise the photo opacity to make it "visible": it is a texture, not an image.
 }
 ```
 
-The ground is static. It does not animate, parallax, or pulse — only the
+The ground is static. It does not animate, parallax, or pulse. Only the
 content above it moves. The two blooms stay in their corners for the whole
 film so the frame keeps a consistent light direction.
 
 Readable type always sits on the ground, never on a photograph at full
-opacity. If `hyperframes check` reports a contrast failure, lower the photo
-opacity or move the type — never brighten the photo behind it.
+opacity. Preserve the ground, photo, blooms, and grain. For readability, move or
+enlarge foreground labels or give the proof object a restrained navy backing;
+do not remove or brighten the ground to fix foreground contrast.
+
+## Foreground and subtitles
+
+At 1080×1920, start with 80–112 px headlines, 40–52 px essential evidence labels,
+and 52 px captions. Essential billing qualifiers need the same reading priority
+as the price. Check at roughly 360 px display width; shorten labels or split a
+beat rather than shrinking important text into footnotes. Scale with resolution.
+Anchor the visible caption block 340 px above the bottom at 1080×1920. This
+caption-specific default overrides the 420 px inset for other content; adjust
+it when a supplied platform overlay requires more clearance. Bottom-align the
+text inside its container so unused container height does not lift it. Allow
+two lines to grow upward and leave 48 px between captions and proof objects.
+Check the visible text bounds at phone size, not only the container's CSS.
+Align labels to the objects they describe, using one clear reading order.
+
+Captions show a stable phrase of usually 3–6 words, at most two lines. Unspoken
+and finished words stay ink; only the current word gets a sand background with
+dark foreground text. Clear that highlight at the word's measured end, including
+pauses. Use no bounce, zoom, typewriter reveal, or changing font weight that
+reflows the phrase. Keep this style consistent across the video. A subtle navy
+backing behind the caption band is allowed; it does not replace the ground stack.
 
 ---
 
 # The closing card (required, and its own scene)
 
-The last scene is the follow card. Nothing else shares it — no leftover stat,
+The last scene is the follow card. Nothing else shares it: no leftover stat,
 no evidence row, no headline from the previous beat. Give it its own scene of
 4-6 seconds.
 
@@ -145,7 +172,7 @@ Entry: the lockup fades and settles first, kicker rises at 0.30s, handle at
 
 ## The icons
 
-`icons/` holds monochrome single-path marks — 16×16 viewBox, `fill="currentColor"`,
+`icons/` holds monochrome single-path marks with a 16×16 viewBox, `fill="currentColor"`,
 one consistent family (Bootstrap Icons, MIT). Order them as `cta.platforms`
 lists them.
 
@@ -154,7 +181,7 @@ lists them.
 color the whole row:
 
 ```css
-.socials svg { fill: #fcfaf8; }   /* ink — one value, all three marks */
+.socials svg { fill: #fcfaf8; }   /* ink: one value, all three marks */
 ```
 
 Ink (`#fcfaf8`) is the default. The teal accent (`#39a1ac`) is the only other
