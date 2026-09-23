@@ -11,23 +11,19 @@ composition, animation, audio, and rendering tools; it is not a separate agent.
 
 ## Inputs and defaults
 
-Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
-`--script <markdown>` for user-authored narration (preserve its wording),
-`--research <json>`. Ask for a subject only when it is missing.
+Accept a topic in natural language, `--topic`, or `--url`. Ask for a subject only when it is missing.
 
 - Default: vertical 1080×1920, 30–90 seconds including any frame-required closing card, narrated with Kokoro
-  `af_heart`, phrase captions highlighting the current spoken word, quiet music,
-  sparse SFX.
+  `af_heart`, phrase captions highlighting the current spoken word, quiet music, sparse SFX.
 - Honor `--frame <path>`, `--tone <direction>`, `--duration <seconds>`,
-  `--format vertical|square|landscape`, `--platform`, `--title`, `--scenes`.
-  Square is 1080×1080; landscape is 1920×1080. Tone is freeform, not a preset
-  that can override the brand. Duration includes the closing card.
+  and `--format vertical|square|landscape`. Square is 1080×1080; landscape is
+  1920×1080. Tone is freeform, not a preset that can override the brand.
+  Duration includes the closing card.
 - Honor `--no-voice`, `--no-captions`, `--no-music`, `--no-sfx`.
   Without narration, omit speech captions unless timed speech is supplied;
   keep explanatory labels and allow enough reading time.
-- Every completed video includes a separately designed `thumbnail.jpg` and every
-  decoded video frame as a PNG under `composition/frames/`.
-- `--script-only` ends after the plan, before TTS or rendering.
+- Every completed video includes a separately designed `thumbnail.jpg` and one
+  settled review frame per scene under `composition/frames/`.
 - Every run belongs in `video-output/YYYY-MM-DD-HHmmss-topic/` in the invoking
   project. Never create a sibling of `video-output/`. For revisions, reuse
   the run directory unless retaining a comparison; then create a new run
@@ -39,13 +35,12 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
 
 Research and script planning need browsing and file creation. Full production
 also needs Node.js, HyperFrames and its domain guidance, FFmpeg, a browser
-renderer, and the selected speech/transcription tooling in the **current execution
-environment**. A web session does not inherit software installed on the user's PC.
+renderer, and the selected speech/transcription tooling in the current execution
+environment. A web session does not inherit software installed on the user's PC.
 Check capabilities once; use available native tools and registry components.
 If production is unavailable, complete research/script/planning and report the
 specific missing dependency and resume stage. Do not claim to have rendered,
-silently change providers, or simulate word timing. When browsing is unavailable,
-use supplied sources and mark claims that still need verification.
+silently change providers, or simulate word timing.
 
 ## Brand
 
@@ -63,45 +58,48 @@ inventing a logo or silently dropping the ground treatment.
 
 ## Workflow
 
-Run the stages below in order, loading their guidance when needed. Complete
-the requested stages without intermediate creative approvals unless requested.
+Run these stages in order, stopping at both checkpoints below.
 
-1. **Research and gather visual evidence.** Read [research.md](research.md).
-   Choose a useful audience question and support its answer in `research.json`.
-   Identify images, screenshots, data, or diagrams that can explain the subject.
-2. **Write and design.** Read the script and scene-planning sections of
-   [production.md](production.md). Write connected narration in `SCRIPT.md`,
-   edit it as speech, and create focused scene briefs in `video-plan.md`.
-   Stop for `--script-only` before TTS or rendering.
-   Use the plan handoff below.
-3. **Produce.** Follow the remaining production sections. Check tooling,
-   generate and measure narration, finalize selected assets, and compose with
-   HyperFrames. Inspect one representative scene with active captions before
-   expanding the sequence. Review and validate the complete composition.
-4. **Deliver.** Render and inspect `video.mp4`, design an HTML cover and capture
-   it as `thumbnail.jpg`, export every decoded frame to `composition/frames/`,
-   and write `share-copy.txt`.
+1. **Research.** Read [research.md](research.md). Save supported claims and
+   visual sources in `research.json`.
+2. **Script and plan.** Read [script.md](script.md). Start `video-plan.md` with
+   the run path and the requested options (tone, format, duration, frame, and
+   flags) so a later session can resume. Write `SCRIPT.md`, then the scene
+   briefs and thumbnail brief in `video-plan.md`. Run no TTS or HyperFrames
+   command yet. Stop at the plan checkpoint.
+3. **Compose.** Read [render.md](render.md) and build from the approved script
+   and plan only. Inspect a captioned scene before expanding the sequence, then
+   validate the composition, check the mix, create `thumbnail.jpg` and
+   `caption.txt`, and save the review frames. Stop at the frame checkpoint.
+4. **Render.** Follow "Final render" in [render.md](render.md) and inspect
+   `video.mp4`.
 
 Load `hyperframes-core` and `hyperframes-cli` for implementation, `media-use`
 for media and speech, and other HyperFrames domain guidance only for the task
 at hand. Pass this brief and plan into production without restarting a generic
 video intake interview.
 
-### Plan handoff and continuation
+### Checkpoints
 
-After a plan-only run, show the script and plan links, record `Status: awaiting
-render decision` and the run path in `video-plan.md`, and ask once:
-"Continue with this script and plan to produce the full video? Yes / No."
-Wait for an explicit reply; no reply means no production. No leaves the files
-ready for later. Requested edits update the same run; approval covers those
-edits only unless the user also asks to render.
+Both checkpoints are the default, even when the user asks for a full or
+finished video. Only `--skip-pauses` or an explicit instruction to skip review
+removes them.
 
-Yes resumes stage 3 in that exact run directory using the latest saved script,
-research, plan, and original options. Clear the previous stop condition. Preserve
-the approved wording; resolve documented factual gaps and report any necessary
-correction before TTS. Do not restart research or create a new run. An explicit
-request to resume a named run and render is already approval. In a new session,
-use the run path the user supplies. Full-video requests skip this handoff.
+At each checkpoint, record the status in `video-plan.md`, link the files to
+review, ask once, and end the turn. No, or no reply, leaves the run ready for
+later. Requested edits update the same run, and the same checkpoint asks again.
+A request to continue a named run approves only its current checkpoint.
+
+- **Plan:** record `Status: awaiting plan review`, link `research.json`,
+  `SCRIPT.md`, and `video-plan.md`, and ask: "Continue with this script and plan,
+  using the recommended thumbnail title unless you pick another? Yes / No."
+- **Frames:** record `Status: awaiting frame review`, link `composition/frames/`,
+  `thumbnail.jpg`, `caption.txt`, and the audio preview, and ask: "Render the
+  final video from this composition? Yes / No."
+
+To resume, read the options and status from `video-plan.md` and continue from
+the saved files without repeating completed stages. Use the latest `SCRIPT.md`,
+preserve approved wording, and resolve factual gaps before TTS.
 
 ## Creative standard
 
@@ -119,8 +117,8 @@ not hook formulas. Preserve supplied scripts and verbatim source quotations.
 
 ## Delivery
 
-Return `video.mp4`, `thumbnail.jpg`, `share-copy.txt`, `research.json`,
+Return `video.mp4`, `thumbnail.jpg`, `caption.txt`, `research.json`,
 `SCRIPT.md`, `video-plan.md`, and the editable `composition/`. Report duration,
-dimensions, exported frame count, checks performed, and unresolved limitations.
+dimensions, review frame paths, checks performed, and unresolved limitations.
 For a partial run, identify the completed stage and how to resume that run.
 Never describe a technical validation pass as proof of editorial quality.

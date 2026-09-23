@@ -124,14 +124,16 @@ Captions show a stable phrase of usually 3–6 words, at most two lines. Unspoke
 and finished words stay ink; only the current word gets a sand background with
 dark foreground text. Clear that highlight at the word's measured end, including
 pauses. Use no bounce, zoom, typewriter reveal, or changing font weight that
-reflows the phrase. Keep this style consistent across the video. A subtle navy
-backing behind the caption band is allowed; it does not replace the ground stack.
+reflows the phrase. Keep this style consistent across the video. Captions sit
+directly on the ground with no backing.
 
 Sand belongs to the caption's spoken-word highlight and the closing card's
 kicker. Do not use it for headline words, prices, stats, step numbers, badges,
 or backgrounds; a second sand element competes with the word being spoken.
 Teal marks actions and state; ink carries everything else. Give an important
 value emphasis through size and weight in ink.
+These roles apply to interface and emphasis. Depicted objects keep their real
+colors, such as a gold coin, green crops, or blue water.
 
 ---
 

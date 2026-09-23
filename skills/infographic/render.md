@@ -1,156 +1,16 @@
-# Production
+# Render
 
 Use `SCRIPT.md` as the narration source, `video-plan.md` as the storyboard, and the selected
 `frame.md` as the styling record. Resolve the skill's assets relative to this
 skill directory, not a hardcoded Claude installation path. Use the installed
 HyperFrames command guidance or `--help` for version-dependent flags.
 
-## Script and editorial pass
-
-Use research to answer one audience question. Draft the narration as connected
-paragraphs before deciding scene boundaries. Write to someone who wants to
-understand or do the thing. Preserve useful reasoning and prerequisites, and
-let the explanation determine its length within 30–90 seconds, including the
-frame-required closing card. An explicit duration takes precedence.
-
-Open with one brief, specific sentence, roughly five seconds or less, that
-states the question, useful outcome, or strongest supported finding. Start
-explaining immediately. Do not create a fictional customer, personal experience,
-or extended scenario to make a comparison sound relatable. Use an example only
-when it clarifies the point and remains accurate about the subject.
-Use local context when it changes the advice or supplies relevant evidence.
-An audience location alone is not a reason to invent a shop, name a town, or
-place a map pin. Address the viewer directly when the instruction is universal.
-
-Explain why one step follows another or which condition changes a decision.
-Keep connective words such as "because", "if", and "so" where they carry that
-reasoning. Move a secondary specification into a short visual label when it
-interrupts speech. Essential qualifications stay with their claim, either spoken
-or as a short label on the object they limit.
-End the explanation with its answer or result. The brand's closing card does
-not require a second spoken summary or invented engagement prompt.
-
-Make one editorial pass before TTS:
-
-- Read the draft without headings. Fix jumps, ambiguous pronouns, repeated
-  sentence openings, and feature fragments. Vary length as the thought requires.
-- Replace slogans and generic claims with a supported action, consequence, or
-  distinction. "One license, one person" needs a sentence explaining who the
-  price covers and when additional access changes the cost.
-- Remove filler such as "actually", "just", and "simply" when it adds nothing.
-  Cut stock praise, artificial suspense, forced triples, and "X, not Y" formulas.
-  Follow the entrypoint's audience-copy punctuation rules across speech, labels,
-  thumbnail, and share copy. Do not manufacture personality with slang or typos.
-- Check the opening and ending against research, as well as individual claims.
-  Do not claim firsthand testing or experience the user has not supplied.
-- Keep each scene relevant to the audience question. Remove side advice that
-  interrupts the explanation unless it changes the decision or is necessary
-  to understand a claim. Preserve essential qualifications with that claim.
-- Read aloud if tools allow, otherwise perform a spoken-language pass and
-  disclose that audio was not auditioned. Fix awkward wording and pronunciation.
-  Cut repeated setup before cutting the connections that make the prose flow.
-
-Save `SCRIPT.md` with a heading per scene and only spoken text beneath headings.
-Keep the narration continuous in meaning across scenes. Supplied `--script`
-wording is preserved and skips rewriting unless requested; report factual
-problems separately. This file is the source for TTS and all later speech edits.
-Do not shorten narration during implementation without updating it.
-
-Keep exact destination URLs in the plan's on-screen copy and `share-copy.txt`.
-In narration, name the service and give a natural direction such as "Open
-Google Business Profile using the address on screen." Do not read protocols,
-slashes, query strings, or long paths aloud. If a short address must be spoken,
-record its exact displayed URL separately and verify its pronunciation during
-TTS preparation. Never feed Markdown link syntax to TTS. A URL shown in a video
-is visual text, not a clickable link; do not promise a clickable caption link
-unless the selected platform and placement support it.
-
-## Scene briefs
-
-Use `video-plan.md` as the single plan; no separate beats JSON or duplicate
-composition brief is needed. Record audience, question and answer, chosen frame,
-format, target duration, audio direction, and then one short brief per scene:
-
-| Field | What to specify |
-| --- | --- |
-| Purpose | What the viewer should understand or be able to do |
-| Evidence | Fact IDs and script scene heading, without duplicating speech |
-| Visual | Main object, composition, exact short labels, and any unspoken qualifier as a label |
-| Assets | Selected visual IDs, local paths, or the geometry to draw |
-| Changes | Initial state, what changes at which spoken phrase, final state |
-| Timing | Estimated duration, then measured duration and global start after TTS |
-| Handoff | What persists, what leaves, and why the next scene follows |
-
-Read `hyperframes-creative` for relevant composition guidance. Brand tokens and
-ground override generic style defaults. Choose the treatment around the subject:
-
-- Comparisons use aligned measures or objects under equivalent conditions.
-- Procedures show the actual objects and ordered actions with spatial continuity.
-- Mechanisms reveal relationships and state changes in a coherent diagram.
-- Timelines and maps use sourced dates, locations, and a readable route or scale.
-- Recognizable subjects use suitable photos, item art, screenshots, or faithful
-  reconstructions when these improve understanding.
-
-Custom SVG is useful for explanatory geometry, paths, masks, and annotations.
-Do not approximate a recognizable object with a generic line icon as the main
-visual. Keep generic symbols subordinate. A diagram must encode a relationship
-or change beyond restating the narration in boxes. For sourced interfaces, show
-verified content; invented application screens are not evidence.
-
-Choose a dominant subject and a clear reading order. Use scale, cropping,
-alignment, and contrast to establish hierarchy. Avoid repeated eyebrow/title/
-card/footer layouts, decorative pills, dot-separated metadata, tiny qualifiers,
-and oversized numbers without context. Repeat positions when they support a
-comparison. Related beats may evolve one scene rather than rebuild it.
-
-Captions carry the spoken words, so visible text is labels, values, and at most
-one short headline per scene. Do not set a narration sentence, a paraphrase of
-it, or an explanatory footnote on screen; the viewer would read the same idea
-twice while the captions move. Keep a scene to about three visual groups with
-one hero, and label items with a few words placed next to what they name.
-A decision point keeps its condition as a short label, such as "Already
-listed?", because it shows a relationship the picture needs.
-
-Less text is not a smaller picture. Let the hero fill roughly 40–60% of the
-frame, and enlarge or add a meaningful state when a scene looks empty rather
-than restoring sentences.
-
-Build a social post, not a slide deck. Persistent navigation such as step rails,
-chapter tabs, slide counters, or player-style progress bars spends space in
-every frame and makes scenes read as slides. Show order inside the content: the
-hero object changes state, or the current step's object carries its number. The
-selected frame's required marks are the only persistent elements.
-
-Mockup fields hold data, not narration. Fill a field with a short, plausible
-value or leave it empty; examples introduced with "like", "e.g.", or "such as"
-belong in speech only. A clearly sample business name may fill a mockup, but it
-stays out of narration and is never presented as a real place.
-
-Weight comes from contrast before thickness. At 1080 px wide, keep strokes and
-borders around 2–3 px, icon strokes no heavier than the adjacent label text, and
-avoid cards inside cards. Show a duration or progress as a thin bar or a label
-rather than a row of heavy blocks. Follow the frame's accent roles; when the
-caption highlight uses an accent color, keep that color out of headlines and
-emphasize a title word through size or weight instead.
-
-Plan the first decoded frame as a complete visual hook, with the recognizable
-subject and a brief reason to watch. Do not delay it behind an entrance or fade.
-For each scene, ask what the picture communicates before its labels are read.
-If it only conveys "several facts", choose a more specific representation.
-If changing the topic labels would leave the graphic equally usable, improve
-its actual content and relationships. Avoid adding motion to disguise weak material.
-
-Budget the selected frame's closing card separately. `--script-only` ends
-here with research, narration, and scene briefs.
-Follow the entrypoint's plan handoff and continuation instructions.
-The rest of this document applies only when production is requested.
-
 ## Output layout
 
 Keep the run root for `video.mp4`, `thumbnail.jpg`, `SCRIPT.md`, `research.json`,
-`video-plan.md`, `share-copy.txt`, and `composition/`. Inside `composition/`, use
+`video-plan.md`, `caption.txt`, and `composition/`. Inside `composition/`, use
 `assets/` for final media, `components/` for registry components, `scenes/` for
-sub-compositions when needed, `frames/` for the full frame export, and
+sub-compositions when needed, `frames/` for the review frames, and
 `.work/` for raw audio, intermediate transcripts, and review images. Create only
 directories actually used. Put sampled review images in `.work/review/`, not
 in `frames/` or a second directory at the run root.
@@ -176,7 +36,6 @@ environment, or `python3`; verify Kokoro imports and model/voice support by
 producing the first scene and probing its duration. Retain successful audio.
 Check transcription availability when captions are requested. Without voice,
 skip TTS and time scenes for comprehension; align supplied speech if provided.
-Script-only runs skip production preflight.
 
 Record working CLI and interpreter paths in the plan.
 If needed, use a stable project virtual
@@ -324,8 +183,9 @@ screen long enough to understand. A held diagram can be useful without idle
 pulsing or gratuitous animation.
 
 Choose one bundled track from `assets/music/` or a supplied track. Vol-12 is
-the default bed; begin around 0.10–0.18 gain under narration and adjust after
-listening. Pick a few SFX to match actual actions from
+the default bed. Keep it about 24 LU below the narration, measured with FFmpeg's
+`ebur128` filter on the voice and on the gained bed; for the bundled tracks
+that is roughly 0.05 gain. Adjust after listening to the combined mix. Pick a few SFX to match actual actions from
 `assets/sfx/README.md`; reuse a small sound vocabulary. Copy only selected files. Gain numbers
 are starting points, not a loudness guarantee. Read `hyperframes-audio` for
 fades, ducking, or effects; do not assume browser volume tweens reach export.
@@ -356,8 +216,8 @@ claim. Do not add a new wording rule for every awkward phrase; repair the draft.
 Check the things validation cannot establish:
 
 - The first decoded frame has a readable visual hook at phone size; the proof
-  object explains the claim. Inspect `composition/frames/frame-000001.png`
-  after export, since a settled opening snapshot can miss an empty first frame.
+  object explains the claim. Inspect the review frame captured at 0 s, since a
+  settled opening snapshot can miss an empty first frame.
 - Measure the opening narration and its visual scene. The first useful example
   should follow the brief hook, without a long setup about an excluded option.
 - Required brand ground, fonts, icons, and closing-card structure match
@@ -367,7 +227,7 @@ Check the things validation cannot establish:
 - Compare settled scenes. Repeated layouts should help the viewer compare or
   follow a change. Replace generic mockups and unfinished placeholders with
   meaningful content.
-- Check each settled snapshot against the scene-brief rules: no persistent
+- Check each settled snapshot against the scene rules in `script.md`: no persistent
   navigation chrome, no narration sentence or footnote as visible text, mockup
   fields containing data rather than script examples, about three groups with
   one hero, strokes within the weight ceiling, and no caption highlight color in
@@ -379,20 +239,13 @@ Check the things validation cannot establish:
 - Captions and narration match; qualifiers stay with their claim, spoken or labeled.
 - The closing card has its own readable hold, with no previous scene remnants.
 
-Review playback with audio for pacing, pronunciation, masking, and cutoffs;
-stills cannot establish these. If playback/audio review is unavailable, say
-which checks were performed. Fix demonstrated issues and repeat the affected
-checks.
-
-For a full video request, aim for one final render after review using the installed CLI's
-supported quality setting and `--output ../video.mp4`. If the user requested
-a preview/approval checkpoint, honor it. Verify the actual MP4 with `ffprobe`
-for dimensions, duration, and expected audio streams, and inspect its opening,
-representative content, and ending. Passing `check` alone is not visual QA.
-Another full render is justified by an observed export defect or an intentional
-revision, not by optional polish discovered because earlier checks were skipped.
-Record CLI version, output duration, and render wall time in the existing plan
-so encoding cost can be distinguished from research and authoring cost.
+Before frame review, listen to a narration-heavy passage and the closing card
+at the actual mix level. Lower music if it competes with speech; full-mix LUFS
+does not establish voice-to-music balance. Provide a browser preview or short
+combined-mix sample at the frame checkpoint. Listen for pacing, pronunciation,
+masking, and cutoffs as well as balance. If playback is unavailable, say which
+checks were performed and ask the user to audition the sample. Fix
+demonstrated issues and repeat the affected checks.
 
 Design `composition/thumbnail.html` as a separate static cover at the video's
 aspect ratio, using HTML, CSS, and SVG with the same browser renderer as the
@@ -402,42 +255,65 @@ Profile grids show only a centered crop and platform UI covers the edges, so at
 That box survives the 3:4 grid crop and clears TikTok's bottom caption band and
 right-side buttons. Keep an equivalent centered box for other formats.
 
-Use two elements: one subject-specific hero filling roughly 40–60% of the safe
-box and a headline of one to four words kept as HTML text for exact spelling.
+Use the chosen title as one headline and one subject-specific hero filling
+roughly 40–60% of the safe box. Keep the headline as HTML text for exact
+spelling. Do not add a subtitle; revise the plan at the review checkpoint if
+the title needs changing.
 Add a badge only when it carries a fact neither shows, and draw it as part of
 the hero rather than as a separate card. Show the result, a before and after, or the
 problem the video solves. Rebuild the video's strongest proof object for the
 cover rather than copying the opening frame. The subject should be recognizable
 before any text is read: the place, product, or outcome the topic names, not a
-generic icon. The headline adds to the post caption instead of repeating it, and
+generic icon. Repeating the subject from the post caption is fine, and
 the video must deliver what it promises. Use the frame's palette and ground and
 leave no large empty region. Avoid generic robots, floating UI, fake product
 screens, invented data, filler words, and claims the video does not support.
 
-Render two distinct cover concepts at final size. Crop each to the safe box,
+Render two visual cover concepts with the chosen title at final size. Crop each to the safe box,
 shrink it to about 150 px wide, and view it slightly blurred, as it appears in
-a profile grid. Keep the concept whose headline stays readable and whose subject
-can be named at that size, and convert it to `thumbnail.jpg` at the run root.
+a profile grid. Keep the concept whose headline and hero together make the
+video's topic and payoff clear at that size, then convert it to `thumbnail.jpg`
+at the run root.
 Keep the editable HTML inside `composition/`. The cover is not a frame extracted
 from `video.mp4` or a scene added to it, but the first decoded video frame
 should also work as a fallback cover, since some platforms choose one.
-Write concise, sourced platform copy to `share-copy.txt`. Keep research and
+Write the concise, sourced post caption, the text published with the video, to
+`caption.txt`. Keep research and
 the plan alongside the editable composition; no extra handoff document is
 needed.
 
-### Full frame export
+### Review frames
 
-For every completed video, run from its run directory:
+Save one settled frame per scene from the composition, with no video encode.
+From the run directory:
 
 ```bash
-mkdir -p composition/frames
-ffmpeg -hide_banner -i video.mp4 -map 0:v:0 -fps_mode passthrough composition/frames/frame-%06d.png
+npx hyperframes snapshot composition --at 0,<settled times> --no-end --describe false -o composition/frames
 ```
 
-This saves every decoded frame without another browser render. PNGs retain the
-encoded video's compression artifacts. For original render frames, use the
-installed HyperFrames CLI's `--format png-sequence` with an output directory;
-check its help first. That is a separate export and does not include audio.
-A 90-second video at 30 fps produces about 2,700 images. Verify the frame count
-against `ffprobe` or the renderer summary. Use a contact sheet and targeted
-frames for routine review; the full export is a delivery artifact.
+Take each scene's time after its last planned reveal has finished and before
+its exit begins, using the measured timings in the plan. Include 0 s for the
+opening and a time inside the closing card's hold. Name the images in scene
+order, such as `00-opening.png`, `01-<scene>.png`, and `NN-closing.png`, and
+record their timestamps in the plan. These frames show each finished state;
+motion, audio, and caption timing still need playback review. Then follow the
+entrypoint's frame checkpoint.
+
+### Final render
+
+After the frame checkpoint is approved, aim for one final render using the
+installed CLI's supported quality setting and `--output ../video.mp4`. Verify the actual MP4 with `ffprobe`
+for dimensions, duration, and expected audio streams, and inspect its opening,
+representative content, and ending. Passing `check` alone is not visual QA.
+Another full render is justified by an observed export defect or an intentional
+revision, not by optional polish discovered because earlier checks were skipped.
+Record CLI version, output duration, and render wall time in the existing plan
+so encoding cost can be distinguished from research and authoring cost.
+
+Export every decoded frame only on request. It produces about 2,700 PNGs for a
+90-second video at 30 fps:
+
+```bash
+mkdir -p composition/frames/all
+ffmpeg -hide_banner -i video.mp4 -map 0:v:0 -fps_mode passthrough composition/frames/all/frame-%06d.png
+```
