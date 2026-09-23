@@ -5,6 +5,115 @@ Use `SCRIPT.md` as the narration source, `video-plan.md` as the storyboard, and 
 skill directory, not a hardcoded Claude installation path. Use the installed
 HyperFrames command guidance or `--help` for version-dependent flags.
 
+## Script and editorial pass
+
+Use research to answer one audience question. Draft the narration as connected
+paragraphs before deciding scene boundaries. Write to someone who wants to
+understand or do the thing. Preserve useful reasoning and prerequisites, and
+let the explanation determine its length within 30–90 seconds, including the
+frame-required closing card. An explicit duration takes precedence.
+
+Open with one brief, specific sentence, roughly five seconds or less, that
+states the question, useful outcome, or strongest supported finding. Start
+explaining immediately. Do not create a fictional customer, personal experience,
+or extended scenario to make a comparison sound relatable. Use an example only
+when it clarifies the point and remains accurate about the subject.
+Use local context when it changes the advice or supplies relevant evidence.
+An audience location alone is not a reason to invent a shop, name a town, or
+place a map pin. Address the viewer directly when the instruction is universal.
+
+Explain why one step follows another or which condition changes a decision.
+Keep connective words such as "because", "if", and "so" where they carry that
+reasoning. Move secondary specifications into readable visual labels when they
+interrupt speech. Essential qualifications must stay beside the relevant claim.
+End the explanation with its answer or result. The brand's closing card does
+not require a second spoken summary or invented engagement prompt.
+
+Make one editorial pass before TTS:
+
+- Read the draft without headings. Fix jumps, ambiguous pronouns, repeated
+  sentence openings, and feature fragments. Vary length as the thought requires.
+- Replace slogans and generic claims with a supported action, consequence, or
+  distinction. "One license, one person" needs a sentence explaining who the
+  price covers and when additional access changes the cost.
+- Remove filler such as "actually", "just", and "simply" when it adds nothing.
+  Cut stock praise, artificial suspense, forced triples, and "X, not Y" formulas.
+  Follow the entrypoint's audience-copy punctuation rules across speech, labels,
+  thumbnail, and share copy. Do not manufacture personality with slang or typos.
+- Check the opening and ending against research, as well as individual claims.
+  Do not claim firsthand testing or experience the user has not supplied.
+- Keep each scene relevant to the audience question. Remove side advice that
+  interrupts the explanation unless it changes the decision or is necessary
+  to understand a claim. Preserve essential qualifications with that claim.
+- Read aloud if tools allow, otherwise perform a spoken-language pass and
+  disclose that audio was not auditioned. Fix awkward wording and pronunciation.
+  Cut repeated setup before cutting the connections that make the prose flow.
+
+Save `SCRIPT.md` with a heading per scene and only spoken text beneath headings.
+Keep the narration continuous in meaning across scenes. Supplied `--script`
+wording is preserved and skips rewriting unless requested; report factual
+problems separately. This file is the source for TTS and all later speech edits.
+Do not shorten narration during implementation without updating it.
+
+Keep exact destination URLs in the plan's on-screen copy and `share-copy.txt`.
+In narration, name the service and give a natural direction such as "Open
+Google Business Profile using the address on screen." Do not read protocols,
+slashes, query strings, or long paths aloud. If a short address must be spoken,
+record its exact displayed URL separately and verify its pronunciation during
+TTS preparation. Never feed Markdown link syntax to TTS. A URL shown in a video
+is visual text, not a clickable link; do not promise a clickable caption link
+unless the selected platform and placement support it.
+
+## Scene briefs
+
+Use `video-plan.md` as the single plan; no separate beats JSON or duplicate
+composition brief is needed. Record audience, question and answer, chosen frame,
+format, target duration, audio direction, and then one short brief per scene:
+
+| Field | What to specify |
+| --- | --- |
+| Purpose | What the viewer should understand or be able to do |
+| Evidence | Fact IDs and script scene heading, without duplicating speech |
+| Visual | Main object, composition, exact labels and required qualifications |
+| Assets | Selected visual IDs, local paths, or the geometry to draw |
+| Changes | Initial state, what changes at which spoken phrase, final state |
+| Timing | Estimated duration, then measured duration and global start after TTS |
+| Handoff | What persists, what leaves, and why the next scene follows |
+
+Read `hyperframes-creative` for relevant composition guidance. Brand tokens and
+ground override generic style defaults. Choose the treatment around the subject:
+
+- Comparisons use aligned measures or objects under equivalent conditions.
+- Procedures show the actual objects and ordered actions with spatial continuity.
+- Mechanisms reveal relationships and state changes in a coherent diagram.
+- Timelines and maps use sourced dates, locations, and a readable route or scale.
+- Recognizable subjects use suitable photos, item art, screenshots, or faithful
+  reconstructions when these improve understanding.
+
+Custom SVG is useful for explanatory geometry, paths, masks, and annotations.
+Do not approximate a recognizable object with a generic line icon as the main
+visual. Keep generic symbols subordinate. A diagram must encode a relationship
+or change beyond restating the narration in boxes. For sourced interfaces, show
+verified content; invented application screens are not evidence.
+
+Choose a dominant subject and a clear reading order. Use scale, cropping,
+alignment, and contrast to establish hierarchy. Avoid repeated eyebrow/title/
+card/footer layouts, decorative pills, dot-separated metadata, tiny qualifiers,
+and oversized numbers without context. Repeat positions when they support a
+comparison. Related beats may evolve one scene rather than rebuild it.
+
+Plan the first decoded frame as a complete visual hook, with the recognizable
+subject and a brief reason to watch. Do not delay it behind an entrance or fade.
+For each scene, ask what the picture communicates before its labels are read.
+If it only conveys "several facts", choose a more specific representation.
+If changing the topic labels would leave the graphic equally usable, improve
+its actual content and relationships. Avoid adding motion to disguise weak material.
+
+Budget the selected frame's closing card separately. `--script-only` and
+`--stop-after plan` end here with research, narration, and scene briefs.
+Follow the entrypoint's plan handoff and continuation instructions.
+The rest of this document applies only when production is requested.
+
 ## Output layout
 
 Keep the run root for `video.mp4`, `thumbnail.jpg`, `SCRIPT.md`, `research.json`,
@@ -29,29 +138,20 @@ The commands below run from `composition/` unless stated otherwise.
 
 ## Narration and timing
 
-For narrated runs, preflight the current machine before production. Reuse the
-project's pinned HyperFrames installation and inspect its `tts --help` once;
-resolve the installed executable and reuse it instead of repeatedly downloading
-or probing versions. Resolve Python from `HYPERFRAMES_PYTHON`, a project virtual
-environment, or `python3`. Verify
-`import kokoro_onnx, soundfile` using that interpreter and generate the first
-script scene as the smoke test; retain it if successful. Probe its duration.
-An import alone does not verify model files or voice support.
-Persist the working interpreter and CLI paths in the run's plan, and optionally
-in a project-local `video-output/.machine.json`, never in this portable skill.
-Read that cache before probing again and re-verify what it claims before relying
-on it. Store only environment facts such as interpreter, CLI version, and library
-paths. If dependencies are missing, create a project-local virtual
-environment at a short stable path and install the packages required by the
-installed TTS version. Avoid nesting it inside timestamped outputs: long paths
-can break espeak's data-directory lookup. For missing `libwhisper.so`, inspect
-the existing Whisper library directory before installing another transcription
-engine. Apply any loader-path fix to the transcription command only.
-Distinguish permission errors (`EPERM`/`EACCES`) from missing Python/packages;
-reinstalling cannot repair a sandbox denial. Request only the required tool
-permission, reuse granted permissions, and do not repeat creative approval
-questions for work the user already authorized. Test transcription availability
-too when captions are requested. `--script-only` skips this preflight.
+For narrated runs, preflight the current machine once. Reuse the pinned
+HyperFrames CLI and inspect
+its TTS help. Resolve Python from `HYPERFRAMES_PYTHON`, a project virtual
+environment, or `python3`; verify Kokoro imports and model/voice support by
+producing the first scene and probing its duration. Retain successful audio.
+Check transcription availability when captions are requested. Without voice,
+skip TTS and time scenes for comprehension; align supplied speech if provided.
+Script-only runs skip production preflight.
+
+Record working CLI and interpreter paths in the plan.
+If needed, use a stable project virtual
+environment outside timestamped runs and install the packages required by the
+installed TTS version. Long paths can break espeak lookups. For missing Whisper
+libraries, check the existing installation and scope loader fixes to the command.
 
 Before final animation, follow `media-use`'s Kokoro TTS workflow to generate
 one WAV per voiced scene under `.work/vo/` from its `SCRIPT.md` text only.
@@ -88,7 +188,7 @@ ffprobe -v error -show_entries format=duration -of csv=p=0 assets/vo/scene-01.wa
 Allow each spoken line to finish, with a short natural tail. Allocate the
 closing card separately. Let measured speech set the runtime within the
 default 30–90-second range; an estimate is not a reason to shorten the script.
-If speech exceeds 90 seconds or an explicit requested duration, trim repetition
+If the complete timeline exceeds 90 seconds or an explicit duration, trim repetition
 first while preserving useful explanations and examples. Regenerate only changed
 lines; do not speed up speech to force a fit.
 Update the plan with measured scene durations. Without voice, time scenes
@@ -127,32 +227,20 @@ window. Correct invalid boundaries against audio; never silently stretch them.
 Trimmed/retimed speech must be aligned to the final audio. Reuse the installed
 component in revisions; no repeated catalog search or helper generation is needed.
 
-The phrase stays visible while the measured current word changes highlight.
-At word end the highlight clears; at phrase end the phrase clears. No cumulative
-highlight, bouncing, resizing, entrance delay, or beat-driven subtitle effects.
-Replace the demo's overlapping word fades with timeline sets at each word's
-start/end so the highlight never lingers into the next word or a pause.
-Drive the highlight by setting absolute CSS property values on the word element
-at its start and end times: the frame's highlight color and its dark foreground
-on, the transparent and ink values off. Do not toggle a CSS class: GSAP 3 removed
-`className` tweening, so `tl.set(el, { className: "+=on" })` silently does nothing
-and ships captions whose words never highlight, and a relative add/remove could not
-survive the arbitrary seeks a frame-by-frame render performs. Every word's on/off
-state must be reconstructible from a single seek to any time.
-The stock component's red sweep, uppercase font, and animation defaults are not
-the brand specification. Override them with the frame's stable phrase/current-word
-treatment. Use the shipped local font. Group at natural boundaries, usually 3–6
-words, at most two lines; split oversized phrases rather than shrinking the type.
+Keep each caption phrase stable, usually 3–6 words over at most two lines.
+Use the frame's font, position, ink, and current-word treatment. Split long
+phrases rather than shrinking them. Clear the highlight at the measured word
+end, including pauses, and clear the phrase when finished. Do not use cumulative
+highlight, bounce, resize, or delayed entrance.
 
-Verify every spoken phrase is covered, and inspect start/middle/end alignment.
-Seek forward and backward around a word boundary and a pause: only the current
-word may be active, and the final phrase must disappear before the follow card.
-Prove the highlight actually paints: capture frames at timestamps inside measured
-word intervals, from the encoded video and not only the live composition, and
-confirm the current word carries the frame's highlight treatment. Captions that
-render their words but never highlight one are a failed build, not a cosmetic
-detail; `check` and the plan cannot see it, so it has to be confirmed as pixels.
-With captions disabled, skip transcription and caption building.
+Replace stock demo fades and styling with seekable timeline sets of absolute
+CSS colors/backgrounds at word starts and ends. Avoid GSAP `className` tweens
+and relative class toggles; the state must survive arbitrary frame seeks.
+Seek forward and backward across a word boundary and a pause. For completed renders, inspect encoded
+frames inside measured word intervals to confirm the highlight paints correctly.
+Validate coverage and alignment at the start, middle, and end of speech. The
+last phrase must clear before the closing card. Technical checks alone cannot
+prove the correct word is highlighted. With captions off, skip this section.
 
 ## Composition and audio
 
@@ -164,7 +252,7 @@ Keep the project and used fonts, images, and audio inside `composition/`.
 
 Build the selected frame's ground and closing card before proliferating
 scenes. Inspect them with one evidence scene and active subtitles at phone size.
-Preserve the bundled ground/overlay stack. Adjust foreground type, layout, or
+Preserve the selected frame's ground/overlay stack. Adjust foreground type, layout, or
 local backing for contrast rather than changing the background. Apply the frame's
 safe areas, scaling pixel values when changing resolution. If the frame does
 not specify them, use conservative margins for the target platform and verify
@@ -175,22 +263,31 @@ structure. Preserve useful comparisons and state changes unless the new design
 explains them more clearly. A restyled card with an entrance animation alone
 does not replace a working infographic.
 
+Implement from the individual scene brief and shared brand, retaining global
+context for continuity. Tie visible changes to measured spoken phrases from the
+plan. Use one meaningful action at a time: reveal a dependency, trace a route,
+change a state, compare a value, or focus attention on evidence. Camera movement
+must preserve orientation. A shot recipe is optional craft guidance; it must
+fit the subject and obey the frame's motion rules. Do not add default ambient
+movement, a preset transition quota, or a cinematic effect for its own sake.
+
 Time reveals to the explanation. Give every settled element time to be read:
 about 0.8 s for a short label once it stops moving, and about 0.3 s per word for
 a full sentence, measured after the entrance finishes rather than including it.
 Hold the result long enough to understand it.
 
-Build the storyboard's visual with actual content. A finished flyer needs a
-readable offer and a relevant image; blank bars and a colored rectangle remain
-placeholders even when animated. Preserve spatial relationships in diagrams.
+Build the storyboard's visual with actual content. Blank bars, generic text
+lines, and a colored rectangle remain placeholders even when animated. Preserve
+spatial relationships in diagrams.
 Use consistent scales and labeled units for
 charts, direct labels, and a clearly marked break or overflow if a value exceeds
 the scale. Prefer a demonstrable input → action → result, a changing diagram,
 or an accumulating comparison to several static price cards. Reuse registry
 components when they fit; load only the selected component's implementation.
-Use a captured product interface only when it adds evidence; otherwise label
-invented UI as illustrative. Avoid downloading an entire effects library or
-adding 3D/shaders solely to make a scene look more elaborate.
+Use a captured product interface only when it adds evidence. Represent an
+uncaptured workflow as a diagram or transformation rather than fake UI with a
+repeated disclaimer. Avoid downloading an entire effects library or adding
+3D/shaders solely to make a scene look more elaborate.
 Avoid long empty holds after an entrance, but keep a completed comparison on
 screen long enough to understand. A held diagram can be useful without idle
 pulsing or gratuitous animation.
@@ -221,6 +318,10 @@ required timestamp, capture just that time. After a demonstrated defect, inspect
 only its affected frames, then run the final check when edits are complete.
 There is no screenshot quota; do not repeat full sweeps merely to reassure yourself.
 
+Review the whole script once more against the assembled sequence. Ensure the
+hook leads directly into the explanation and the visuals support each spoken
+claim. Do not add a new wording rule for every awkward phrase; repair the draft.
+
 Check the things validation cannot establish:
 
 - The first decoded frame has a readable visual hook at phone size; the proof
@@ -235,6 +336,10 @@ Check the things validation cannot establish:
 - Compare settled scenes. Repeated layouts should help the viewer compare or
   follow a change. Replace generic mockups and unfinished placeholders with
   meaningful content.
+- Read every visible line as editorial copy. Remove filler words, repeated
+  middle-dot separators, generic kickers, and unsupported urgency. If several
+  scenes reduce to a large number above a rounded rectangle, redesign the
+  proof objects before rendering.
 - Captions and narration match; qualifiers remain visible with their claim.
 - The closing card has its own readable hold, with no previous scene remnants.
 
@@ -255,11 +360,17 @@ so encoding cost can be distinguished from research and authoring cost.
 
 Design `composition/thumbnail.html` as a separate static cover at the video's
 aspect ratio. Use HTML, CSS, and SVG with the same browser renderer used for
-the video. Build a clear focal graphic and a short, specific headline from the
-script. Use the selected frame's palette and ground; no image generation or
-photo search is part of this step. Keep the headline as HTML text for exact
-spelling. Avoid generic robots, floating UI, fake product screens, invented
-data, and claims the video does not support. Capture the HTML at final size,
+the video, including locally sourced subject images when useful. Build a clear
+focal graphic and a short, specific headline from the script. Use the selected
+frame's palette and ground and suitable assets collected during research.
+The cover is HTML rendered to JPEG; no image-generation service is needed.
+Use roughly three to six headline words.
+Keep them as HTML text for exact spelling. Avoid generic robots, floating UI,
+fake product screens, invented data, filler words such as "actually", and
+claims the video does not support.
+Do not copy the opening frame or default to a list of bordered rows. Give the
+cover one visual idea that makes the subject recognizable before the small text
+is read. Capture the HTML at final size,
 convert the capture to `thumbnail.jpg` at the run root, and inspect it at phone
 size. Keep the editable HTML inside `composition/`. The cover is a separate
 design, not a frame extracted from `video.mp4` or a scene added to it.

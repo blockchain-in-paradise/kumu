@@ -15,7 +15,7 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
 `--script <markdown>` for user-authored narration (preserve its wording),
 `--research <json>`. Ask for a subject only when it is missing.
 
-- Default: vertical 1080×1920, 30–90 seconds including the closing card, narrated with Kokoro
+- Default: vertical 1080×1920, 30–90 seconds including any frame-required closing card, narrated with Kokoro
   `af_heart`, phrase captions highlighting the current spoken word, quiet music,
   sparse SFX.
 - Honor `--frame <path>`, `--tone <direction>`, `--duration <seconds>`,
@@ -39,9 +39,6 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
 
 ## Execution environment
 
-This skill ships instructions and assets, not a `scripts/` package. It can be
-loaded by a CLI agent or uploaded as a custom skill in a web app. Flags above
-are instructions to the agent, not a separately installed command-line parser.
 Research and script planning need browsing and file creation. Full production
 also needs Node.js, HyperFrames and its domain guidance, FFmpeg, a browser
 renderer, and the selected speech/transcription tooling in the **current execution
@@ -66,136 +63,68 @@ used assets into `composition/assets/`, preserving relative paths. Record the
 frame path in the plan. User direction wins over frame defaults. Report missing required assets instead of
 inventing a logo or silently dropping the ground treatment.
 
-## 1. Research
+## Workflow
 
-Read [references/research.md](references/research.md). Write one
-`research.json` containing claims, sources, qualifications, and gaps. This is
-the factual record; a separate `SOURCES.md` is optional for a requested export.
-Stop here for `--stop-after research`.
+Run the stages below in order, loading their guidance when needed. Complete
+the requested stages without intermediate creative approvals unless requested.
 
-## 2. Write the narration, then plan the visuals
+1. **Research and gather visual evidence.** Read [research.md](research.md).
+   Choose a useful audience question and support its answer in `research.json`.
+   Identify images, screenshots, data, or diagrams that can explain the subject.
+   Stop for `--stop-after research`.
+2. **Write and design.** Read the script and scene-planning sections of
+   [production.md](production.md). Write connected narration in `SCRIPT.md`,
+   edit it as speech, and create focused scene briefs in `video-plan.md`.
+   Stop for `--script-only` or `--stop-after plan` before TTS or rendering.
+   Use the plan handoff below.
+3. **Produce.** Follow the remaining production sections. Check tooling,
+   generate and measure narration, finalize selected assets, and compose with
+   HyperFrames. Inspect one representative scene with active captions before
+   expanding the sequence. Review and validate the complete composition.
+   Stop for `--stop-after compose` before final encoding.
+4. **Deliver.** Render and inspect `video.mp4`, design an HTML cover and capture
+   it as `thumbnail.jpg`, export every decoded frame to `composition/frames/`,
+   and write `share-copy.txt`.
 
-Draft a connected spoken explanation before choosing scene boundaries or
-animation timing. Do not turn research bullets into one short sentence each
-or compress the story to fit a preselected layout. Use the user's tone and
-any supplied writing examples; visual references do not establish a narrator's
-voice.
+Load `hyperframes-core` and `hyperframes-cli` for implementation, `media-use`
+for media and speech, and other HyperFrames domain guidance only for the task
+at hand. Pass this brief and plan into production without restarting a generic
+video intake interview.
 
-Use plain language in narration and delivery notes. Do not use em dashes.
-When writing examples are supplied, follow their level of detail, rhythm, and
-point of view without copying their claims or anecdotes.
+### Plan handoff and continuation
 
-For agent-written narration, choose a specific viewer situation and a question
-the video can answer. Write the explanation as connected paragraphs before
-splitting it into scenes. Develop an example far enough to show what happens
-and why it matters. In a comparison, connect the options through the viewer's
-needs instead of restarting with a product name, price, and feature list.
+After a plan-only run, show the script and plan links, record `Status: awaiting
+render decision` and the run path in `video-plan.md`, and ask once:
+"Continue with this script and plan to produce the full video? Yes / No."
+Wait for an explicit reply; no reply means no production. No leaves the files
+ready for later. Requested edits update the same run; approval covers those
+edits only unless the user also asks to render.
 
-Use complete spoken sentences as the default. Keep the connecting words that
-carry the reasoning, such as "because", "if", and "so". Read the paragraphs
-without their headings: the subject and the move to the next idea should still
-be clear. Vary sentence length where the thought calls for it. Do not turn
-qualifications into slogans, append feature fragments, or manufacture a voice
-with slang and fake personal anecdotes.
+Yes resumes stage 3 in that exact run directory using the latest saved script,
+research, plan, and original options. Clear the previous stop condition. Preserve
+the approved wording; resolve documented factual gaps and report any necessary
+correction before TTS. Do not restart research or create a new run. An explicit
+request to resume a named run and render is already approval. In a new session,
+use the run path the user supplies. Full-video requests skip this handoff.
 
-Examples of the intended edit, assuming the underlying facts are verified:
+## Creative standard
 
-- "One license, one person." becomes "That price covers one person, so check
-  the team pricing if someone else needs access too."
-- "A research assistant, not a writer." becomes "It includes links with its
-  answers, which gives you a way to check where the information came from."
-- "Gamma: nine dollars ... a thousand AI credits a month." becomes "If you
-  already have notes for a supplier pitch, Gamma can turn them into a slide
-  deck. You'll still need to check the wording before you send it."
+Make the subject recognizable and the explanation useful. Show actual objects,
+source material, relationships, and changes. Select the visual form per scene;
+a process, comparison, tutorial, and timeline need different treatment.
+Keep the selected brand's ground and overlay intact while designing the
+foreground around the information. Generic icons cannot carry the main idea.
 
-These are examples of sentence structure, not reusable product claims. Put
-secondary specs on screen when they interrupt the explanation; keep purchase
-conditions visible beside prices. End with a recommendation or answer supported
-by the example, rather than a generic instruction to upgrade or save time.
-
-Before TTS, make one editorial pass on the whole script. Repair abrupt jumps,
-repeated openings, sentence fragments, and canned contrasts such as "X, not Y".
-Remove em dashes by rewriting the relationship between clauses, not swapping
-punctuation. Check that research supports the opening and conclusion as well
-as individual facts. Preserve useful detail and qualifications. When shortening,
-cut a secondary feature or repeated setup before cutting the connective wording
-that makes the explanation flow. This pass needs no extra approval or file.
-
-Then divide the draft into scenes and write `SCRIPT.md` with a heading per
-scene and only spoken text beneath each heading. This is the editable narration
-source. Copy supplied `--script` wording here unchanged; flag factual problems
-rather than silently rewriting. User-authored scripts skip the editorial rewrite
-unless requested.
-Write `video-plan.md` for audience, takeaway, frame, format, runtime, audio,
-and storyboard. Reference script scene headings instead of duplicating speech.
-
-For each scene record:
-
-- Purpose and fact IDs (including qualitative claims).
-- Exact headline/labels, including units and necessary qualifications.
-- What the viewer sees change and what that change explains.
-- Matching `SCRIPT.md` scene heading, or `none` for an unvoiced scene.
-- Estimated duration, then measured duration after TTS; entrance, settled
-  reading time, and handoff to the next scene.
-
-### Choosing what to show
-
-Choose visuals that help the viewer understand this scene. Photos, captured
-interfaces, illustrations, diagrams, charts, and text can work together.
-Record the chosen visual and its role in the storyboard; no ranking or account
-of rejected alternatives is needed. Preserve the brand ground and overlay.
-For visual planning, read `hyperframes-creative` and its relevant composition
-guidance. The selected frame overrides its generic palette and ambient-motion defaults.
-
-Specify the object, what happens to it, and what the viewer learns. Show a
-customer question becoming a useful reply, or rough menu notes becoming a
-finished menu with real content. Avoid placeholder bars standing in for the
-result. Label invented interfaces and example data as illustrative on screen.
-Keep useful objects across scenes when that makes the explanation easier to follow.
-
-Use `media-use` for relevant images and consistent icons, and search
-`hyperframes-registry` for reusable components before building them. Adapt
-selected assets to the frame. Use a finished icon from one family instead of
-approximating it with CSS shapes. Custom SVG is useful for diagrams whose
-geometry explains the subject; inspect it at phone size before animating it.
-
-Put a visual hook in the first decoded frame of the video. Show the actual
-subject and a short reason to keep watching, readable with sound off at time
-zero. Keep the spoken hook to one brief sentence, roughly five seconds or less,
-then move into the first useful example. Lead with an included subject rather
-than explaining an excluded alternative. Place exclusions where they affect a
-choice. Do not open on an empty ground, fading title, or generic promise.
-Keep one dominant proof object per beat and labels readable at phone size.
-Use visuals to carry comparisons and show the changes the narration explains;
-the voice should add reasoning rather than simply read all on-screen text.
-Saying a key number or label aloud is useful. Spell out awkward numbers and
-abbreviations in agent-written narration for TTS.
-
-Budget any frame-required closing card as its own scene. Within the default
-30–90-second range, let the explanation determine the length; do not aim for
-30 seconds by default or remove useful examples to meet an estimated runtime.
-An explicit `--duration` overrides this range. Stop here for `--script-only`
-or `--stop-after plan`.
-
-## 3. Produce
-
-Read [references/production.md](references/production.md). Load HyperFrames
-`hyperframes-core` and `hyperframes-cli` for implementation and checks;
-`media-use` for narration/transcription; other domain guidance only for the
-operation being performed. Use this plan as the workflow input without
-restarting a generic video intake interview. If required tooling is missing,
-report the concrete dependency and keep the completed plan.
-
-Generate and measure narration before final animation timing. Build the
-composition using the existing tools and components in production guidance;
-avoid generating standalone helper scripts for routine operations. Check one representative evidence scene with
-captions, the audio mix, and the closing card before expanding remaining scenes.
-Then validate and inspect the full sequence. Stop here for
-`--stop-after compose`; otherwise render the requested deliverable.
+Write natural, connected speech with a short opening and a supported answer.
+Use the user's tone and any supplied writing samples without copying anecdotes.
+Do not use em dashes, semicolons, canned contrasts, or middle-dot separators in
+agent-written audience copy. Colons belong in times or necessary notation,
+not hook formulas. Preserve supplied scripts and verbatim source quotations.
 
 ## Delivery
 
-Return `video.mp4`, the separately designed `thumbnail.jpg`, `share-copy.txt`, `research.json`,
-`SCRIPT.md`, `video-plan.md`, and the editable `composition/`. Report duration, dimensions,
-frame count, validation status, and unresolved limitations. For partial runs, state the
-completed stage and how to resume it without regenerating approved material.
+Return `video.mp4`, `thumbnail.jpg`, `share-copy.txt`, `research.json`,
+`SCRIPT.md`, `video-plan.md`, and the editable `composition/`. Report duration,
+dimensions, exported frame count, checks performed, and unresolved limitations.
+For a partial run, identify the completed stage and how to resume that run.
+Never describe a technical validation pass as proof of editorial quality.
