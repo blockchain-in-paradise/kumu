@@ -109,8 +109,8 @@ If it only conveys "several facts", choose a more specific representation.
 If changing the topic labels would leave the graphic equally usable, improve
 its actual content and relationships. Avoid adding motion to disguise weak material.
 
-Budget the selected frame's closing card separately. `--script-only` and
-`--stop-after plan` end here with research, narration, and scene briefs.
+Budget the selected frame's closing card separately. `--script-only` ends
+here with research, narration, and scene briefs.
 Follow the entrypoint's plan handoff and continuation instructions.
 The rest of this document applies only when production is requested.
 
@@ -346,7 +346,7 @@ Check the things validation cannot establish:
 Review playback with audio for pacing, pronunciation, masking, and cutoffs;
 stills cannot establish these. If playback/audio review is unavailable, say
 which checks were performed. Fix demonstrated issues and repeat the affected
-checks. `--stop-after compose` ends after this stage, before encoding.
+checks.
 
 For a full video request, aim for one final render after review using the installed CLI's
 supported quality setting and `--output ../video.mp4`. If the user requested

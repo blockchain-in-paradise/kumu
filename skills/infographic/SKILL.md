@@ -27,9 +27,7 @@ Accept a topic in natural language or `--topic`, `--url`, `--source <notes>`,
   keep explanatory labels and allow enough reading time.
 - Every completed video includes a separately designed `thumbnail.jpg` and every
   decoded video frame as a PNG under `composition/frames/`.
-- `--refresh-research` refreshes cached facts. `--script-only` is equivalent
-  to `--stop-after plan`; `--stop-after research|plan|compose` ends at that stage.
-  Compose includes narration, captions, and validation, but no video encode.
+- `--script-only` ends after the plan, before TTS or rendering.
 - Every run belongs in `video-output/YYYY-MM-DD-HHmmss-topic/` in the invoking
   project. Never create a sibling of `video-output/`. For revisions, reuse
   the run directory unless retaining a comparison; then create a new run
@@ -71,17 +69,15 @@ the requested stages without intermediate creative approvals unless requested.
 1. **Research and gather visual evidence.** Read [research.md](research.md).
    Choose a useful audience question and support its answer in `research.json`.
    Identify images, screenshots, data, or diagrams that can explain the subject.
-   Stop for `--stop-after research`.
 2. **Write and design.** Read the script and scene-planning sections of
    [production.md](production.md). Write connected narration in `SCRIPT.md`,
    edit it as speech, and create focused scene briefs in `video-plan.md`.
-   Stop for `--script-only` or `--stop-after plan` before TTS or rendering.
+   Stop for `--script-only` before TTS or rendering.
    Use the plan handoff below.
 3. **Produce.** Follow the remaining production sections. Check tooling,
    generate and measure narration, finalize selected assets, and compose with
    HyperFrames. Inspect one representative scene with active captions before
    expanding the sequence. Review and validate the complete composition.
-   Stop for `--stop-after compose` before final encoding.
 4. **Deliver.** Render and inspect `video.mp4`, design an HTML cover and capture
    it as `thumbnail.jpg`, export every decoded frame to `composition/frames/`,
    and write `share-copy.txt`.

@@ -1,8 +1,30 @@
 # /infographic
 
-Turn a topic, article, or notes into a researched, branded infographic video
-with narration and captions. Built on [BRAG](https://github.com/latent-spaces/brag)
-and [HyperFrames](https://hyperframes.heygen.com/).
+An agent skill that turns a topic, article URL, or notes into a researched,
+branded infographic video: a 30–90 second vertical video with narration,
+word-highlighted captions, music, and sparse SFX, plus a separately designed
+thumbnail. Built on [HyperFrames](https://hyperframes.heygen.com/).
+
+## Requirements
+
+- An agent with web research and image inspection (e.g. Claude Code, Codex)
+- Node.js 22+
+- FFmpeg (with `ffprobe`)
+- [HyperFrames](https://github.com/heygen-com/hyperframes) skills: `npx skills add heygen-com/hyperframes`
+- Python 3 virtual environment with Kokoro for narration
+- [whisper.cpp](https://github.com/ggml-org/whisper.cpp) (`whisper-cli` on `PATH`) for caption timing
+
+The HyperFrames CLI runs through `npx` and downloads its own headless Chrome on
+first render. Set up narration once, outside any run directory:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install kokoro-onnx soundfile
+export HYPERFRAMES_PYTHON="$PWD/.venv/bin/python"
+```
+
+Check the setup with `npx hyperframes doctor`. Only Kokoro, whisper-cpp,
+FFmpeg, and Chrome matter here; MusicGen is not used.
 
 ## Install
 
@@ -13,81 +35,87 @@ Claude Code:
 /plugin install infographic@video-skill
 ```
 
+Local checkout (for development):
+
+```bash
+git clone https://github.com/blockchain-in-paradise/video-skill
+cd video-skill
+claude --plugin-dir .
+```
+
+Then run `/infographic ...`. After editing the skill, restart
+`claude --plugin-dir .` to load changes in a fresh session, or use
+`/reload-plugins` to refresh the current one.
+
+To run in auto mode without permission prompts, create both
+`.claude/settings.json` and `.claude/settings.local.json` in your project with
+the same contents:
+
+```json
+{
+  "permissions": {
+    "defaultMode": "auto",
+    "allow": ["Edit(./**)", "Write(./**)"]
+  }
+}
+```
+
 Other agents:
 
 ```bash
 npx skills add https://github.com/blockchain-in-paradise/video-skill --skill infographic
 ```
 
-This repository also exposes the same skill through `.agents/skills/`,
-`.claude/skills/`, and `.opencode/skills/` symlinks.
-
-Requires an agent with web research and image inspection, Node.js 22+,
-FFmpeg, and HyperFrames with its domain skills. Narration uses Kokoro through
-HyperFrames' media tooling. No custom Python music-analysis environment is
-required. Check the installation with `npx hyperframes doctor`.
-
-## Use
+## How to Use
 
 ```text
-/infographic --topic "How rate limiting works" --frame brand/frame.md
+/infographic --topic "How rate limiting works"
 /infographic --url https://example.com/article --duration 35
 /infographic --source notes.md --tone "quiet practical explanation"
 /infographic --topic "Affordable AI tools" --script-only
 ```
 
-Default output is a 30–90 second vertical video with voice, captions, music,
-and sparse SFX. Use `--no-voice`, `--no-captions`, `--no-music`, or `--no-sfx`
-as needed. Other options and partial runs are documented in
-[SKILL.md](skills/infographic/SKILL.md).
+- `--script-only` writes the script and storyboard, then asks whether to render. Request edits, reply `Yes` to render, or `No` to keep the draft.
+- `--script path/to/script.md` uses your own narration. Wording is preserved; factual issues are flagged separately.
+- `--no-voice`, `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
 
-## Styling
+Resume a saved plan in a new session:
+
+```text
+/infographic Resume video-output/<run-directory>/ and produce the full video.
+```
+
+All options are documented in [SKILL.md](skills/infographic/SKILL.md).
+
+## Brand
 
 Copy `skills/infographic/assets/brand/` into your project's `brand/` directory,
-then edit `frame.md` and replace the assets it names. The frame contains
-colors, typography, spacing, background treatment, and closing-card design.
-Asset paths are relative to that frame file.
+then edit `frame.md` and replace the assets it names. The frame defines colors,
+typography, spacing, background, and the closing card.
 
-Resolution: explicit `--frame` → project `brand/frame.md` → bundled brand.
-An article's publisher does not automatically replace your channel identity.
-The bundled brand is Pūpūkahi Tech Foundation; use your own frame for another
-channel. See [brand setup](skills/infographic/assets/brand/README.md).
+Resolution order: `--frame` → project `brand/frame.md` → bundled brand
+(Pūpūkahi Tech Foundation). See [brand setup](skills/infographic/assets/brand/README.md).
 
 ## Pipeline
 
-1. Research → `research.json`, including sources and necessary qualifications.
-2. Write → `SCRIPT.md` for narration; `video-plan.md` for the storyboard.
-3. Generate and measure narration → compose scenes and phrase captions.
-4. Validate, inspect frames and playback → render, poster, and share copy.
+1. **Research** → `research.json`: claims, qualifications, and visual sources.
+2. **Script + plan** → `SCRIPT.md` narration and `video-plan.md` scene plan with spoken reveal cues.
+3. **Compose** → narration, timed captions, scenes, music, and SFX.
+4. **Review + render** → validate, render `video.mp4`, and design `thumbnail.jpg`.
 
-`--script-only` stops after the plan without TTS or rendering.
-`--stop-after research|plan|compose` provides other checkpoints; compose
-includes audio, captions, and validation. Request a preview checkpoint when
-review is needed before encoding.
-
-Every run goes into its own subdirectory of `video-output/`:
+Each run gets its own directory:
 
 ```text
 video-output/
   YYYY-MM-DD-HHmmss-topic/
-    SCRIPT.md
     research.json
+    SCRIPT.md
     video-plan.md
-    composition/
+    composition/     HyperFrames project, assets, and decoded frames
     video.mp4
-    video.jpg
+    thumbnail.jpg
     share-copy.txt
 ```
-
-Edit `SCRIPT.md` to control the spoken words, or supply `--script path/to/script.md`.
-The agent preserves supplied wording and flags factual issues separately.
-`--script-only` writes the script and storyboard before any voice generation.
-`references/` holds two
-stage-specific guides, loaded when needed. `assets/references/` holds examples
-the user supplied for development review; the workflow does not load them or
-use them as styling requirements. Bundled music cue presets
-remain optional data for existing projects; normal narrated runs do not read
-them or analyze beats.
 
 ## Credits
 
@@ -97,4 +125,13 @@ them or analyze beats.
 - Platform icons: [Bootstrap Icons](https://icons.getbootstrap.com/), MIT
 - Rendering: [HyperFrames](https://hyperframes.heygen.com/)
 
-See [LICENSE](LICENSE).
+### Workflow inspiration
+
+These projects informed the workflow design. Their instructions and code are
+not bundled or required at runtime; the skill uses HyperFrames for production.
+
+- [BRAG](https://github.com/latent-spaces/brag): creative orchestration and composition briefs.
+- [HVE Video Director](https://github.com/nebrass/hve-video-director): a focused brief for each scene.
+- [Writing Style and Tone](https://github.com/creator-futures/social-media-skills/tree/main/skills/writing-style-and-tone): specificity, spoken rhythm, and editing without invented experience.
+- [Faceless Shorts Creator](https://github.com/hassancs91/claude-faceless-shorts-creator): explicit narration/visual beats and frame review. This skill keeps those beats in `video-plan.md`.
+- [Video TalkCraft](https://github.com/Vincentwei1021/video-talkcraft) and [Video ShotCraft](https://github.com/Vincentwei1021/video-shotcraft): shot planning and motion linked to narration. Their templates, code, and mandatory approval flows are not imported.

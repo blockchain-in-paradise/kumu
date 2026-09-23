@@ -41,8 +41,7 @@ omit claims that cannot be supported adequately for the video's purpose.
 
 Check time-sensitive claims such as prices, eligibility, limits, policies, and
 game versions for the requested date, including claims in a supplied cache.
-`--refresh-research` refreshes the supplied research rather than treating it as
-verified. Record uncertainty when current verification is unavailable.
+Record uncertainty when current verification is unavailable.
 
 ## By subject type
 
