@@ -1,9 +1,9 @@
 ---
-name: infographic
+name: kumu
 description: Create a researched, narrated infographic video from a topic, article URL, or notes using HyperFrames and a brand.md. Use for social explainers, comparisons, timelines, and how-tos; not product launch trailers or captioning existing footage.
 ---
 
-# /infographic
+# /kumu
 
 Research the subject, design a visual explanation, and deliver a branded video.
 This skill owns research, story, and brand direction. HyperFrames supplies the

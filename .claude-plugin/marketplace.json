@@ -1,10 +1,10 @@
 {
-  "name": "video-skill",
+  "name": "kumu",
   "description": "Researched-topic infographic videos for vertical social platforms.",
   "owner": { "name": "Dhaniel Bolosan", "url": "https://github.com/blockchain-in-paradise" },
   "plugins": [
     {
-      "name": "infographic",
+      "name": "kumu",
       "source": "./",
       "description": "Turn a researched topic into a narrated, captioned portrait infographic video."
     }

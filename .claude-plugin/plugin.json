@@ -1,12 +1,12 @@
 {
-  "name": "infographic",
+  "name": "kumu",
   "description": "Turn a researched topic into a narrated, captioned portrait infographic video for TikTok, Reels, and Shorts.",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": {
     "name": "Dhaniel Bolosan"
   },
   "license": "MIT",
-  "repository": "https://github.com/blockchain-in-paradise/video-skill",
+  "repository": "https://github.com/blockchain-in-paradise/kumu",
   "keywords": [
     "video",
     "infographic",

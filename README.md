@@ -1,103 +1,145 @@
-# /infographic
+# Kumu
 
-An agent skill that turns a topic, article URL, or notes into a researched,
-branded infographic video: a 30–90 second vertical video with narration,
-word-highlighted captions, music, and sparse SFX, plus a separately designed
-thumbnail. Built on [HyperFrames](https://hyperframes.heygen.com/).
+Kumu is a human-in-the-loop agent skill that turns a topic, article URL, or
+notes into a researched, branded infographic video. It makes a 30–90 second
+vertical video with narration, word-highlighted captions, music, and sparse
+sound effects, plus a separately designed thumbnail. You review the plan and
+scene frames before the agent renders the final video. Built on
+[HyperFrames](https://hyperframes.heygen.com/).
 
-## Requirements
+## How to run locally
 
-- An agent with web research and image inspection (e.g. Claude Code, Codex)
-- Node.js 22+
-- FFmpeg (with `ffprobe`)
-- [HyperFrames](https://github.com/heygen-com/hyperframes) skills: `npx skills add heygen-com/hyperframes`
-- Python 3 virtual environment with Kokoro for narration
-- [whisper.cpp](https://github.com/ggml-org/whisper.cpp) (`whisper-cli` on `PATH`) for caption timing
+This setup runs the Claude Code CLI from a copy of this repo on your computer.
+Plugin marketplace installation, Claude Code on the web, and other agents have
+not been tested.
 
-The HyperFrames CLI runs through `npx` and downloads its own headless Chrome on
-first render. Set up narration once, outside any run directory:
+### First-time setup
+
+You need [Claude Code](https://code.claude.com/docs/en/setup),
+[Git](https://git-scm.com/downloads), [Node.js 22+](https://nodejs.org/),
+[FFmpeg](https://ffmpeg.org/download.html) (includes ffprobe), and Python 3.
+
+Then in your terminal run:
 
 ```bash
+git clone https://github.com/blockchain-in-paradise/kumu.git
+cd kumu
+
+# Python environment for Kokoro text-to-speech
 python3 -m venv .venv
 .venv/bin/pip install kokoro-onnx soundfile
 export HYPERFRAMES_PYTHON="$PWD/.venv/bin/python"
+
+# HyperFrames skills, headless browser, and a health check
+npx -y hyperframes skills update
+npx -y hyperframes browser ensure
+npx -y hyperframes doctor
 ```
 
-Check the setup with `npx hyperframes doctor`. Only Kokoro, whisper-cpp,
-FFmpeg, and Chrome matter here; MusicGen is not used.
+`doctor` should pass everything except BGM (MusicGen), which is optional. If
+whisper.cpp is missing, HyperFrames installs it the first time captions are
+needed. The first narrated run may also download voice and transcription
+models.
 
-## Install
+### Each session
 
-Claude Code:
-
-```text
-/plugin marketplace add blockchain-in-paradise/video-skill
-/plugin install infographic@video-skill
-```
-
-Local checkout (for development):
+Start Claude Code from the repo root with `HYPERFRAMES_PYTHON` pointing at
+the `.venv` interpreter:
 
 ```bash
-git clone https://github.com/blockchain-in-paradise/video-skill
-cd video-skill
-claude --plugin-dir .
+HYPERFRAMES_PYTHON="$PWD/.venv/bin/python" claude --plugin-dir .
 ```
 
-Then run `/infographic ...`. After editing the skill, restart
-`claude --plugin-dir .` to load changes in a fresh session, or use
-`/reload-plugins` to refresh the current one.
+To skip permission prompts, add `--dangerously-skip-permissions` to the launch
+command. Leave it out to use your usual Claude Code permission settings.
 
-To run without permission prompts, launch with:
-
-```bash
-claude --plugin-dir . --dangerously-skip-permissions
-```
-
-This lets the agent edit files and run commands without asking. Use it only in
-a trusted checkout.
-
-Other agents:
-
-```bash
-npx skills add https://github.com/blockchain-in-paradise/video-skill --skill infographic
-```
+Run `/kumu --topic "your topic"`. Output goes under `video-output/` in
+this repo. After editing the skill, use `/reload-plugins` or start a new session.
 
 ## How to Use
 
 ```text
-/infographic --topic "How rate limiting works"
-/infographic --url https://example.com/article --duration 35
-/infographic --source notes.md --tone "quiet practical explanation"
-/infographic --topic "Affordable AI tools" --script-only
+/kumu --topic "How to build a compact automatic sugar cane farm in Minecraft Java Edition" --tone "clear practical instructions for someone building alongside the video" 
+/kumu --url https://example.com/article --duration 45
 ```
 
-- `--script-only` writes the script and storyboard, then asks whether to render. Request edits, reply `Yes` to render, or `No` to keep the draft.
-- `--script path/to/script.md` uses your own narration. Wording is preserved; factual issues are flagged separately.
+- `--tone` sets the voice of the script, such as "clear build-along guide".
+- `--duration` sets the target length in seconds (30–90, including the closing card).
+- `--format vertical|square|landscape` sets the shape. Vertical 1080×1920 is the default.
+- `--brand "<name>"` picks a brand by name from your project's `brands/` folder.
 - `--no-voice`, `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
 
-Resume a saved plan in a new session:
+Every run stops twice for your review (see [Pipeline](#pipeline)). To pick up a
+saved run in a new session:
 
 ```text
-/infographic Resume video-output/<run-directory>/ and produce the full video.
+/kumu Resume video-output/<run-directory>/ and continue.
 ```
-
-All options are documented in [SKILL.md](skills/infographic/SKILL.md).
 
 ## Brand
 
-Copy `skills/infographic/assets/brand/` into your project's `brand/` directory,
-then edit `frame.md` and replace the assets it names. The frame defines colors,
-typography, spacing, background, and the closing card.
+Styling comes from two files:
 
-Resolution order: `--frame` → project `brand/frame.md` → bundled brand
-(Pūpūkahi Tech Foundation). See [brand setup](skills/infographic/assets/brand/README.md).
+- **`brand.md`** holds one brand's values: colors by role, fonts, spacing, the
+  background ("ground") recipe, assets, and the closing-card handle.
+- **`skills/kumu/frame.md`** is the shared design law: caption style,
+  color roles, type sizes, safe areas, and the closing-card layout. It uses
+  role names such as `--accent` and `--highlight`, never raw colors, so it works
+  with any brand.
+
+The bundled brand is Pūpūkahi Tech Foundation, in
+`skills/kumu/assets/brands/pupukahi-tech/`.
+
+Pick one with `--brand "<name>"`; without it, the skill uses Pūpūkahi. To add
+your own, copy a bundled brand into a `brands/` folder in your project, rename
+it, and edit it. Its folder name or the `name` in its `brand.md` becomes the
+`--brand` value:
+
+```bash
+mkdir -p brands && cp -r skills/kumu/assets/brands/pupukahi-tech brands/my-brand
+```
+
+1. **Colors:** set each role. `canvas` is the background, `ink` the text,
+   `accent` actions and data, `highlight` the spoken caption word and closing
+   kicker, `on-highlight` the text on it, and `panel` a backing behind content.
+2. **Type, spacing, and `cta`:** fonts, safe areas, your handle, and the
+   platforms shown on the closing card.
+3. **Ground:** rewrite the CSS for your background. A photo works best at low
+   opacity as texture; a gradient works too.
+4. **Icons:** one monochrome Bootstrap Icons SVG per platform in `icons/`,
+   named after the platform.
+
+After building a composition, run `npx hyperframes check <composition-dir>`
+and look at the actual frames. If a brand color fails contrast in a role,
+note the adjustment in `brand.md`, for example setting the kicker as dark
+text on a highlight pill.
 
 ## Pipeline
 
-1. **Research** → `research.json`: claims, qualifications, and visual sources.
-2. **Script + plan** → `SCRIPT.md` narration and `video-plan.md` scene plan with spoken reveal cues.
-3. **Compose** → narration, timed captions, scenes, music, and SFX.
-4. **Review + render** → validate, render `video.mp4`, and design `thumbnail.jpg`.
+Each run moves through four stages. The agent pauses after the plan and again
+after composing the scenes so you can request changes before it continues. At
+either checkpoint, reply `Yes` to approve and continue, `No` to stop and keep
+the files for later, or describe what you want changed. The agent makes those
+changes and asks for another review. You can also edit the files directly
+before replying.
+
+1. **Research.** The agent researches the topic and saves supported claims,
+   sources, qualifications, and usable visuals to `research.json`.
+2. **Script and plan.** It writes the narration in `SCRIPT.md`, then
+   `video-plan.md` with a brief for each scene and three or four thumbnail
+   title options.
+
+   **Checkpoint 1: plan review.** Read the script and plan and pick a thumbnail
+   title. A plain `Yes` uses the recommended one. No audio or video has been
+   generated yet, so changes here are cheap.
+3. **Compose.** It generates the voiceover, times the word-by-word captions,
+   builds the animated scenes in HyperFrames, mixes music and sound effects,
+   designs the cover, and writes the post caption.
+
+   **Checkpoint 2: frame review.** Check one finished frame per scene in
+   `composition/frames/`, plus `thumbnail.jpg`, `caption.txt`, and a short audio
+   preview. Changes are applied to the composition before any video is encoded.
+4. **Render.** It encodes the final `video.mp4` and checks it.
 
 Each run gets its own directory:
 
@@ -107,16 +149,16 @@ video-output/
     research.json
     SCRIPT.md
     video-plan.md
-    composition/     HyperFrames project, assets, and decoded frames
+    composition/     HyperFrames project, assets, and review frames
     video.mp4
     thumbnail.jpg
-    share-copy.txt
+    caption.txt
 ```
 
 ## Credits
 
 - Original workflow: [BRAG](https://github.com/latent-spaces/brag), MIT
-- Music: [ende.app](https://ende.app/en), Happy Beats / Business Moves
+- Music: [ende.app](https://ende.app/en), Happy Beats / Business Moves.
 - SFX: [Kenney](https://kenney.nl/)
 - Platform icons: [Bootstrap Icons](https://icons.getbootstrap.com/), MIT
 - Rendering: [HyperFrames](https://hyperframes.heygen.com/)

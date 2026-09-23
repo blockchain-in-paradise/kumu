@@ -32,8 +32,11 @@ The commands below run from `composition/` unless stated otherwise.
 For narrated runs, preflight the current machine once. Reuse the pinned
 HyperFrames CLI and inspect
 its TTS help. Resolve Python from `HYPERFRAMES_PYTHON`, a project virtual
-environment, or `python3`; verify Kokoro imports and model/voice support by
-producing the first scene and probing its duration. Retain successful audio.
+environment, or `python3`. When using a virtual environment, set
+`HYPERFRAMES_PYTHON` to its absolute Python path for HyperFrames TTS and doctor
+commands; the CLI does not discover it on its own. Verify Kokoro imports and
+model/voice support by producing the first scene and probing its duration.
+Retain successful audio.
 Check transcription availability when captions are requested. Without voice,
 skip TTS and time scenes for comprehension; align supplied speech if provided.
 
@@ -186,9 +189,10 @@ pulsing or gratuitous animation.
 Choose one bundled track from `assets/music/` or a supplied track. Vol-12 is
 the default bed. Keep it about 24 LU below the narration, measured with FFmpeg's
 `ebur128` filter on the voice and on the gained bed; for the bundled tracks
-that is roughly 0.05 gain. Adjust after listening to the combined mix. Pick a few SFX to match actual actions from
-`assets/sfx/README.md`; reuse a small sound vocabulary. Copy only selected files. Gain numbers
-are starting points, not a loudness guarantee. Read `hyperframes-audio` for
+that is roughly 0.05 gain. Adjust after listening to the combined mix. Pick a
+few SFX to match actual actions from `assets/sfx/`; reuse a small sound
+vocabulary. Copy only selected files. Gain numbers are starting points, not a
+loudness guarantee. Read `hyperframes-audio` for
 fades, ducking, or effects; do not assume browser volume tweens reach export.
 
 Beat analysis is optional, useful mainly for a requested music-led passage.
@@ -196,6 +200,8 @@ The existing `hyperframes beats <composition-dir>` command can analyze local
 music after it is placed in the composition; follow the CLI's beat guidance.
 Narration and reading time take priority. No custom Python analyzer or
 mandatory audio-reactive treatment is needed.
+Bundled `assets/music/cues/` files are optional older timing hints, not
+HyperFrames beat files.
 
 ## Review and render
 
