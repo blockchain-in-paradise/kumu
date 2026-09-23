@@ -1,6 +1,6 @@
 ---
 name: infographic
-description: Create a researched, narrated infographic video from a topic, article URL, or notes using HyperFrames and a brand frame.md. Use for social explainers, comparisons, timelines, and how-tos; not product launch trailers or captioning existing footage.
+description: Create a researched, narrated infographic video from a topic, article URL, or notes using HyperFrames and a brand.md. Use for social explainers, comparisons, timelines, and how-tos; not product launch trailers or captioning existing footage.
 ---
 
 # /infographic
@@ -15,7 +15,7 @@ Accept a topic in natural language, `--topic`, or `--url`. Ask for a subject onl
 
 - Default: vertical 1080×1920, 30–90 seconds including any frame-required closing card, narrated with Kokoro
   `af_heart`, phrase captions highlighting the current spoken word, quiet music, sparse SFX.
-- Honor `--frame <path>`, `--tone <direction>`, `--duration <seconds>`,
+- Honor `--brand <name>`, `--tone <direction>`, `--duration <seconds>`,
   and `--format vertical|square|landscape`. Square is 1080×1080; landscape is
   1920×1080. Tone is freeform, not a preset that can override the brand.
   Duration includes the closing card.
@@ -44,17 +44,21 @@ silently change providers, or simulate word timing.
 
 ## Brand
 
-Resolve `--frame`, then project `brand/frame.md`, then the bundled
-[assets/brand/frame.md](assets/brand/frame.md). An explicitly supplied path
-that is missing is an error, not permission to silently substitute a brand.
-An article URL supplies facts; its publisher's identity does not replace the
-channel's brand unless requested.
+`--brand` takes a brand name, matched case-insensitively against each brand's
+folder name or the `name` in its `brand.md`. Search the project's `brands/`
+folder first, then the bundled [assets/brands/](assets/brands/). Without
+`--brand`, use the bundled Pūpūkahi Tech brand. A named brand that cannot be
+found is an error, not permission to silently substitute another; list the
+available names instead. An article URL supplies facts; its publisher's
+identity does not replace the channel's brand unless requested.
 
-Read the selected frame's tokens and prose. Resolve its asset paths relative
-to that file and verify the required files exist before planning. Copy only
-used assets into `composition/assets/`, preserving relative paths. Record the
-frame path in the plan. User direction wins over frame defaults. Report missing required assets instead of
-inventing a logo or silently dropping the ground treatment.
+Read the selected `brand.md` for colors, type, spacing, ground, assets, and the
+closing-card handle, then [frame.md](frame.md) for how to apply them. Together
+they are "the frame" referred to elsewhere. Resolve asset paths relative to
+`brand.md` and verify the required files exist before planning. Copy only used
+assets into `composition/assets/brand/`. Record the brand path in the plan.
+User direction wins over brand defaults. Report missing required assets instead
+of inventing a logo or silently dropping the ground treatment.
 
 ## Workflow
 
@@ -81,9 +85,8 @@ video intake interview.
 
 ### Checkpoints
 
-Both checkpoints are the default, even when the user asks for a full or
-finished video. Only `--skip-pauses` or an explicit instruction to skip review
-removes them.
+Both checkpoints are required on every run, including requests for a full or
+finished video.
 
 At each checkpoint, record the status in `video-plan.md`, link the files to
 review, ask once, and end the turn. No, or no reply, leaves the run ready for

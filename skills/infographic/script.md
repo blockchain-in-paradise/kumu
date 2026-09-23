@@ -106,6 +106,11 @@ one hero, and label items with a few words placed next to what they name.
 A decision point keeps its condition as a short label, such as the yes-or-no
 question the viewer answers, because it shows a relationship the picture needs.
 
+Beyond the headline and captions, keep a settled scene to about 15 visible
+words. Show at most one qualifier per item; alternate prices, plan fine print,
+and upgrade requirements go in narration or `caption.txt`. State a comparison's
+scope or date once, where the comparison is introduced, not on every scene.
+
 Less text is not a smaller picture. Let the hero fill roughly 40–60% of the
 frame, and enlarge or add a meaningful state when a scene looks empty rather
 than restoring sentences.
@@ -125,11 +130,7 @@ stays out of narration and is never presented as a real place.
 Weight comes from contrast before thickness. At 1080 px wide, keep strokes and
 borders around 2–3 px, icon strokes no heavier than the adjacent label text, and
 avoid cards inside cards. Show a duration or progress as a thin bar or a label
-rather than a row of heavy blocks. Follow the frame's accent roles; when the
-caption highlight uses an accent color, keep that color out of headlines and
-emphasize a title word through size or weight instead. Accent roles cover
-interface, emphasis, and data marks such as bars, lines, and meters; depicted
-objects keep their real colors.
+rather than a row of heavy blocks. Follow the accent roles in `frame.md`.
 
 Plan the first decoded frame as a complete visual hook, with the recognizable
 subject and a brief reason to watch. Do not delay it behind an entrance or fade.

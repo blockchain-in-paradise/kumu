@@ -61,7 +61,9 @@ Use "five affordable options" unless a bounded market survey actually establishe
 conclusion, not only the numbers in the middle. Distinguish eligibility or admin
 features from a claim that a plan is the best choice for someone's work.
 
-Show both the monthly equivalent and the amount/commitment required to buy it.
+Give both the monthly equivalent and the amount/commitment required to buy it:
+show one on screen with its billing basis as a compact label, and speak the
+other.
 For example, $20/seat/month annually with a two-seat minimum is $40/month
 equivalent and $480/year upfront if billed annually, not a $40 monthly checkout.
 Do not round $200/12 to an exact $17 charge; label a rounded equivalent as approximate.

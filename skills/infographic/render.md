@@ -1,7 +1,7 @@
 # Render
 
 Use `SCRIPT.md` as the narration source, `video-plan.md` as the storyboard, and the selected
-`frame.md` as the styling record. Resolve the skill's assets relative to this
+`brand.md` with `frame.md` as the styling record. Resolve the skill's assets relative to this
 skill directory, not a hardcoded Claude installation path. Use the installed
 HyperFrames command guidance or `--help` for version-dependent flags.
 
@@ -121,7 +121,8 @@ Keep each caption phrase stable, usually 3–6 words over at most two lines.
 Use the frame's font, position, ink, and current-word treatment. Split long
 phrases rather than shrinking them. Clear the highlight at the measured word
 end, including pauses, and clear the phrase when finished. Do not use cumulative
-highlight, bounce, resize, or delayed entrance.
+highlight, bounce, zoom, resize, typewriter reveals, font-weight changes that
+reflow the phrase, or delayed entrance.
 
 Replace stock demo fades and styling with seekable timeline sets of absolute
 CSS colors/backgrounds at word starts and ends. Avoid GSAP `className` tweens
