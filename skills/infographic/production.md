@@ -24,8 +24,9 @@ place a map pin. Address the viewer directly when the instruction is universal.
 
 Explain why one step follows another or which condition changes a decision.
 Keep connective words such as "because", "if", and "so" where they carry that
-reasoning. Move secondary specifications into readable visual labels when they
-interrupt speech. Essential qualifications must stay beside the relevant claim.
+reasoning. Move a secondary specification into a short visual label when it
+interrupts speech. Essential qualifications stay with their claim, either spoken
+or as a short label on the object they limit.
 End the explanation with its answer or result. The brand's closing card does
 not require a second spoken summary or invented engagement prompt.
 
@@ -74,7 +75,7 @@ format, target duration, audio direction, and then one short brief per scene:
 | --- | --- |
 | Purpose | What the viewer should understand or be able to do |
 | Evidence | Fact IDs and script scene heading, without duplicating speech |
-| Visual | Main object, composition, exact labels and required qualifications |
+| Visual | Main object, composition, exact short labels, and any unspoken qualifier as a label |
 | Assets | Selected visual IDs, local paths, or the geometry to draw |
 | Changes | Initial state, what changes at which spoken phrase, final state |
 | Timing | Estimated duration, then measured duration and global start after TTS |
@@ -101,6 +102,36 @@ alignment, and contrast to establish hierarchy. Avoid repeated eyebrow/title/
 card/footer layouts, decorative pills, dot-separated metadata, tiny qualifiers,
 and oversized numbers without context. Repeat positions when they support a
 comparison. Related beats may evolve one scene rather than rebuild it.
+
+Captions carry the spoken words, so visible text is labels, values, and at most
+one short headline per scene. Do not set a narration sentence, a paraphrase of
+it, or an explanatory footnote on screen; the viewer would read the same idea
+twice while the captions move. Keep a scene to about three visual groups with
+one hero, and label items with a few words placed next to what they name.
+A decision point keeps its condition as a short label, such as "Already
+listed?", because it shows a relationship the picture needs.
+
+Less text is not a smaller picture. Let the hero fill roughly 40–60% of the
+frame, and enlarge or add a meaningful state when a scene looks empty rather
+than restoring sentences.
+
+Build a social post, not a slide deck. Persistent navigation such as step rails,
+chapter tabs, slide counters, or player-style progress bars spends space in
+every frame and makes scenes read as slides. Show order inside the content: the
+hero object changes state, or the current step's object carries its number. The
+selected frame's required marks are the only persistent elements.
+
+Mockup fields hold data, not narration. Fill a field with a short, plausible
+value or leave it empty; examples introduced with "like", "e.g.", or "such as"
+belong in speech only. A clearly sample business name may fill a mockup, but it
+stays out of narration and is never presented as a real place.
+
+Weight comes from contrast before thickness. At 1080 px wide, keep strokes and
+borders around 2–3 px, icon strokes no heavier than the adjacent label text, and
+avoid cards inside cards. Show a duration or progress as a thin bar or a label
+rather than a row of heavy blocks. Follow the frame's accent roles; when the
+caption highlight uses an accent color, keep that color out of headlines and
+emphasize a title word through size or weight instead.
 
 Plan the first decoded frame as a complete visual hook, with the recognizable
 subject and a brief reason to watch. Do not delay it behind an entrance or fade.
@@ -336,11 +367,16 @@ Check the things validation cannot establish:
 - Compare settled scenes. Repeated layouts should help the viewer compare or
   follow a change. Replace generic mockups and unfinished placeholders with
   meaningful content.
+- Check each settled snapshot against the scene-brief rules: no persistent
+  navigation chrome, no narration sentence or footnote as visible text, mockup
+  fields containing data rather than script examples, about three groups with
+  one hero, strokes within the weight ceiling, and no caption highlight color in
+  headlines. Fix any failure before rendering.
 - Read every visible line as editorial copy. Remove filler words, repeated
   middle-dot separators, generic kickers, and unsupported urgency. If several
   scenes reduce to a large number above a rounded rectangle, redesign the
   proof objects before rendering.
-- Captions and narration match; qualifiers remain visible with their claim.
+- Captions and narration match; qualifiers stay with their claim, spoken or labeled.
 - The closing card has its own readable hold, with no previous scene remnants.
 
 Review playback with audio for pacing, pronunciation, masking, and cutoffs;
@@ -359,21 +395,32 @@ Record CLI version, output duration, and render wall time in the existing plan
 so encoding cost can be distinguished from research and authoring cost.
 
 Design `composition/thumbnail.html` as a separate static cover at the video's
-aspect ratio. Use HTML, CSS, and SVG with the same browser renderer used for
-the video, including locally sourced subject images when useful. Build a clear
-focal graphic and a short, specific headline from the script. Use the selected
-frame's palette and ground and suitable assets collected during research.
-The cover is HTML rendered to JPEG; no image-generation service is needed.
-Use roughly three to six headline words.
-Keep them as HTML text for exact spelling. Avoid generic robots, floating UI,
-fake product screens, invented data, filler words such as "actually", and
-claims the video does not support.
-Do not copy the opening frame or default to a list of bordered rows. Give the
-cover one visual idea that makes the subject recognizable before the small text
-is read. Capture the HTML at final size,
-convert the capture to `thumbnail.jpg` at the run root, and inspect it at phone
-size. Keep the editable HTML inside `composition/`. The cover is a separate
-design, not a frame extracted from `video.mp4` or a scene added to it.
+aspect ratio, using HTML, CSS, and SVG with the same browser renderer as the
+video. It is HTML rendered to JPEG; no image-generation service is needed.
+Profile grids show only a centered crop and platform UI covers the edges, so at
+1080×1920 keep all text and the focal subject within x 60–960 and y 240–1400.
+That box survives the 3:4 grid crop and clears TikTok's bottom caption band and
+right-side buttons. Keep an equivalent centered box for other formats.
+
+Use two elements: one subject-specific hero filling roughly 40–60% of the safe
+box and a headline of one to four words kept as HTML text for exact spelling.
+Add a badge only when it carries a fact neither shows, and draw it as part of
+the hero rather than as a separate card. Show the result, a before and after, or the
+problem the video solves. Rebuild the video's strongest proof object for the
+cover rather than copying the opening frame. The subject should be recognizable
+before any text is read: the place, product, or outcome the topic names, not a
+generic icon. The headline adds to the post caption instead of repeating it, and
+the video must deliver what it promises. Use the frame's palette and ground and
+leave no large empty region. Avoid generic robots, floating UI, fake product
+screens, invented data, filler words, and claims the video does not support.
+
+Render two distinct cover concepts at final size. Crop each to the safe box,
+shrink it to about 150 px wide, and view it slightly blurred, as it appears in
+a profile grid. Keep the concept whose headline stays readable and whose subject
+can be named at that size, and convert it to `thumbnail.jpg` at the run root.
+Keep the editable HTML inside `composition/`. The cover is not a frame extracted
+from `video.mp4` or a scene added to it, but the first decoded video frame
+should also work as a fallback cover, since some platforms choose one.
 Write concise, sourced platform copy to `share-copy.txt`. Keep research and
 the plan alongside the editable composition; no extra handoff document is
 needed.

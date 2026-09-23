@@ -127,6 +127,12 @@ pauses. Use no bounce, zoom, typewriter reveal, or changing font weight that
 reflows the phrase. Keep this style consistent across the video. A subtle navy
 backing behind the caption band is allowed; it does not replace the ground stack.
 
+Sand belongs to the caption's spoken-word highlight and the closing card's
+kicker. Do not use it for headline words, prices, stats, step numbers, badges,
+or backgrounds; a second sand element competes with the word being spoken.
+Teal marks actions and state; ink carries everything else. Give an important
+value emphasis through size and weight in ink.
+
 ---
 
 # The closing card (required, and its own scene)
@@ -157,7 +163,7 @@ Structure, centered on the visible frame:
   align-items: center; justify-content: center;
   padding: 0 60px; text-align: center;
 }
-.cta-kicker { color: #d19847; font-size: 30px; font-weight: 800; letter-spacing: .18em; }
+.cta-kicker { color: #d19847; font-size: 45px; font-weight: 800; letter-spacing: .18em; }
 .cta-handle { margin: 30px 0 0; color: #fcfaf8; font-size: 82px; font-weight: 800;
               line-height: 1; letter-spacing: -.06em; }
 .socials    { display: flex; align-items: center; justify-content: center;

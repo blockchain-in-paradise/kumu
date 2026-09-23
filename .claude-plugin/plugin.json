@@ -1,9 +1,19 @@
 {
   "name": "infographic",
   "description": "Turn a researched topic into a narrated, captioned portrait infographic video for TikTok, Reels, and Shorts.",
-  "version": "0.1.0",
-  "author": { "name": "Dhaniel Bolosan" },
+  "version": "2.0.0",
+  "author": {
+    "name": "Dhaniel Bolosan"
+  },
   "license": "MIT",
   "repository": "https://github.com/blockchain-in-paradise/video-skill",
-  "keywords": ["video", "infographic", "tiktok", "reels", "shorts", "hyperframes", "skill"]
+  "keywords": [
+    "video",
+    "infographic",
+    "tiktok",
+    "reels",
+    "shorts",
+    "hyperframes",
+    "skill"
+  ]
 }

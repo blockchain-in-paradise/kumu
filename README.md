@@ -47,18 +47,14 @@ Then run `/infographic ...`. After editing the skill, restart
 `claude --plugin-dir .` to load changes in a fresh session, or use
 `/reload-plugins` to refresh the current one.
 
-To run in auto mode without permission prompts, create both
-`.claude/settings.json` and `.claude/settings.local.json` in your project with
-the same contents:
+To run without permission prompts, launch with:
 
-```json
-{
-  "permissions": {
-    "defaultMode": "auto",
-    "allow": ["Edit(./**)", "Write(./**)"]
-  }
-}
+```bash
+claude --plugin-dir . --dangerously-skip-permissions
 ```
+
+This lets the agent edit files and run commands without asking. Use it only in
+a trusted checkout.
 
 Other agents:
 
