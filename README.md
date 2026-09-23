@@ -1,6 +1,6 @@
-# Kumu
+# /Kumu
 
-Kumu is a human-in-the-loop agent skill that turns a topic, article URL, or
+Kumu is a human-in-loop agent skill that turns a topic, article URL, or
 notes into a researched, branded infographic video. It makes a 30–90 second
 vertical video with narration, word-highlighted captions, music, and sparse
 sound effects, plus a separately designed thumbnail. You review the plan and
@@ -17,7 +17,7 @@ not been tested.
 
 You need [Claude Code](https://code.claude.com/docs/en/setup),
 [Git](https://git-scm.com/downloads), [Node.js 22+](https://nodejs.org/),
-[FFmpeg](https://ffmpeg.org/download.html) (includes ffprobe), and Python 3.
+[FFmpeg](https://ffmpeg.org/download.html), and [Python 3](https://www.python.org/downloads/).
 
 Then in your terminal run:
 
@@ -59,7 +59,7 @@ this repo. After editing the skill, use `/reload-plugins` or start a new session
 ## How to Use
 
 ```text
-/kumu --topic "How to build a compact automatic sugar cane farm in Minecraft Java Edition" --tone "clear practical instructions for someone building alongside the video" 
+/kumu --topic "How to build a compact automatic sugar cane farm in Minecraft Java Edition" --tone "clear practical instructions for someone building alongside the video"
 /kumu --url https://example.com/article --duration 45
 ```
 
@@ -132,6 +132,7 @@ before replying.
    **Checkpoint 1: plan review.** Read the script and plan and pick a thumbnail
    title. A plain `Yes` uses the recommended one. No audio or video has been
    generated yet, so changes here are cheap.
+
 3. **Compose.** It generates the voiceover, times the word-by-word captions,
    builds the animated scenes in HyperFrames, mixes music and sound effects,
    designs the cover, and writes the post caption.
@@ -139,6 +140,7 @@ before replying.
    **Checkpoint 2: frame review.** Check one finished frame per scene in
    `composition/frames/`, plus `thumbnail.jpg`, `caption.txt`, and a short audio
    preview. Changes are applied to the composition before any video is encoded.
+
 4. **Render.** It encodes the final `video.mp4` and checks it.
 
 Each run gets its own directory:

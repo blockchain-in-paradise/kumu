@@ -66,15 +66,15 @@ Use `video-plan.md` as the single plan; no separate beats JSON or duplicate
 composition brief is needed. Record audience, question and answer, chosen frame,
 format, target duration, audio direction, and then one short brief per scene:
 
-| Field | What to specify |
-| --- | --- |
-| Purpose | What the viewer should understand or be able to do |
-| Evidence | Fact IDs and script scene heading, without duplicating speech |
-| Visual | Main object, composition, exact short labels, and any unspoken qualifier as a label |
-| Assets | Selected visual IDs, local paths, or the geometry to draw |
-| Changes | Initial state, what changes at which spoken phrase, final state |
-| Timing | Estimated duration, then measured duration and global start after TTS |
-| Handoff | What persists, what leaves, and why the next scene follows |
+| Field    | What to specify                                                                     |
+| -------- | ----------------------------------------------------------------------------------- |
+| Purpose  | What the viewer should understand or be able to do                                  |
+| Evidence | Fact IDs and script scene heading, without duplicating speech                       |
+| Visual   | Main object, composition, exact short labels, and any unspoken qualifier as a label |
+| Assets   | Selected visual IDs, local paths, or the geometry to draw                           |
+| Changes  | Initial state, what changes at which spoken phrase, final state                     |
+| Timing   | Estimated duration, then measured duration and global start after TTS               |
+| Handoff  | What persists, what leaves, and why the next scene follows                          |
 
 Read `hyperframes-creative` for relevant composition guidance. Brand tokens and
 ground override generic style defaults. Choose the treatment around the subject:
@@ -149,4 +149,3 @@ already shows. The user's pick, or the recommendation after a plain Yes,
 becomes the cover title.
 
 Planning ends here. Stop at the plan checkpoint in the entrypoint.
-

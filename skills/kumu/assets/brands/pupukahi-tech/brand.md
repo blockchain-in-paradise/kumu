@@ -3,19 +3,20 @@ name: "Pūpūkahi Tech Foundation"
 source: "https://pupukahitech.org/"
 register: dark
 colors:
-  canvas: "#0e394e"      # base of the ground
-  ink: "#fcfaf8"         # text and default marks
-  on-highlight: "#1d2930"  # text on the highlight
-  accent: "#39a1ac"      # actions, state, and data marks
-  highlight: "#d19847"   # caption spoken word and closing kicker only
-  panel: "rgba(14,57,78,.72)"   # restrained backing behind a proof object
+  canvas: "#0e394e" # base of the ground
+  ink: "#fcfaf8" # text and default marks
+  on-highlight: "#1d2930" # text on the highlight
+  accent: "#39a1ac" # actions, state, and data marks
+  highlight: "#d19847" # caption spoken word and closing kicker only
+  panel: "rgba(14,57,78,.72)" # restrained backing behind a proof object
   border: "rgba(252,250,248,.22)"
-  support:               # extra diagram colors, used sparingly
+  support: # extra diagram colors, used sparingly
     primary: "#196d76"
     palm: "#367d65"
     sunset: "#ee7c2b"
 typography:
-  display: { fontFamily: "Inter", weight: 800, lineHeight: 0.92, tracking: "-0.04em" }
+  display:
+    { fontFamily: "Inter", weight: 800, lineHeight: 0.92, tracking: "-0.04em" }
   body: { fontFamily: "Inter", weight: 400, lineHeight: 1.4 }
 spacing:
   edge: "92px"
@@ -51,18 +52,25 @@ Three layers, bottom to top. The photo is a texture, not an image; do not raise
 its opacity to make it "visible".
 
 ```css
-.ground {                       /* 1. the canvas */
-  position: absolute; inset: 0; overflow: hidden;
+.ground {
+  /* 1. the canvas */
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   background: var(--canvas);
 }
-.ground-photo {                 /* 2. the brand photo */
-  position: absolute; inset: 0;
+.ground-photo {
+  /* 2. the brand photo */
+  position: absolute;
+  inset: 0;
   background: url("assets/brand/ground.webp") center / cover no-repeat;
-  opacity: .15;
+  opacity: 0.15;
 }
-.grain {                        /* 3. film grain */
-  position: absolute; inset: 0;
-  opacity: .045;
+.grain {
+  /* 3. film grain */
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
 }

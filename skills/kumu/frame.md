@@ -97,18 +97,43 @@ Structure, centered on the visible frame, filled from `cta` in `brand.md`:
 
 ```css
 .cta-lockup {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  padding: 0 60px; text-align: center;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 60px;
+  text-align: center;
 }
-.cta-kicker { color: var(--highlight); font-size: 45px; font-weight: 800; letter-spacing: .18em; }
-.cta-handle { margin: 30px 0 0; color: var(--ink); font-size: 82px; font-weight: 800;
-              line-height: 1; letter-spacing: -.06em; }
-.socials    { display: flex; align-items: center; justify-content: center;
-              gap: 30px; margin-top: 48px; }
-.socials svg { display: block; width: 94px; height: 94px; flex: 0 0 94px;
-               fill: var(--ink); }
+.cta-kicker {
+  color: var(--highlight);
+  font-size: 45px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+.cta-handle {
+  margin: 30px 0 0;
+  color: var(--ink);
+  font-size: 82px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+.socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 48px;
+}
+.socials svg {
+  display: block;
+  width: 94px;
+  height: 94px;
+  flex: 0 0 94px;
+  fill: var(--ink);
+}
 ```
 
 Entry: the lockup fades and settles first, kicker rises at 0.30s, handle at
