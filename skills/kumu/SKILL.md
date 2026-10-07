@@ -13,7 +13,8 @@ rendering; it is not a separate agent.
 
 ## Inputs and defaults
 
-Accept a topic in natural language, `--topic`, or `--url`. Ask for a subject
+Accept a topic in natural language, `--topic`, `--url` (one `--source`), or
+`--source`. Ask for a subject
 only when it is missing.
 
 - `--mode narrated|visual`. Narrated: Kokoro `af_heart` voice, phrase captions
@@ -24,6 +25,9 @@ only when it is missing.
 - `--format vertical|square|landscape`: 1080×1920 (default), 1080×1080, 1920×1080.
 - `--style <name>`: the saved look to build in (see Style).
 - `--tone <direction>`: freeform writing tone; it never overrides the style.
+- `--source <url>` (repeatable): a web page the video is about, such as an
+  article, profile, or stats page, read first as evidence. See
+  [research.md](research.md).
 - `--ref <url>` (repeatable): a video whose structure and pacing to learn from.
   Read [references/ref-video.md](references/ref-video.md).
 - `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
@@ -63,9 +67,13 @@ working sample composition), `thumbnail/` (a cover sample), `preview.png`
 (thumbnail, empty, elements, and closing frames side by side), and `assets/`. `--style` matches a folder name or
 the `name` in its `style.md`, case-insensitively. Search the project's
 `styles/` folder first, then the bundled [styles/](styles/): `pupukahi-tech`
-(the default), `plain` (neutral, no closing card), and `motion` (light UI
+(the default), `plain` (neutral, no closing card), `motion` (light UI
 motion graphics: drifting color fields, white UI cards, a cursor, blur-in
-headlines). A named style that cannot
+headlines), `code-cats` (cartoon cats acting out code above an editor, on
+switchable 2D backdrops), `car-cats` (real car photos in angled panels on a dark
+racing backdrop, with the gato cat meme reacting), and `boxing` (flat rigged
+fighters on a dark stage, a headline per beat, and a camera that turns between
+side and top-down views). A named style that cannot
 be found is an error: list the available names instead of substituting. An
 article's publisher does not replace the style unless requested.
 
@@ -151,8 +159,8 @@ including the ʻokina and kahakō (Hawaiʻi, Kalākaua). Pronunciation for the
 voice is handled separately in [render.md](render.md).
 
 Use the user's tone and any supplied writing samples without copying anecdotes.
-In agent-written audience copy, do not use em dashes, semicolons, canned
-contrasts, or middle-dot separators. Colons belong in times or necessary
+In agent-written audience copy, including on-screen labels and data lines,
+do not use em dashes, semicolons, canned contrasts, or middle-dot separators. Colons belong in times or necessary
 notation, not hook formulas. Never write staccato copy: no runs of clipped
 sentences or fragments for effect ("Fast. Simple. Free."). Join them into
 sentences that carry the reasoning; a visual-mode line is one complete phrase.

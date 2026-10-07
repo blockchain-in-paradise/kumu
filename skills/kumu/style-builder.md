@@ -20,8 +20,12 @@ Write `.build/notes.md`:
 - Type: family or closest free match, weights, sizes, case, tracking.
 - Subjects: drawn (flat, line, isometric, characters), real photo cut-outs,
   UI mock-ups, or diagrams; their outline, shadow, and corner treatment.
-- Motion vocabulary: how things enter, move, and leave; easing; camera moves;
-  signature devices (a cursor, a dotted path, a counter, a mascot reaction).
+- Characters: when the references use drawn figures, their proportions, how
+  limbs and joints are drawn, the poses that recur, and any idle motion.
+- Motion vocabulary: how things enter, move, and leave; easing; camera moves
+  (which views appear, such as side, top-down, or close-up, and how the
+  camera travels between them); signature devices (a cursor, a dotted path, a
+  counter, a mascot reaction).
 - Words: title treatment, caption or line style and position, emphasis.
 - Pacing: seconds per change, intro and outro.
 - Closing: how the reference ends.
@@ -35,7 +39,9 @@ Make three directions as standalone HyperFrames compositions,
 `.build/directions/a/`, `b/`, and `c/`, each about 6–8 s at 1080×1920, with local fonts
 and assets. All three show the same neutral demo, so the user compares style,
 not content: a two-line title, a small diagram or subject that changes state
-twice, one caption or line with its highlight, and the closing, if any.
+twice, one caption or line with its highlight, and the closing, if any. When
+the references use characters, the subject is the style's character changing
+pose twice; when they use camera moves, the demo includes one view change.
 
 - **A, faithful:** as close to the references as the tools allow.
 - **B, identity:** A's look carrying an existing style's identity (colors,
@@ -62,7 +68,24 @@ for example C's colors with A's motion."
 Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
 
 - `index.html`: the direction, cleaned up as the style's working sample.
-- `assets/`: its fonts and any textures or icons.
+- `assets/`: its fonts and any textures or icons, and `assets/sfx/` with the
+  style's sound effects. Choose sounds that fit the look (typing for code,
+  engines for cars, soft whooshes for UI) from the shared Kenney set or from
+  CC0, public-domain, or CC BY sources such as Wikimedia Commons; avoid
+  ShareAlike and unknown licenses. Trim each to its moment, fade the ends,
+  normalize to about -18 LUFS, and list source, author, and license in
+  `assets/sfx/CREDITS.md`.
+- `assets/characters/` when the style uses drawn characters: each figure as
+  an SVG rig (one group per body part, nested so a forearm follows its upper
+  arm, with each joint's pivot point named), plus `poses.js` exporting named
+  poses as joint angles (for a fighter: `guard`, `jab`, `step`, `pivot`).
+  Runs reuse this kit instead of drawing new figures, so draw it once, well.
+  The sample `index.html` loads the rig, blends between at least two poses,
+  and shows any idle loop.
+- Camera, when the motion vocabulary uses camera moves: the sample keeps the
+  stage inside one camera layer and changes view by moving that layer
+  (rotate, scale, translate), with one anchor object (a line, a floor, a
+  table) that stays across views. Runs copy this code.
 - `preview.mp4`: the direction's render.
 - `thumbnail/index.html`: a static cover sample in the style (title and hero in
   the safe box x 60–960, y 240–1400), with `thumbnail/assets` linked to
@@ -73,12 +96,12 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   Set `preview_at: [empty, elements, closing]` in `style.md`, then run
   [scripts/style-preview.sh](scripts/style-preview.sh) `styles/<name>`.
 - `style.md`: frontmatter tokens in the same shape as the bundled styles
-  (`colors`, `typography`, `preview_at`, `spacing`, and `cta` or
-  `cta: null`), then short sections for Character, Look, Type and captions,
-  Motion, Motion values, and Closing, written from `notes.md` and the chosen
-  direction. Motion values is a table of eases by direction, duration bands,
-  overshoot, and stagger (plus camera or cursor behavior when used), and the
-  sample defines the same values as constants at the top of its script. Name
-  the reference URLs as sources.
+  (`colors`, `typography`, `preview_at`, `spacing`, and `cta` or `cta: null`),
+  then short sections for Character, Look, Type and captions, Motion, Motion
+  values, Sound (events, files, gains, music), and Closing, written from
+  `notes.md` and the chosen direction. Motion values is a table of eases by
+  direction, duration bands, overshoot, and stagger (plus camera or cursor
+  behavior when used), and the sample defines the same values as constants at
+  the top of its script. Name the reference URLs as sources.
 
 Report the style name and how to use it: `$kumu --style <name> --topic "..."`.

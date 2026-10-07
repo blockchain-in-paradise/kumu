@@ -34,7 +34,7 @@ fi
 echo "==> Python environment at $VENV"
 [ -x "$PY" ] || python3 -m venv "$VENV"
 "$PY" -m pip install -q --upgrade pip
-"$PY" -m pip install -q kokoro-onnx soundfile yt-dlp
+"$PY" -m pip install -q kokoro-onnx soundfile yt-dlp "rembg[cpu]" scipy
 
 echo "==> HyperFrames skills and browser"
 SKILLS_CLONE_TIMEOUT_MS=600000 npx -y hyperframes skills update \

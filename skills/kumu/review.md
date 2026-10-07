@@ -52,15 +52,15 @@ Score each 1–5, with one line of evidence per score:
 
 | Area | A 5 means |
 | --- | --- |
-| Hook | The first 2 s show the setting and title, something moves, and the viewer wants the answer |
+| Hook | The first 2 s show the intro title alone on the backdrop, something moves, and the viewer wants the answer; the first item has not appeared yet |
 | Teaching | After the last state, a viewer could do or understand the plan's goal sentence |
-| Readability | Every title, label, line, and value reads at phone size with no contrast failures |
+| Readability | Every title, label, line, and value reads at phone size with no contrast failures; each frame stays within the text budget and no on-screen text uses separator dots, bullets, pipes, or slashes |
 | Pace | Each new kind of change can be followed on first watch, repeats move faster, no dead zone except deliberate holds, the payoff holds long enough to read |
 | Motion | Movement has weight and purpose, characters act rather than slide, nothing flickers, jumps, or overlaps by accident |
-| Style | Matches the style's sample (`index.html`, `preview.png` when present): background, palette, type, captions, motion vocabulary, and closing; one scale and character design throughout |
+| Style | Matches the style's sample (`index.html`, `preview.png` when present): background, palette, type, captions, motion vocabulary, and closing; one scale and character design throughout; repeated items vary in entrance and placement, and every item shows its name and key number |
 | Audio | Mix at or below -14 LUFS with true peak under -1 dBTP; music sits under the voice or, in visual mode, near -21 LUFS; SFX match actual changes |
 | Accuracy | Every number and claim on screen matches the model, sources, and plan |
-| Ending | The payoff lands, then the closing card stands alone in the video's world |
+| Ending | The payoff lands as its own closing frame with the title and stage cleared, then the closing card, if any, stands alone in the video's world |
 
 ## Verdict and fixes
 

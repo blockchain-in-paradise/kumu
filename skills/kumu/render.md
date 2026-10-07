@@ -73,10 +73,13 @@ and embed that JSON in the composition.
 Build each state with actual content; blank bars and placeholder text stay
 placeholders even when animated. Use consistent scales and labeled units.
 
-Photo or clip subjects: download the licensed source into `.work/`, cut it out
-with `hyperframes remove-background <file> -o assets/<name>.png` for a photo or
-`-o assets/<name>.webm` for a clip (transparent video), and check the edges at
-full size before use.
+Photo or clip subjects: download the licensed source into `.work/` and cut it
+out. For people, and for any clip (transparent video), use
+`hyperframes remove-background <file> -o assets/<name>.png` or `.webm`. For
+objects and animals on a plain background, rembg's `isnet-general-use` model
+in `$HOME/.kumu/venv/bin/python` works better (keep the largest shape, crop,
+save as WebP). Check the edges at full size; if anything from the background
+remains, show the photo in a frame or panel instead of a rough cutout.
 
 ## Narration and timing (narrated mode)
 
@@ -131,8 +134,11 @@ word boundary and a pause, forward and backward, to confirm.
 
 ## Audio
 
-Pick one bundled track from `assets/music/` (vol-12 is the default) or a
-supplied one. Copy only selected files. Never generate music.
+Use the style's Sound section: its events, files in the style's `assets/sfx/`,
+starting gains, and music track. Fall back to the shared `assets/sfx/` and
+`assets/music/` only for events the style does not cover. Copy only selected
+files, and add any credit a file's license requires (see the style's
+`assets/sfx/CREDITS.md`) to `caption.txt`. Never generate music.
 
 - **Narrated:** keep music about 24 LU below the voice, measured with FFmpeg's
   `ebur128` filter on both; for bundled tracks that is roughly 0.05 gain.

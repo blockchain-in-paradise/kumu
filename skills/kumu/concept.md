@@ -88,8 +88,8 @@ Then test each and drop or fix any that fails:
   works unchanged, it explains nothing specific.
 - **Mapping test.** A metaphor must preserve the property being taught; one
   that needs a disclaimer to stay true is the wrong metaphor.
-- **First-frame test.** The opening frame shows the stage and the title and
-  makes the viewer want the answer before any motion.
+- **First-frame test.** The opening frame shows the title over the style's
+  backdrop and makes the viewer want the answer before the first item appears.
 - **Source test.** Every number and screen on the stage traces to a fact,
   capture, or model run. If the concept needs something research cannot
   support, choose another.

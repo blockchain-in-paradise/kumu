@@ -96,6 +96,21 @@ object a restrained `--panel` backing, instead.
 | Stagger | 0.08 s between entering elements |
 | State changes | Values change by stepping (`tl.set`) at the moment they change, never by counting up |
 
+# Sound
+
+Files are in `assets/sfx/` (credits in `CREDITS.md`).
+
+| Event | File | Gain |
+| --- | --- | --- |
+| A value changes | `click.ogg` | 0.4 |
+| A proof object or panel lands | `place.ogg` | 0.4 |
+| Left-push seam | `slide.ogg` | 0.3 |
+| Emphasis on the key change | `soft-impact.ogg` | 0.35 |
+| Payoff | `payoff.ogg` | 0.4 |
+
+Music: bundled `happy-beats-business-moves-vol-12`, about 24 LU under the
+narration (roughly 0.05 gain).
+
 # Type and captions
 
 Headlines 80–112 px, essential labels 40–52 px, captions 52 px at 1080×1920.

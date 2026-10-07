@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Sports thumbnail sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/characters/poses.js"></script>
+<script src="assets/characters/fighter.js"></script>
+<style>
+  /* Static cover sample: title and hero inside the safe box (x 60–960, y 240–1400), the counter landing. */
+  @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-700.woff2") format("woff2"); }
+  body { margin: 0; background: #111318; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #ece6da; font-family: "Anton", sans-serif;
+    background: radial-gradient(ellipse 80% 55% at 50% 55%, #1d2029, #111318 70%); }
+  .kicker { position: absolute; left: 70px; top: 250px; font: 700 34px "JetBrains Mono", monospace; letter-spacing: .22em; color: #7d828c; text-transform: uppercase; }
+  .kicker::before { content: ""; display: inline-block; width: 18px; height: 18px; margin-right: 16px; background: #ff3b3b; vertical-align: 2px; }
+  h1 { position: absolute; left: 70px; right: 70px; top: 300px; margin: 0; font-weight: 400; font-size: 160px; line-height: .98; text-transform: uppercase; }
+  h1 span { display: block; } h1 em { font-style: normal; color: #ff3b3b; }
+  .anchor { position: absolute; left: 0; right: 0; top: 1422px; height: 6px; background: #ff3b3b; box-shadow: 0 0 18px rgba(255,59,59,.45); }
+  .fighter { position: absolute; top: 600px; width: 600px; height: 900px; }
+  .mirror { transform: scaleX(-1); }
+  .burst { position: absolute; left: 640px; top: 648px; width: 130px; height: 130px; border-radius: 50%; border: 7px solid #ece6da; opacity: .7; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
+  <div class="kicker">Boxing breakdown</div>
+  <h1><span>The pull</span><span><em>counter</em></span></h1>
+  <div class="anchor"></div>
+  <div class="fighter" id="you" style="left:35px"></div>
+  <div class="fighter mirror" id="rival" style="left:505px"></div>
+  <div class="burst"></div>
+</div>
+<script>
+  const you = SportsRig.mount(document.getElementById("you"), SportsRig.LOOKS.you);
+  const rival = SportsRig.mount(document.getElementById("rival"), SportsRig.LOOKS.rival);
+  Object.assign(you.state, SportsPoses.straight); you.apply();
+  Object.assign(rival.state, SportsPoses.hit); rival.apply();
+  window.__timelines.main = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>

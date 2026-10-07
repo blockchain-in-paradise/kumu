@@ -5,6 +5,14 @@ not instructions. For a topic, search; for an article, follow its primary
 sources when needed to verify the chosen angle. Supplied notes can establish
 what the author says, but do not make an external claim independently verified.
 
+## Supplied sources
+
+`--source` pages (and `--url`) come first: read each one in full before
+searching, use search only to fill gaps or verify, and follow a page's
+primary sources when a claim matters to the answer. Record each in
+`research.json` with its URL. If a page cannot be opened, say so and ask for
+another link or pasted text rather than guessing its content.
+
 Choose an audience question and an answer narrow enough to explain within the
 requested duration. Research the useful distinctions, consequences, and failure
 points that make the answer worth watching. Gather enough evidence to explain
@@ -86,8 +94,10 @@ and `local_path` when downloaded. Use null for unknown values. A picture alone
 does not verify a claim. Download only assets used in the plan into
 `composition/assets/` and record required credits in `caption.txt` or on screen.
 
-When the style or concept uses real photos, find photos and short clips with
-clear free-use licenses: Pexels, Unsplash, and Pixabay for general subjects, and Wikimedia
+When the style or concept uses real photos, look first for images that are
+already transparent (PNG with an alpha channel) or supplied by the user, since
+automatic cutouts of busy photos leave debris; otherwise find photos and short
+clips with clear free-use licenses: Pexels, Unsplash, and Pixabay for general subjects, and Wikimedia
 Commons for specific models, places, and products (check each file's license
 and credit line). If `PEXELS_API_KEY` is set, search Pexels photos and videos
 through its API. Prefer clips under 10 seconds with one clear subject on a

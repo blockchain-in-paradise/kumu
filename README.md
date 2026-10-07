@@ -62,11 +62,16 @@ installs have not been tested yet.
 /kumu --topic "How bubble sort works" --mode visual
 /kumu --url https://example.com/article --duration 45
 /kumu --topic "7 git commands worth knowing" --ref https://www.tiktok.com/t/XXXX/
+/kumu --style boxing --topic "How Lomachenko takes angles" \
+  --source https://example.com/lomachenko-profile --source https://example.com/fight-stats
 ```
 
 - `--mode narrated|visual`: narrated uses a voice and word-highlighted
   captions (30–90 s). Visual has no voice: short on-screen lines, music, and
   sound effects (10–90 s). Without it, Kumu recommends one per concept.
+- `--source <url>`: a web page the video is about (an article, profile, or
+  stats page). Kumu reads these before searching and uses search only to fill
+  gaps. Repeatable.
 - `--ref <url>`: a video whose structure you like. Kumu studies its layout and
   pacing; it copies its characters and style only when you ask it to replicate
   the reference, and never reuses its footage or audio. Repeatable.
@@ -152,6 +157,20 @@ Bundled styles live in `skills/kumu/styles/`:
 - `plain`: light gray, black type, one orange-red accent, ends on a payoff card.
 - `motion`: light UI motion graphics with drifting color fields, white UI
   cards, a cursor, blur-in headlines, and a two-line payoff ending.
+- `code-cats`: cartoon cats act out code above a code editor, on switchable
+  2D backdrops (green park, cozy room, night rooftop), with typing and meow
+  sounds.
+- `car-cats`: real car photos in angled panels on a dark carbon racing
+  backdrop, a header that swaps to each car's name, and the gato cat meme
+  reacting, with garage tool and meow sounds.
+- `boxing`: flat rigged fighters on a dark stage with a red anchor line, a
+  two-line headline per beat, annotations drawn on the subject, and a camera
+  that turns between side and top-down views, with punch, whoosh, and bell
+  sounds. Ships a reusable character rig and poses in `assets/characters/`.
+
+Each style also carries its own sound effects in `assets/sfx/`, listed with
+their licenses in `assets/sfx/CREDITS.md`, and a Sound section in `style.md`
+that maps events to sounds.
 
 Build your own from reference videos:
 

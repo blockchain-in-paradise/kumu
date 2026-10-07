@@ -44,6 +44,13 @@ Scenes change in place or slide; no decorative motion.
 | Stagger | 0.08 s between entering elements |
 | State changes | Readouts step with the data (`tl.set`) as it advances |
 
+# Sound
+
+Files are in `assets/sfx/` (credits in `CREDITS.md`). Nearly silent by design:
+a soft `click.ogg` (0.3) when a chart or value starts changing, and
+`payoff.ogg` (0.4) when the payoff card lands. Music is optional; when used,
+keep it under the voice as `render.md` says.
+
 # Closing
 
 No handle and no closing card. The stage clears and the answer stands alone as

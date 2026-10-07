@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Code cats thumbnail sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Static cover sample: title and hero inside the safe box (x 60–960, y 240–1400). */
+  @font-face { font-family: "Fredoka"; font-weight: 700; src: url("assets/fonts/fredoka-700.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2"); }
+  body { margin: 0; font-family: "Fredoka", sans-serif; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .backdrop { position: absolute; inset: 0; width: 100%; height: 100%; }
+  h1 { position: absolute; left: 0; right: 0; top: 260px; margin: 0; text-align: center; font-size: 168px; font-weight: 700;
+    color: #ffd84d; text-shadow: 0 10px 0 #2f5d3a, 0 18px 30px rgba(40,30,80,.35); line-height: .95; }
+  h1 span { display: block; }
+  .cats { position: absolute; left: 140px; top: 690px; display: flex; gap: 30px; }
+  .cats svg { width: 240px; height: 300px; }
+  .editor { position: absolute; left: 110px; right: 110px; top: 1060px; background: #1f2033; border-radius: 30px; padding: 34px 40px;
+    font-family: "JetBrains Mono", monospace; font-size: 50px; color: #f1f1f8; box-shadow: 0 16px 0 rgba(40,30,80,.25); white-space: pre; }
+  .k { color: #ff79c6; } .f { color: #50fa7b; } .v { color: #8be9fd; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
+  <img class="backdrop" src="assets/backdrops/park.svg" alt="" />
+  <h1><span>For Loops</span><span>with Cats</span></h1>
+  <div class="cats" id="cats"></div>
+  <div class="editor"><span class="k">for</span> <span class="v">cat</span> <span class="k">in</span> <span class="v">cats</span>:
+    <span class="f">feed</span>(<span class="v">cat</span>)</div>
+</div>
+<script>
+  const coats = [["#f2a65a", "#fde2c4", "#ff5f7e"], ["#9aa3b5", "#e7ebf3", "#4fc3f7"], ["#3d3a4a", "#6d6a7c", "#ffd84d"]];
+  document.getElementById("cats").innerHTML = coats.map(([c, b, s]) => `
+    <svg viewBox="0 0 160 200"><path d="M118 160 Q158 150 150 96" fill="none" stroke="${c}" stroke-width="16" stroke-linecap="round"/>
+      <ellipse cx="80" cy="152" rx="52" ry="42" fill="${c}"/><ellipse cx="80" cy="160" rx="30" ry="27" fill="${b}"/>
+      <rect x="44" y="112" width="72" height="16" rx="8" fill="${s}"/>
+      <path d="M38 62 L44 14 L78 44 Z" fill="${c}"/><path d="M122 62 L116 14 L82 44 Z" fill="${c}"/>
+      <path d="M46 52 L49 28 L66 44 Z" fill="#f7a8b8"/><path d="M114 52 L111 28 L94 44 Z" fill="#f7a8b8"/>
+      <circle cx="80" cy="76" r="48" fill="${c}"/><ellipse cx="80" cy="94" rx="26" ry="18" fill="${b}"/>
+      <path d="M53 76 Q61 66 69 76 M91 76 Q99 66 107 76" fill="none" stroke="#2b2433" stroke-width="4" stroke-linecap="round"/>
+      <path d="M75 88 L85 88 L80 94 Z" fill="#f08aa0"/><circle cx="50" cy="92" r="7" fill="#ff9aa8" opacity=".45"/><circle cx="110" cy="92" r="7" fill="#ff9aa8" opacity=".45"/></svg>`).join("");
+  window.__timelines.main = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>

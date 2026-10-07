@@ -87,6 +87,22 @@ them instead of typing durations and eases per tween.
 | Camera | UI tilts in (rotateX about 12°, rotateY about -18°) and settles flat; a slow push-in to 1.04 while a result holds |
 | Cursor | Glides on the move ease; a 0.9 scale dip on click, and the target reacts just after |
 
+# Sound
+
+Files are in `assets/sfx/` (credits in `CREDITS.md`). Gains are starting points
+under a music bed near -21 LUFS; measure the mix as `render.md` says.
+
+| Event | File | Gain |
+| --- | --- | --- |
+| Cursor click or tap | `click.ogg` | 0.5 |
+| Card or panel enters | `transition.ogg` | 0.35 |
+| Headline swap | `slide.ogg` | 0.25 |
+| Card settles or result lands | `place.ogg` | 0.4 |
+| Success and closing payoff | `payoff.ogg` | 0.45 |
+
+Music: bundled `happy-beats-business-moves-vol-1` at about 0.4 gain. Sounds
+stay soft and sparse: at most one effect per change, none for ambient drift.
+
 # Closing
 
 No handle. The UI and headline blur out, then a glossy `--accent` mark for the

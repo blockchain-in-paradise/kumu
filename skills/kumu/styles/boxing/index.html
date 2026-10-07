@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Sports style sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/characters/poses.js"></script>
+<script src="assets/characters/fighter.js"></script>
+<style>
+  /* Style sample: flat rigged fighters on a dark stage with a red anchor line, a headline that is the
+     line (white, then red), a tiny mono chapter label, poses blending on the beat, annotations drawn on
+     the subject, and one camera move from the side view to top-down around the same line.
+     Demo topic: the pull counter in boxing (lean back from the jab, counter, step off the line). */
+  @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-700.woff2") format("woff2"); }
+  body { margin: 0; background: #111318; font-family: "Anton", sans-serif; }
+  #root { --canvas: #111318; --ink: #ece6da; --muted: #7d828c; --accent: #ff3b3b; --guide: #3ddc84;
+    position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink);
+    background: radial-gradient(ellipse 80% 55% at 50% 58%, #1d2029, var(--canvas) 70%); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,.6) 100%); pointer-events: none; }
+
+  /* Words: a tiny mono chapter label over a two-line headline; line 2 carries the point in red. */
+  .kicker { position: absolute; left: 70px; top: 196px; font: 700 30px "JetBrains Mono", monospace; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--muted); }
+  .kicker::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 16px; background: var(--accent); vertical-align: 2px; }
+  .head { position: absolute; left: 70px; right: 70px; top: 248px; font-size: 128px; line-height: 1.02; text-transform: uppercase; letter-spacing: .005em; }
+  .head span { display: block; } .head .l2 { color: var(--accent); }
+  .intro { top: 690px; font-size: 220px; line-height: .95; }
+
+  /* Stage: one world inside the camera layer; the red line is the anchor that survives every view. */
+  .cam { position: absolute; inset: 0; transform-origin: 540px 1480px; }
+  .grid { position: absolute; left: -400px; width: 1880px; top: 1480px; height: 520px; transform-origin: 50% 0; transform: perspective(700px) rotateX(58deg);
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 2px, transparent 2px 120px),
+                repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 2px, transparent 2px 90px);
+    -webkit-mask-image: linear-gradient(#000, transparent 85%); mask-image: linear-gradient(#000, transparent 85%); }
+  .anchor { position: absolute; left: -1500px; width: 4080px; top: 1477px; height: 5px; background: var(--accent); box-shadow: 0 0 18px rgba(255,59,59,.45); }
+  .shadow { position: absolute; top: 1462px; width: 300px; height: 36px; border-radius: 50%; background: radial-gradient(rgba(0,0,0,.55), transparent 70%); }
+  .fighter { position: absolute; top: 655px; width: 600px; height: 900px; }
+  .mirror { transform: scaleX(-1); }
+
+  .note { position: absolute; font: 700 30px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
+  .gap { position: absolute; height: 0; border-top: 5px dotted var(--accent); }
+  .burst { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 6px solid var(--ink); }
+
+  .top { position: absolute; inset: 0; }
+  .token { position: absolute; width: 280px; height: 280px; }
+  .glow { position: absolute; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(rgba(61,220,132,.55), rgba(61,220,132,0) 70%); }
+  .arc { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+
+  .closing { position: absolute; left: 70px; right: 70px; top: 720px; text-align: center; text-transform: uppercase; }
+  .closing b { display: block; font-weight: 400; font-size: 112px; line-height: 1.02; }
+  .closing b em { font-style: normal; color: var(--accent); }
+  .closing span { display: block; margin-top: 40px; font: 700 32px "JetBrains Mono", monospace; letter-spacing: .22em; color: var(--muted); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="13">
+  <div class="cam" id="cam">
+    <div id="side">
+      <div class="grid"></div>
+      <div class="shadow" style="left:185px"></div><div class="shadow" style="left:655px"></div>
+      <div class="fighter" id="you" style="left:35px"></div>
+      <div class="fighter mirror" id="rival" style="left:505px"></div>
+      <div class="gap" id="gap" style="left:300px; top:790px; width:160px"></div>
+      <div class="note" id="noteMiss" style="left:322px; top:724px; color:var(--accent)">Miss</div>
+      <div class="burst" id="burst" style="left:640px; top:700px"></div>
+    </div>
+    <div class="anchor" id="anchor"></div>
+  </div>
+
+  <div class="top" id="top">
+    <div class="glow" id="spot" style="left:650px; top:1040px"></div>
+    <svg class="arc" viewBox="0 0 1080 1920">
+      <defs><mask id="arcMask"><path id="arcDraw" d="M540 1300 Q590 1150 780 1170" fill="none" stroke="#fff" stroke-width="16" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
+      <path d="M540 1300 Q590 1150 780 1170" fill="none" stroke="#3ddc84" stroke-width="6" stroke-dasharray="4 16" stroke-linecap="round" mask="url(#arcMask)"/>
+    </svg>
+    <div class="token" id="rivalTop" style="left:400px; top:620px"></div>
+    <div class="token" id="youTop" style="left:400px; top:1160px"></div>
+    <div class="note" id="noteOff" style="left:700px; top:1300px; color:var(--guide)">Off the line</div>
+  </div>
+  <div class="vignette"></div>
+
+  <div class="kicker" id="k0">Boxing breakdown</div>
+  <div class="kicker" id="k1">The setup</div>
+  <div class="kicker" id="k2">The counter</div>
+  <div class="kicker" id="k3">The exit</div>
+  <div class="head intro" id="h0"><span>The pull</span><span class="l2">counter</span></div>
+  <div class="head" id="h1"><span>He throws</span><span class="l2">the jab.</span></div>
+  <div class="head" id="h2"><span>You lean back,</span><span class="l2">it falls short.</span></div>
+  <div class="head" id="h3"><span>Now he's open,</span><span class="l2">so fire back.</span></div>
+  <div class="head" id="h4"><span>Then step</span><span class="l2">off his line.</span></div>
+
+  <div class="closing" id="closing"><b>Make him miss,<br><em>then make him pay.</em></b><span>The pull counter</span></div>
+</div>
+<script>
+  // Motion values (see style.md).
+  const EASE = { text: "power3.out", out: "power2.in", pose: "power3.inOut", punch: "power4.out", camera: "power3.inOut", pop: "back.out(1.8)" };
+  const DUR = { textIn: 0.45, textOut: 0.22, lineGap: 0.35, pose: 0.35, punch: 0.18, recover: 0.3, camera: 0.9 };
+
+  const you = SportsRig.mount(document.getElementById("you"), SportsRig.LOOKS.you);
+  const rival = SportsRig.mount(document.getElementById("rival"), SportsRig.LOOKS.rival);
+  SportsRig.mountTop(document.getElementById("youTop"), SportsRig.LOOKS.you);
+  SportsRig.mountTop(document.getElementById("rivalTop"), SportsRig.LOOKS.rival);
+
+  gsap.set(["#k0", "#k1", "#k2", "#k3", "#h0 span", "#h1 span", "#h2 span", "#h3 span", "#h4 span", "#side", "#anchor",
+    "#gap", "#noteMiss", "#burst", "#top", "#spot", "#noteOff", "#closing"], { opacity: 0 });
+  gsap.set("#rivalTop", { rotation: 180 });
+
+  const tl = gsap.timeline({ paused: true });
+
+  // Headline: line 1 blurs in, line 2 follows on its own phrase; the old one blurs away first.
+  const lineIn = (sel, t) => tl.fromTo(sel, { opacity: 0, y: 26, filter: "blur(12px)" },
+    { opacity: 1, y: 0, filter: "blur(0px)", duration: DUR.textIn, ease: EASE.text }, t);
+  const headIn = (id, t) => { lineIn(`${id} span:nth-child(1)`, t); lineIn(`${id} span:nth-child(2)`, t + DUR.lineGap); };
+  const out = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(10px)", duration: DUR.textOut, ease: EASE.out }, t);
+  const kick = (from, to, t) => { if (from) out(from, t); tl.fromTo(to, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.3, ease: EASE.text }, t + 0.1); };
+
+  // Intro: the title alone on the stage's backdrop.
+  kick(null, "#k0", 0.45);
+  headIn("#h0", 0.5);
+
+  // The world fades up around the line; both fighters breathe while they hold.
+  const S = 2.1;
+  out(["#h0 span"], S);
+  tl.fromTo("#anchor", { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: EASE.text }, S);
+  tl.fromTo("#side", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE.text }, S + 0.1);
+  SportsRig.idle(tl, you, S, 7.7);
+  SportsRig.idle(tl, rival, S + 0.35, 7.7);
+  kick("#k0", "#k1", S + 0.1);
+  headIn("#h1", S + 0.3);
+
+  // He jabs: the lead hand snaps out and back.
+  SportsRig.pose(tl, rival, "jab", 3.0, DUR.punch, EASE.punch);
+  SportsRig.pose(tl, rival, "guard", 3.3, DUR.recover);
+
+  // You lean back and the same jab falls short; the gap is drawn on the subject.
+  const L = 4.0;
+  out(["#h1 span"], L);
+  headIn("#h2", L + 0.15);
+  SportsRig.pose(tl, you, "lean", L + 0.5, DUR.pose);
+  SportsRig.pose(tl, rival, "jab", L + 0.6, DUR.punch, EASE.punch);
+  tl.fromTo("#gap", { opacity: 1, scaleX: 0, transformOrigin: "right center" }, { opacity: 1, scaleX: 1, duration: 0.3, ease: EASE.text }, L + 0.8);
+  tl.fromTo("#noteMiss", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, L + 0.95);
+  SportsRig.pose(tl, rival, "guard", L + 1.4, DUR.recover);
+
+  // Counter: you come forward with the rear hand while he is still recovering.
+  const C = 5.9;
+  out(["#h2 span", "#gap", "#noteMiss"], C);
+  kick("#k1", "#k2", C);
+  headIn("#h3", C + 0.15);
+  SportsRig.pose(tl, you, "straight", C + 0.65, DUR.punch, EASE.punch);
+  SportsRig.pose(tl, rival, "hit", C + 0.78, 0.2, EASE.punch);
+  tl.fromTo("#burst", { opacity: 1, scale: 0.3 }, { opacity: 0, scale: 1.6, duration: 0.45, ease: "power2.out", immediateRender: false }, C + 0.78);
+  SportsRig.pose(tl, you, "guard", C + 1.2, DUR.recover);
+  SportsRig.pose(tl, rival, "guard", C + 1.3, 0.4);
+
+  // Camera: the world turns around the red line until we look down on it from above.
+  const T = 7.7;
+  out(["#h3 span"], T);
+  kick("#k2", "#k3", T);
+  tl.to("#cam", { rotation: -90, scale: 1.08, duration: DUR.camera, ease: EASE.camera }, T);
+  tl.to("#side", { opacity: 0, filter: "blur(8px)", duration: 0.4, ease: EASE.out }, T + 0.2);
+  tl.fromTo("#top", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: EASE.text }, T + 0.55);
+  headIn("#h4", T + 0.4);
+
+  // Step off the line: the path draws, you follow it and turn back toward him.
+  const O = 9.0;
+  tl.fromTo("#arcDraw", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, ease: EASE.text }, O);
+  tl.fromTo("#spot", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.4, ease: EASE.pop }, O + 0.2);
+  tl.to("#youTop", { x: 240, y: -130, rotation: -40, duration: 0.6, ease: EASE.pose }, O + 0.45);
+  tl.fromTo("#noteOff", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, O + 0.9);
+
+  // Closing: everything clears, then the payoff alone.
+  const E = 10.8;
+  out(["#h4 span", "#k3", "#top", "#anchor"], E);
+  tl.fromTo("#closing", { opacity: 0, y: 30, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: EASE.text }, E + 0.3);
+
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>
