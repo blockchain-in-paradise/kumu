@@ -1,12 +1,13 @@
 ---
 name: kumu
-description: Create a researched explainer video for TikTok, Reels, or Shorts from a topic, article URL, or notes, built around one concrete visual concept (a metaphor, a simplified real scene, or a simulation) using HyperFrames and a brand.md. Narrated with word-highlighted captions, or visual-only with on-screen lines. Use for concept explainers, algorithms, comparisons, timelines, what-ifs, and tool lists; not product launch trailers or captioning existing footage.
+description: Create any informative short video (how-to, comparison, local guide, explainer, decision guide, warning, timeline, list, or what-if) from a topic, article URL, or notes, researched and branded, for TikTok, Reels, and Shorts. Starts from what the viewer should be able to do or understand, then picks the form that teaches it. Narrated with word-highlighted captions or visual-only, built with HyperFrames and a brand.md. Not for product launch trailers or captioning existing footage.
 ---
 
 # /kumu
 
-Research the subject, find one concrete visual concept that explains it, and
-deliver a branded vertical video. This skill owns research, concept, story, and
+Kumu means teacher. Research the subject, decide what the viewer should walk
+away able to do or understand, choose the form that teaches it, and deliver a
+branded vertical video. This skill owns research, concept, story, and
 brand direction. HyperFrames supplies composition, animation, audio, and
 rendering; it is not a separate agent.
 
@@ -51,9 +52,8 @@ browser. If it reports a missing system package, show its install command and
 let the user approve it; never run `sudo` without asking. Research and planning
 need no setup, so start them while the user decides.
 
-On Windows or another unsupported system, complete research and planning, then
-report the missing dependencies and the resume stage. Never claim to have
-rendered, silently change providers, or simulate word timing.
+On Windows or another unsupported system, complete planning, then report what
+is missing. Never claim to have rendered or simulate word timing.
 
 ## Brand
 
@@ -116,11 +116,25 @@ To resume, read the options and status from `video-plan.md` and continue from
 the saved files without repeating completed stages. Preserve approved wording
 and resolve factual gaps before TTS.
 
+**Revising a run** (change a line, a color, a scene): edit its existing plan
+and composition in place. If the plan lacks a section this workflow expects,
+work from the sections it has and add one only when the change needs it.
+
+**Remaking a run** (new concept, new look, or a fresh take on the same topic):
+start a new run, copy the old `research.json`, re-check time-sensitive facts
+such as prices and policies, and begin at the concept stage.
+
 ## Creative standard
 
-The concept carries the video. One concrete stage that changes, driven by a
-real model, beats a sequence of well-designed slides. Make the subject
+Teach one thing well. The form follows the viewer's goal: real screens for a
+how-to, an aligned chart for a choice, a map for a place, a changing diagram or
+metaphor for a mechanism. One concrete stage that changes, backed by real
+sources, beats a sequence of well-designed slides. Make the subject
 recognizable and every number honest. Generic icons cannot carry the main idea.
+
+Spell Hawaiian and other non-English words correctly everywhere they appear,
+including the ʻokina and kahakō (Hawaiʻi, Kalākaua). Pronunciation for the
+voice is handled separately in [render.md](render.md).
 
 Use the user's tone and any supplied writing samples without copying anecdotes.
 In agent-written audience copy, do not use em dashes, semicolons, canned

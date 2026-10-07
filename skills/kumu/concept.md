@@ -1,88 +1,99 @@
 # Concept
 
-The concept decides whether the video is worth watching. Polish cannot rescue
-a video whose picture only restates its narration. Choose the concept before
-writing any words.
+A teacher starts from what the student needs, then picks the method. Decide
+the goal, choose the form that teaches it, then design the stage. Polish cannot
+rescue a video whose picture only restates its narration.
 
-## What a strong concept has
+## 1. Name the goal
 
-1. **A concrete stage.** Something the viewer can picture: an everyday metaphor
-   (people queuing at a microwave for CPU scheduling, penguins sorting by
-   height for bubble sort, a market stall for a Ponzi scheme) or the real
-   subject simplified (a cross-section of a dune, a city skyline over time).
-   Never abstract boxes, floating icons, or a deck of fact cards.
+Write one sentence: after watching, the viewer can ___. Then pick the goal it
+matches. A topic may serve more than one; choose the one the audience came for.
+
+| The viewer needs to... | Form | Stage | Anchor | Examples |
+| --- | --- | --- | --- | --- |
+| **Do** something | Walkthrough | The real screen or object, one step at a time, ending on the result | Step n/N | Claim a free Google Business listing, a game build, renew a license online |
+| **Choose** between options | Comparison | Options aligned under identical conditions, building one row or bar at a time | The deciding value | AI subscriptions, phone plans, bank fees |
+| **Decide** for their own case | Decision path | A short question path that lights up the route for each kind of viewer | The current question | Do I need a GET license? Which bus pass fits me? |
+| **Know** where or when | Local guide or timeline | A real map with pins and routes, or a dated timeline | The place or date | Farmers markets on Oʻahu, when a rule takes effect, road closures |
+| **Spot or avoid** something | Red flags | A realistic sample (a message, a listing, a beach) with each warning sign marked | Flags found n/N | Scam texts, rental listing fraud, rip current signs |
+| **Read** a thing they own | Anatomy | The real document or object, with each part labeled in turn | The part in focus | An electric bill, a pay stub, a nutrition label |
+| **Grasp** a size or amount | Scale | Side-by-side scale or a breakdown of one whole | The magnitude | How tall is the dune, where a dollar of rent goes |
+| **Understand** how it works | Mechanism | A changing diagram, stand-ins for data, or a simulation | The value that changes | How dunes form, bubble sort, shortest job first |
+| **Remember** a set | List | The same frame repeated for each item, each one shown working | Item n/N | Terminal tools, budgeting habits |
+| **Imagine** an outcome | What-if | One world changing over time | Time elapsed | Life after people, compound interest over 30 years |
+
+A mechanism can be a changing diagram with numbered causes, stand-ins that
+swap or queue (two lanes compare two rules under identical input), a code panel
+beside the stage highlighting the current line, or simple characters
+role-playing a process.
+
+## 2. Choose literal or metaphor
+
+Concrete practical subjects stay literal: real places, real screens, real
+prices, real documents. A local business owner learning a listing needs the
+actual screens, not an analogy. Use a metaphor when the subject is abstract
+and a familiar scene preserves the property being taught (people queuing at a
+microwave for CPU scheduling). Any form may use one when it helps.
+
+## 3. What every concept needs
+
+1. **A concrete stage.** Something the viewer can picture: the real subject,
+   simplified (a map of Oʻahu, the Google Maps listing screen, a dune
+   cross-section) or an everyday metaphor. Never abstract boxes, floating icons,
+   or a deck of fact cards.
 2. **One stage that changes.** The same stage stays on screen and changes
-   state: objects move, grow, wear, reorder, or get labeled. Cuts are rare and
-   deliberate. A list of items may reuse one repeated stage per item.
-3. **A real model drives it.** The states come from something true: the
-   algorithm actually runs, the queue is simulated, the timeline uses sourced
-   dates, the terminal shows real command output. Every visible number is
-   computed from research facts or the model, never invented for drama.
-4. **A visible score.** One value the viewer tracks: average wait, years
-   elapsed, swaps so far, height in feet, item 3/7. It makes progress legible.
-5. **A title the viewer wants answered.** A question or promise held on screen
-   ("Should quick meals skip the line?", "7 tools to supercharge your
-   terminal"). The final state pays it off.
+   state. Cuts are rare and deliberate. A list or walkthrough may repeat one
+   frame per item or step.
+3. **Real sources behind every state.** Sourced facts, prices, dates, captured
+   screens, a real map, an algorithm that actually runs, or real command output.
+   Every visible number is computed or cited, never invented for drama.
+4. **A visible anchor.** One thing the viewer tracks: step 3/5, the price, the
+   date, flags found, swaps so far.
+5. **A title the viewer wants answered.** A question or promise held on screen.
+   The final state pays it off.
 
 Optional, when it fits: a recurring character or mascot, and example data
-themed to it (a cat explaining terminal tools, with a `tuna-shop` folder and a
-`TODO: feed cat` in the code). It adds personality without inventing facts.
+themed to it (a cat explaining terminal tools, with a `tuna-shop` folder). It
+adds personality without inventing facts.
 
-## Formats
-
-These are starting shapes, not templates. Combine or invent as the subject needs.
-
-- **Changing diagram.** One card or cross-section changes in place, with
-  numbered headings for each cause or step. Suits mechanisms and geography.
-- **World over time.** One scene, a counter, and the world changing as time
-  passes. Suits what-ifs, history, and growth or decay.
-- **Stand-ins for data.** Characters or objects are the data: they swap, queue,
-  or split. Two lanes side by side compare two rules under identical input.
-  Suits algorithms, scheduling, probability, and economics.
-- **Code beside the stage.** A code panel highlights the line that produced the
-  current state. Suits programming explainers. Pairs with stand-ins.
-- **Repeated stage list.** The same frame (a terminal, a product card, a map)
-  for each of N items, with an n/N counter and one demonstrated result per item.
-  Suits tool lists and tips. Each item shows the thing working, not a description.
-- **Role-play.** Simple characters act out a scheme or process in a small set.
-  Suits finance, social, and legal topics. Keep characters simple and consistent.
-
-## Mode
+## 4. Mode
 
 Recommend narrated or visual for each concept unless `--mode` was given.
 
-- **Visual** when the motion explains itself: an algorithm, a simulation, a
-  before and after, a list of demonstrations. Short on-screen lines name what
-  changed. Usually 10–40 seconds.
-- **Narrated** when the explanation needs reasoning the picture cannot show:
-  causes, conditions, history, qualifications, prices. Usually 30–90 seconds.
+- **Visual** when the motion explains itself (an algorithm, a simulation, a
+  before and after). Usually 10–40 seconds.
+- **Narrated** when it needs reasoning, conditions, or qualifications the
+  picture cannot show. Usually 30–90 seconds.
 
-## Writing the three concepts
+## 5. Write three concepts
 
-Write three concepts that differ in format or metaphor, not three phrasings of
-one idea. For each, record in `video-plan.md`:
+Write three concepts covering at least two different forms, so the user gets a
+real choice. Record the goal sentence once, then for each concept:
 
-| Field   | What to write                                                              |
-| ------- | -------------------------------------------------------------------------- |
-| Title   | The question or promise held on screen                                     |
-| Stage   | What is on screen the whole time, in one sentence                          |
-| Mapping | For a metaphor, what stands for what, and where the metaphor breaks        |
-| Model   | What computes the states (algorithm, simulation, sourced dates, real output) and its fact IDs |
-| Score   | The one tracked value and its start and end                                |
-| Payoff  | The final state and the one line it lands on                               |
-| Mode    | Narrated or visual, and estimated duration                                 |
+| Field   | What to write                                                       |
+| ------- | ------------------------------------------------------------------- |
+| Form    | From the table above                                                |
+| Title   | The question or promise held on screen                              |
+| Stage   | What is on screen the whole time, in one sentence                   |
+| Mapping | For a metaphor, what stands for what, and where it breaks           |
+| Sources | What backs the states (facts, screens, map, model) and fact IDs     |
+| Anchor  | The tracked value and its start and end                             |
+| Payoff  | The final state and the one line it lands on                        |
+| Mode    | Narrated or visual, and estimated duration                          |
 
 Then test each and drop or fix any that fails:
 
-- **Swap test.** Replace the topic words with another topic. If the stage
-  still works unchanged, it explains nothing specific. Reject it.
-- **Mapping test.** A metaphor must preserve the property being explained.
-  Queue position and cook time map honestly to job order and burst time; a
-  metaphor that needs a disclaimer to stay true is the wrong metaphor.
-- **First-frame test.** The opening frame shows the stage and the title, and
+- **Goal test.** After the last state, can the viewer do or understand what the
+  goal sentence says? If not, the form is wrong.
+- **Swap test.** Replace the topic words with another topic. If the stage still
+  works unchanged, it explains nothing specific.
+- **Mapping test.** A metaphor must preserve the property being taught; one
+  that needs a disclaimer to stay true is the wrong metaphor.
+- **First-frame test.** The opening frame shows the stage and the title and
   makes the viewer want the answer before any motion.
-- **Model test.** Every number on screen can be traced to the model or a fact.
-  If the concept needs a figure research cannot support, choose another.
+- **Source test.** Every number and screen on the stage traces to a fact,
+  capture, or model run. If the concept needs something research cannot
+  support, choose another.
 
 Recommend one and say why in two sentences. The user may pick another at the
 plan checkpoint.
@@ -90,9 +101,9 @@ plan checkpoint.
 ## Look
 
 Default to flat 2D: SVG, HTML, and CSS, with a limited palette harmonized with
-the brand. It renders fast and suits every format above. Three.js 3D renders
-about five times slower; propose it only when depth is essential to the
-concept, say so in the concept, and let the user approve it at the checkpoint.
+the brand. It renders fast and suits every form above. Three.js 3D renders
+about five times slower; propose it only when depth is essential, say so in the
+concept, and let the user approve it at the checkpoint.
 
 Photos and short clips can play characters (cut out with HyperFrames
 `remove-background`) when their reuse basis is recorded in `research.json`.

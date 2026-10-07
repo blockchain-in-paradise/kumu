@@ -28,7 +28,7 @@ such as a code window, terminal, chart, or map.
 Build the stage, title, words zone, and closing card first. Inspect one state
 at phone size with active captions or lines before building the rest.
 
-Compute states from the model at load time, then place one tween per state at
+When the concept has a model, compute states from it at load time, then place one tween per state at
 its planned time. Set displayed values with `tl.set`, so they are correct at
 any seek, forward or backward. Never count, simulate, or read the clock during
 playback. This pattern is verified with HyperFrames 0.8:
@@ -84,7 +84,9 @@ in `hyperframes-animation` and expect about five times the render time of SVG.
 
 Verify Kokoro by generating the first state group with `hyperframes tts` and
 probing its duration. Generate one WAV per `SCRIPT.md` heading under
-`.work/vo/` from the spoken text only: no headings, fact IDs, or notes. Measure
+`.work/vo/` from the spoken text only: no headings, fact IDs, or notes. Before
+generating, replace each word in the plan's Pronunciation table with its
+respelling in the TTS input only, then listen to those words in the output. Measure
 loudness before timing:
 
 ```bash
@@ -109,7 +111,8 @@ Transcribe the final WAVs with `media-use` using an explicit model (`small.en`
 for English voices). Save each flat word array to `assets/vo/scene-01.words.json`
 as `[{"text":"Hello","start":0.1,"end":0.4}]`. Check words against `SCRIPT.md`,
 especially names, numbers, contractions, and negations; fix spelling while
-keeping measured intervals. Never distribute timestamps by word-count ratios.
+keeping measured intervals. Respelled words appear in captions with their
+correct `SCRIPT.md` spelling, including the ʻokina and kahakō. Never distribute timestamps by word-count ratios.
 A displayed `$4.99` may highlight as one unit over its spoken interval.
 
 Install and adapt HyperFrames' `caption-highlight` component rather than

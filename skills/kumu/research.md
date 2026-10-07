@@ -44,6 +44,11 @@ game versions for the requested date, including claims in supplied notes.
 Record uncertainty when current verification is unavailable.
 
 
+For local subjects, prefer state and county sources (`hawaii.gov`,
+`honolulu.gov`, and their equivalents elsewhere), local organizations, and
+local news, and check that rules, fees, hours, and locations are current for
+the video's date.
+
 When the subject involves prices, a procedure, a mechanism, derived figures, or
 survey data, also read [references/research-subjects.md](references/research-subjects.md).
 
@@ -81,6 +86,15 @@ Add selected candidates to `research.json`'s `visuals` array with `id`, `subject
 and `local_path` when downloaded. Use null for unknown values. A picture alone
 does not verify a claim. Download only assets used in the plan into
 `composition/assets/` and record required credits in `caption.txt` or on screen.
+
+For a walkthrough, capture public web pages with HyperFrames `capture` and
+record the URL and date. For screens behind a login, ask the user for
+screenshots or a screen recording, and blur names, emails, addresses, and
+account numbers. Do not reconstruct a logged-in interface from memory.
+
+For maps, use OpenStreetMap data or HyperFrames registry map blocks, and add
+the "© OpenStreetMap contributors" credit on screen or in `caption.txt`. Do not
+screenshot Google Maps or other map products for the stage.
 
 Check each image at its intended crop and size: right item, version, species,
 or interface, with enough context to avoid a misleading crop. Drawn

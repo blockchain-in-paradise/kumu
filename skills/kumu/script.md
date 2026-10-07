@@ -92,8 +92,9 @@ status) and the three concepts, record for the chosen concept:
 caption or line zone) at the chosen format; the illustration style and palette
 roles; any character and its source.
 
-**Model.** Inputs, the rules or code that compute each state, outputs, and fact
-IDs. Visible values must come from this model.
+**Sources.** What backs each state: fact IDs, captured screens, map data, or a
+model (its inputs, the rules or code that compute each state, and its outputs).
+Visible values must come from these.
 
 **States.** One row per state:
 
@@ -106,6 +107,11 @@ elements. A list format's n/N counter is the score. Do not add step rails,
 chapter tabs, or progress bars.
 
 **Audio.** Music track and level, SFX tied to specific state changes.
+
+**Pronunciation.** When narrated, list every word the voice may mispronounce,
+especially Hawaiian words and place names, as word and TTS respelling pairs
+(Kalākaua: ka-LAH-kow-ah). `SCRIPT.md` keeps the correct spelling. Confirm
+uncertain pronunciations with a reliable source or the user.
 
 ## Picture rules
 

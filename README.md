@@ -1,10 +1,12 @@
 # /Kumu
 
-Kumu is a human-in-the-loop agent skill that turns a topic, article URL, or
-notes into a researched explainer video for TikTok, Reels, and Shorts. Each
-video is built around one concrete visual concept: an everyday metaphor, a
-simplified real scene, or a simulation, with a stage that changes as the
-explanation unfolds. Videos are narrated with word-highlighted captions, or
+Kumu is a human-in-the-loop agent skill that turns a
+topic, article URL, or notes into any kind of informative short video for
+TikTok, Reels, and Shorts: how-tos, comparisons, local guides, decision guides,
+warnings, explainers, timelines, lists, and what-ifs. It starts from what the
+viewer should walk away able to do or understand, picks the form that teaches
+it (real screens, a map, an aligned chart, a changing diagram, or a metaphor),
+and builds one stage that changes as the explanation unfolds. Videos are narrated with word-highlighted captions, or
 visual-only with short on-screen lines and music. You approve the concept and
 plan, then the frames, before anything is rendered. Built on
 [HyperFrames](https://hyperframes.heygen.com/).
@@ -85,9 +87,11 @@ To pick up a saved run in a new session:
 1. **Research.** Kumu researches the topic and saves supported claims, sources,
    and usable visuals to `research.json`, including evidence for whatever
    drives the animation (an algorithm, a simulation, real command output).
-2. **Concept.** It writes three different concepts. Each names the stage that
-   stays on screen, what it stands for, the model that drives it, the one value
-   the viewer tracks, and the payoff. It recommends one.
+2. **Concept.** It names the goal (after watching, the viewer can ___), then
+   writes three concepts in at least two different forms, such as a
+   walkthrough, comparison, map, decision path, red flags, or metaphor. Each
+   names the stage, its sources, the value the viewer tracks, and the payoff.
+   It recommends one.
 3. **Script and plan.** For the recommended concept it writes the narration
    (`SCRIPT.md`) or the on-screen lines, and the stage's states, each tied to
    the words that trigger it, in `video-plan.md`.
