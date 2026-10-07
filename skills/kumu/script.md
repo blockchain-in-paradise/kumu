@@ -1,12 +1,20 @@
 # Script and plan
 
-## Script and editorial pass
+Write the words and the plan for the recommended concept from
+[concept.md](concept.md). The stage explains; the words name what the viewer
+is seeing and why it matters.
+
+## Narrated mode
 
 Use research to answer one audience question. Draft the narration as connected
 paragraphs before deciding scene boundaries. Write to someone who wants to
 understand or do the thing. Preserve useful reasoning and prerequisites, and
 let the explanation determine its length within 30–90 seconds, including the
 frame-required closing card. An explicit duration takes precedence.
+
+Write inside the chosen concept. Its metaphor or stage is the only framing
+device: introduce it in a few words, stay inside it, and say plainly when the
+explanation leaves it for the real subject ("Computers do this too").
 
 Open with one brief, specific sentence, roughly five seconds or less, that
 states the question, useful outcome, or strongest supported finding. Start
@@ -60,92 +68,68 @@ TTS preparation. Never feed Markdown link syntax to TTS. A URL shown in a video
 is visual text, not a clickable link; do not promise a clickable caption link
 unless the selected platform and placement support it.
 
-## Scene briefs
+## Visual mode
 
-Use `video-plan.md` as the single plan; no separate beats JSON or duplicate
-composition brief is needed. Record audience, question and answer, chosen frame,
-format, target duration, audio direction, and then one short brief per scene:
+There is no `SCRIPT.md`. The on-screen lines carry the words:
 
-| Field    | What to specify                                                                     |
-| -------- | ----------------------------------------------------------------------------------- |
-| Purpose  | What the viewer should understand or be able to do                                  |
-| Evidence | Fact IDs and script scene heading, without duplicating speech                       |
-| Visual   | Main object, composition, exact short labels, and any unspoken qualifier as a label |
-| Assets   | Selected visual IDs, local paths, or the geometry to draw                           |
-| Changes  | Initial state, what changes at which spoken phrase, final state                     |
-| Timing   | Estimated duration, then measured duration and global start after TTS               |
-| Handoff  | What persists, what leaves, and why the next scene follows                          |
+- The title stays on screen the whole video.
+- One short line per state group, about eight words or fewer, naming what just
+  changed or why it matters ("Below: the quickest one goes next").
+- Hold each line at least 0.3 s per word plus 0.8 s after it settles.
+- The final line lands the payoff and may leave the metaphor
+  ("Computers do this too. It's called shortest job first.").
+- Lines follow the same factual boundary as narration.
 
-Read `hyperframes-creative` for relevant composition guidance. Brand tokens and
-ground override generic style defaults. Choose the treatment around the subject:
+Labels on the stage (values, names, the score) are not lines and do not count
+toward the budget.
 
-- Comparisons use aligned measures or objects under equivalent conditions.
-- Procedures show the actual objects and ordered actions with spatial continuity.
-- Mechanisms reveal relationships and state changes in a coherent diagram.
-- Timelines and maps use sourced dates, locations, and a readable route or scale.
-- Recognizable subjects use suitable photos, item art, screenshots, or faithful
-  reconstructions when these improve understanding.
+## The plan
 
-Custom SVG is useful for explanatory geometry, paths, masks, and annotations.
-Do not approximate a recognizable object with a generic line icon as the main
-visual. Keep generic symbols subordinate. A diagram must encode a relationship
-or change beyond restating the narration in boxes. For sourced interfaces, show
-verified content; invented application screens are not evidence.
+`video-plan.md` is the single plan. After the header (run path, options,
+status) and the three concepts, record for the chosen concept:
 
-Choose a dominant subject and a clear reading order. Use scale, cropping,
-alignment, and contrast to establish hierarchy. Avoid repeated eyebrow/title/
-card/footer layouts, decorative pills, dot-separated metadata, tiny qualifiers,
-and oversized numbers without context. Repeat positions when they support a
-comparison. Related beats may evolve one scene rather than rebuild it.
+**Stage.** What is on screen the whole time; the layout zones (title, stage,
+caption or line zone) at the chosen format; the illustration style and palette
+roles; any character and its source.
 
-Captions carry the spoken words, so visible text is labels, values, and at most
-one short headline per scene. Do not set a narration sentence, a paraphrase of
-it, or an explanatory footnote on screen; the viewer would read the same idea
-twice while the captions move. Keep a scene to about three visual groups with
-one hero, and label items with a few words placed next to what they name.
-A decision point keeps its condition as a short label, such as the yes-or-no
-question the viewer answers, because it shows a relationship the picture needs.
+**Model.** Inputs, the rules or code that compute each state, outputs, and fact
+IDs. Visible values must come from this model.
 
-Beyond the headline and captions, keep a settled scene to about 15 visible
-words. Show at most one qualifier per item; alternate prices, plan fine print,
-and upgrade requirements go in narration or `caption.txt`. State a comparison's
-scope or date once, where the comparison is introduced, not on every scene.
+**States.** One row per state:
 
-Less text is not a smaller picture. Let the hero fill roughly 40–60% of the
-frame, and enlarge or add a meaningful state when a scene looks empty rather
-than restoring sentences.
+| # | Words | Stage change | Score | Facts | Time |
+| - | ----- | ------------ | ----- | ----- | ---- |
+| 1 | The spoken phrase or on-screen line that triggers it | What moves, appears, or changes, from what to what | Score value after | Fact IDs | Estimate, then measured start after TTS |
 
-Build a social post, not a slide deck. Persistent navigation such as step rails,
-chapter tabs, slide counters, or player-style progress bars spends space in
-every frame and makes scenes read as slides. Show order inside the content: the
-hero object changes state, or, when the viewer must follow steps in order, the
-current step's object carries its number. The selected frame's required marks
-are the only persistent elements.
+Keep the title, score, and the frame's required marks as the only persistent
+elements. A list format's n/N counter is the score. Do not add step rails,
+chapter tabs, or progress bars.
 
-Mockup fields hold data, not narration. Fill a field with a short, plausible
-value or leave it empty; examples introduced with "like", "e.g.", or "such as"
-belong in speech only. A clearly sample business name may fill a mockup, but it
-stays out of narration and is never presented as a real place.
+**Audio.** Music track and level, SFX tied to specific state changes.
 
-Weight comes from contrast before thickness. At 1080 px wide, keep strokes and
-borders around 2–3 px, icon strokes no heavier than the adjacent label text, and
-avoid cards inside cards. Show a duration or progress as a thin bar or a label
-rather than a row of heavy blocks. Follow the accent roles in `frame.md`.
+## Picture rules
 
-Plan the first decoded frame as a complete visual hook, with the recognizable
-subject and a brief reason to watch. Do not delay it behind an entrance or fade.
-For each scene, ask what the picture communicates before its labels are read.
-If it only conveys "several facts", choose a more specific representation.
-If changing the topic labels would leave the graphic equally usable, improve
-its actual content and relationships. Avoid adding motion to disguise weak material.
+- The stage fills roughly 40–60% of the frame. When a state looks empty,
+  enlarge the stage or add a meaningful change rather than adding text.
+- Visible text beyond title, captions or lines, and the score: about 15 words
+  per settled state, as short labels placed next to what they name. Never set
+  a narration sentence or footnote on screen.
+- One qualifier per item at most. State a comparison's scope once, where it
+  is introduced.
+- Comparisons run under identical conditions and aligned positions, so the
+  only difference is the rule being compared.
+- Mockup and terminal fields hold real or clearly sample data, never script text.
+- Weight comes from contrast before thickness: at 1080 px wide, strokes about
+  2–3 px, no cards inside cards.
+- The first decoded frame shows the title and the stage in its starting state.
+  No entrance delays it.
 
-Budget the selected frame's closing card separately.
+## Thumbnail brief
 
-Add a thumbnail brief to `video-plan.md`: three or four candidate titles with
-your recommendation marked, the hero visual, and the result it promises. Each
-title is two to five words naming the subject and the payoff the viewer wants,
-with no subtitle. Avoid instructions, questions, and a measurement the hero
-already shows. The user's pick, or the recommendation after a plain Yes,
-becomes the cover title.
+Give three or four candidate titles with the recommendation marked, the hero
+visual, and the result it promises. Each title is two to five words naming the
+subject and the payoff. No subtitle. The concept's question title is a valid
+candidate. The user's pick, or the recommendation after a plain Yes, becomes
+the cover title.
 
-Planning ends here. Stop at the plan checkpoint in the entrypoint.
+Planning ends here. Stop at the plan checkpoint in [SKILL.md](SKILL.md).

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "kumu",
+  "version": "4.0.0",
+  "description": "Turn a topic, article, or notes into a researched explainer video for TikTok, Reels, and Shorts, built around one concrete visual concept.",
+  "author": { "name": "Dhaniel Bolosan", "url": "https://github.com/blockchain-in-paradise" },
+  "repository": "https://github.com/blockchain-in-paradise/kumu",
+  "license": "MIT",
+  "keywords": ["video", "explainer", "tiktok", "reels", "shorts", "hyperframes", "skill"]
+}

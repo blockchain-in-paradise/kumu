@@ -1,7 +1,7 @@
 {
   "name": "kumu",
-  "description": "Turn a researched topic into a narrated, captioned portrait infographic video for TikTok, Reels, and Shorts.",
-  "version": "3.0.0",
+  "description": "Turn a topic, article, or notes into a researched explainer video for TikTok, Reels, and Shorts, built around one concrete visual concept.",
+  "version": "4.0.0",
   "author": {
     "name": "Dhaniel Bolosan"
   },

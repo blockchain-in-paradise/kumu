@@ -1,89 +1,76 @@
 # Frame
 
-The frame is the shared design law. The selected `brand.md` supplies the colors,
-type, spacing, ground, assets, and closing-card handle; this file says how to
-apply them. Declare the brand's colors as CSS custom properties on the
-composition root (`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`,
-`--panel`, `--border`, and each `support` color as `--support-<name>`) and use
-the variables everywhere below. Load the brand's
-fonts locally.
+The frame is the shared design law. The selected `brand.md` supplies colors,
+type, spacing, an optional background texture, assets, and the closing-card
+handle; this file says how to apply them. The brand owns the chrome. The
+concept owns the stage.
 
-# Design law
+Declare the brand's colors as CSS custom properties on the composition root
+(`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`, `--panel`,
+`--border`, and each `support` color as `--support-<name>`) and use them
+everywhere below. Load the brand's fonts locally.
 
-One headline and one dominant proof object per scene. Row count follows phone-size
-readability: a five-item comparison can stay together if its labels remain legible.
-Do not collapse and rebuild a chart just to meet an arbitrary three-row limit.
-The frame is an editorial field, not a dashboard. Compose each scene's hero
-object freely within this law: the brand's colors, type, spacing, safe areas,
-and CTA structure are fixed, and the layout and motion of the hero object are
-yours to design per scene. Preserve useful object identity across beats; extract
-a shared block only when it simplifies real reuse.
+## Layout
 
-Motion reveals information in stages. The film current is left. Ordinary seams
-use a left push. A zoom-through is optional, not a required beat; omit it unless
-spatial continuity explains the reveal. Keep one readable scene at the handoff,
-with no blank landing or overlapping headlines. No crossfades,
-floating, breathing, wobble, glassmorphism, card grids, or emoji.
+At 1080×1920, top to bottom:
 
----
+- **Title zone** from `spacing.edge` down: the concept's title, 72–104 px, and
+  the score when it belongs with the title. Persistent.
+- **Stage zone**: the middle of the frame, owned by the concept.
+- **Words zone**: captions (narrated) or on-screen lines (visual), anchored
+  `spacing.caption_bottom` above the bottom edge, bottom-aligned, growing upward
+  to two lines. Keep 48 px between words and the stage.
 
-# The ground (required on every scene)
+Scale these for square and landscape. Check text at roughly 360 px display
+width; shorten labels rather than shrinking essential text below 40 px.
 
-Every scene sits on the brand's ground, built exactly as `brand.md` specifies.
-Copy its assets into `composition/assets/brand/` and reference them relatively.
-The ground is **mandatory**. It makes consecutive scenes read as one film
-instead of a stack of slides. Do not substitute a plain flat fill unless the
-brand's ground is one.
+## Background
 
-The ground is static. It does not animate, parallax, or pulse. Only the
-content above it moves.
+Use `--canvas` as a plain background by default. If the brand defines a
+texture and it does not compete with the stage, it may sit under everything at
+the opacity `brand.md` gives. The background is static. Readable type never
+sits on a full-opacity photograph.
 
-Readable type always sits on the ground, never on a photograph at full
-opacity. Preserve every ground layer. For readability, move or enlarge
-foreground labels or give the proof object a restrained `--panel` backing; do
-not remove or brighten the ground to fix foreground contrast.
+## Color
 
-## Foreground and subtitles
+- `--ink` carries text and default marks.
+- `--accent` marks state, action, and data: the item that just moved, the
+  current code line, the leading lane.
+- `--highlight` belongs only to the caption's spoken word and the closing
+  kicker. Never use it for titles, values, badges, or stage objects.
+- The stage may use its own small illustration palette (skin, wood, water,
+  snow) harmonized with the brand. Depicted objects keep their real colors.
+- Give an important value emphasis through size and weight in `--ink`.
 
-At 1080×1920, start with 80–112 px headlines, 40–52 px essential evidence labels,
-and 52 px captions. Essential billing qualifiers need the same reading priority
-as the price. Check at roughly 360 px display width; shorten labels or split a
-beat rather than shrinking important text into footnotes. Scale with resolution.
-Anchor the visible caption block `spacing.caption_bottom` above the bottom at
-1080×1920. This caption-specific default overrides the `spacing.platform_ui_bottom`
-inset for other content; adjust it when a supplied platform overlay requires
-more clearance. Bottom-align the text inside its container so unused container
-height does not lift it. Allow two lines to grow upward and leave 48 px between
-captions and proof objects. Check the visible text bounds at phone size, not
-only the container's CSS. Align labels to the objects they describe, using one
-clear reading order.
+## Illustration
 
-Unspoken and finished caption words stay `--ink`; only the current word gets a
-`--highlight` background with `--on-highlight` text. Keep this style consistent
-across the video. Captions sit directly on the ground with no backing. Phrase
-length and highlight timing are in `render.md`.
+Flat vector shapes, one stroke weight, limited palette, simple geometry.
+Characters are simple and consistent across the video. Photo cut-outs share
+one crop style, scale logic, and shadow. No glassmorphism, emoji, card grids,
+floating, breathing, wobble, or decorative particles.
 
-`--highlight` belongs to the caption's spoken-word highlight and the closing
-card's kicker. Do not use it for headline words, prices, stats, step numbers,
-badges, or backgrounds; a second highlight element competes with the word being
-spoken. `--accent` marks actions, state, and data marks; `--ink` carries
-everything else. Give an important value emphasis through size and weight in
-`--ink`. These roles apply to interface and emphasis. Depicted objects keep
-their real colors, such as a gold coin, green crops, or blue water.
+## Captions and lines
 
----
+Captions: 52 px, `--ink`, no backing. Only the current word gets a `--highlight`
+background with `--on-highlight` text. Phrase length and timing are in
+[render.md](render.md).
 
-# The closing card (required, and its own scene)
+Visual-mode lines: 48–56 px, weight 700, `--ink`, centered, no backing. A new
+line replaces the previous one with a short fade or rise; no typewriter effect.
 
-The last scene is the follow card. Nothing else shares it: no leftover stat,
-no evidence row, no headline from the previous beat. Give it its own scene of
-4-6 seconds.
+## Motion
 
-No logo appears in the video, including the closing card. The brand is
-established by the ground, palette, type, and closing handle. A brand's notes
-may adjust a treatment below for contrast, such as the kicker.
+The stage persists and changes in place. Motion shows one change at a time:
+something moves, grows, swaps, wears, or gets labeled. Ease out of each change
+and let it settle before the next. Cuts happen only between list items or
+where the concept truly changes place; a list item may enter with a left push.
+The camera may push in or reframe to follow a change while keeping orientation.
+No crossfades between unrelated layouts and no ambient motion added to fill time.
 
-Structure, centered on the visible frame, filled from `cta` in `brand.md`:
+## Closing card
+
+The last scene is the follow card: 3–5 seconds, nothing else on it. No logo
+appears anywhere in the video. Fill it from `cta` in `brand.md`:
 
 ```html
 <div class="cta-lockup">
@@ -136,22 +123,12 @@ Structure, centered on the visible frame, filled from `cta` in `brand.md`:
 }
 ```
 
-Entry: the lockup fades and settles first, kicker rises at 0.30s, handle at
-0.48s (`power4.out`, 0.72s), then the icons rise with a 0.10s stagger from
-0.98s (`power3.out`, 0.48s). Icons enter last, together, as a set.
+Entry: kicker rises at 0.30 s, handle at 0.48 s (`power4.out`, 0.72 s), then
+the icons rise together with a 0.10 s stagger from 0.98 s (`power3.out`, 0.48 s).
 
-## The icons
-
-The brand's `icons/` folder holds monochrome single-path marks with a 16×16
-viewBox, `fill="currentColor"`, from one consistent family (Bootstrap Icons,
-MIT). Order them as `cta.platforms` lists them.
-
-**Inline the SVG markup** rather than using `<img>`. These carry no internal
-`id`s and no baked colors, so inlining is collision-free and lets one CSS rule
-color the whole row. Use the first color in `cta.icon_colors` by default; any
-other listed color is the only alternative, and applies to every icon. Never
-per-platform brand colors: a full-color row does not read as a set, and
-platform colors often fail contrast on the brand's ground.
-
-Adding a platform: drop its Bootstrap Icons SVG into the brand's `icons/`
-folder named after the platform, then list it in `cta.platforms`.
+Icons come from the brand's `icons/` folder: monochrome single-path 16×16
+marks with `fill="currentColor"`, from one family (Bootstrap Icons). Inline the
+SVG markup in `cta.platforms` order so one CSS rule colors the row. Use the
+first color in `cta.icon_colors` for every icon; never per-platform colors. To
+add a platform, drop its Bootstrap Icons SVG into `icons/` named after it and
+list it in `cta.platforms`.

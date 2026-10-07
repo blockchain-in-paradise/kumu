@@ -1,12 +1,15 @@
 {
   "name": "kumu",
-  "description": "Researched-topic infographic videos for vertical social platforms.",
-  "owner": { "name": "Dhaniel Bolosan", "url": "https://github.com/blockchain-in-paradise" },
+  "description": "Researched explainer videos for vertical social platforms.",
+  "owner": {
+    "name": "Dhaniel Bolosan",
+    "url": "https://github.com/blockchain-in-paradise"
+  },
   "plugins": [
     {
       "name": "kumu",
       "source": "./",
-      "description": "Turn a researched topic into a narrated, captioned portrait infographic video."
+      "description": "Turn a topic into a researched explainer video built around one concrete visual concept."
     }
   ]
 }

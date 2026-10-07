@@ -3,7 +3,7 @@ name: "Pūpūkahi Tech Foundation"
 source: "https://pupukahitech.org/"
 register: dark
 colors:
-  canvas: "#0e394e" # base of the ground
+  canvas: "#0e394e" # plain background
   ink: "#fcfaf8" # text and default marks
   on-highlight: "#1d2930" # text on the highlight
   accent: "#39a1ac" # actions, state, and data marks
@@ -23,14 +23,14 @@ spacing:
   platform_ui_bottom: "420px"
   caption_bottom: "340px"
 assets:
-  ground: "ground.webp"
+  texture: "ground.webp" # optional background texture
   logo: "logo.svg"
   logo_color: "logo-color.webp"
   icon_dir: "icons/"
 official_asset_urls:
   logo: "https://pupukahitech.org/assets/logo-white-CuOuO6kL.svg"
   logo_color: "https://storage.googleapis.com/gpt-engineer-file-uploads/VT5rFLkaTBYAF9U6C2W1ZYRJAHj2/social-images/social-1784764299804-Color_logo_with_background.webp"
-  ground: "https://pupukahitech.org/assets/hero-bg-DlfPret3.webp"
+  texture: "https://pupukahitech.org/assets/hero-bg-DlfPret3.webp"
 cta:
   kicker: "FOLLOW"
   handle: "@pupukahi_tech"
@@ -46,10 +46,12 @@ rounded controls, generous spacing, and direct community language. Video uses
 the darker website register so white type and the closing handle remain clear.
 Avoid decorative pseudo-Hawaiian motifs.
 
-# Ground
+# Background texture (optional)
 
-Three layers, bottom to top. The photo is a texture, not an image; do not raise
-its opacity to make it "visible".
+The default background is plain `--canvas`. When the stage is simple enough
+not to compete, this texture may sit under everything. Three layers, bottom to
+top. The photo is a texture, not an image; do not raise its opacity to make it
+"visible". Omit it whenever the stage has its own scenery.
 
 ```css
 .ground {
