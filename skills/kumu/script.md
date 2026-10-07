@@ -30,7 +30,7 @@ Keep connective words such as "because", "if", and "so" where they carry that
 reasoning. Move a secondary specification into a short visual label when it
 interrupts speech. Essential qualifications stay with their claim, either spoken
 or as a short label on the object they limit.
-End the explanation with its answer or result. The brand's closing card does
+End the explanation with its answer or result. The style's closing card does
 not require a second spoken summary or invented engagement prompt.
 
 Make one editorial pass before TTS:
@@ -74,36 +74,39 @@ There is no `SCRIPT.md`. The on-screen lines carry the words:
 
 - The title stays on screen the whole video.
 - One short line per state group, about eight words or fewer, naming what just
-  changed or why it matters ("Below: the quickest one goes next").
+  changed or why it matters ("The middle book rules out half"). Mark its one key
+  word in bold in the plan; it renders in `--highlight`.
 - Hold each line at least 0.3 s per word plus 0.8 s after it settles.
 - The final line lands the payoff and may leave the metaphor
-  ("Computers do this too. It's called shortest job first.").
+  ("Computers sort their work the same way").
 - Lines follow the same factual boundary as narration.
 
-Labels on the stage (values, names, the score) are not lines and do not count
+Labels on the stage (values, names, the anchor) are not lines and do not count
 toward the budget.
 
 ## The plan
 
-`video-plan.md` is the single plan. After the header (run path, options,
-status) and the three concepts, record for the chosen concept:
+`video-plan.md` is the single plan. Write every section as short bullets or
+tables. State each decision once; never restate it in another section. After
+the header (run path, options, status) and the three concepts, record for the
+chosen concept:
 
 **Stage.** What is on screen the whole time; the layout zones (title, stage,
-caption or line zone) at the chosen format; the illustration style and palette
-roles; any character and its source.
+words) at the chosen format; the setting, illustration style, and palette; any
+character's design.
 
 **Sources.** What backs each state: fact IDs, captured screens, map data, or a
 model (its inputs, the rules or code that compute each state, and its outputs).
 Visible values must come from these.
 
-**States.** One row per state:
+**States.** One row per state, starting with the intro beat:
 
-| # | Words | Stage change | Score | Facts | Time |
-| - | ----- | ------------ | ----- | ----- | ---- |
-| 1 | The spoken phrase or on-screen line that triggers it | What moves, appears, or changes, from what to what | Score value after | Fact IDs | Estimate, then measured start after TTS |
+| # | Words | Stage change | Anchor | Facts | Time |
+| - | ----- | ------------ | ------ | ----- | ---- |
+| 1 | The spoken phrase or on-screen line that triggers it | What moves, appears, or changes, from what to what | Anchor value after | Fact IDs | Estimate, then measured start after TTS |
 
-Keep the title, score, and the frame's required marks as the only persistent
-elements. A list format's n/N counter is the score. Do not add step rails,
+Keep the title, anchor, and the frame's required marks as the only persistent
+elements. A list format's n/N counter is the anchor. Do not add step rails,
 chapter tabs, or progress bars.
 
 **Audio.** Music track and level, SFX tied to specific state changes.
@@ -117,25 +120,25 @@ uncertain pronunciations with a reliable source or the user.
 
 - The stage fills roughly 40–60% of the frame. When a state looks empty,
   enlarge the stage or add a meaningful change rather than adding text.
-- Visible text beyond title, captions or lines, and the score: about 15 words
+- Visible text beyond title, captions or lines, and the anchor: about 15 words
   per settled state, as short labels placed next to what they name. Never set
   a narration sentence or footnote on screen.
-- One qualifier per item at most. State a comparison's scope once, where it
-  is introduced.
-- Comparisons run under identical conditions and aligned positions, so the
-  only difference is the rule being compared.
+- One qualifier per item at most. State a comparison's scope, or that an
+  example is illustrative, once where it is introduced, briefly on screen or
+  in speech; never pin it for the whole video.
 - Mockup and terminal fields hold real or clearly sample data, never script text.
 - Weight comes from contrast before thickness: at 1080 px wide, strokes about
   2–3 px, no cards inside cards.
-- The first decoded frame shows the title and the stage in its starting state.
-  No entrance delays it.
 
 ## Thumbnail brief
 
-Give three or four candidate titles with the recommendation marked, the hero
-visual, and the result it promises. Each title is two to five words naming the
-subject and the payoff. No subtitle. The concept's question title is a valid
-candidate. The user's pick, or the recommendation after a plain Yes, becomes
+The recommended title comes from the user's topic: the topic itself in title
+case, trimmed to about six words by dropping filler, never reworded around the
+concept or metaphor ("how compound interest works" becomes "How Compound
+Interest Works"). With a URL or notes instead of a topic, use
+the subject's plain name. List two or three alternatives after it, each still
+naming the real subject. No subtitle. Describe the hero visual and the result
+it promises. The user's pick, or the recommendation after a plain Yes, becomes
 the cover title.
 
 Planning ends here. Stop at the plan checkpoint in [SKILL.md](SKILL.md).

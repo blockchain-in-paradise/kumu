@@ -18,7 +18,7 @@ instead. Look at the contact sheet and, when useful, a few full-size frames.
 Write a short **Reference notes** section in `video-plan.md`:
 
 - Format: which shape from [concept.md](../concept.md) it uses, or what new one.
-- Stage and score: what persists and what the viewer tracks.
+- Stage and anchor: what persists and what the viewer tracks.
 - Layout: zones, title treatment, where words sit.
 - Look: background, palette roles, illustration or photo treatment.
 - Pacing: duration, number of states, seconds per state.
@@ -26,5 +26,9 @@ Write a short **Reference notes** section in `video-plan.md`:
   highlight, a side-by-side comparison.
 
 Use these notes when writing concepts. Do not copy the reference's characters,
-assets, branding, jokes, wording, or audio. Keep the downloaded file in `.work/`
-only; never place it in the composition or delivery.
+assets, branding, jokes, wording, or audio, unless the user explicitly asks to
+replicate the reference: then match its topic, characters, layout, and style as
+closely as the tools allow, rebuilt from scratch. Match its layout, but pace it
+so each change can be followed on first watch. Either way, keep the downloaded
+file in `.work/` only; never place its footage or audio in the composition or
+delivery.

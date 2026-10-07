@@ -1,134 +1,79 @@
 # Frame
 
-The frame is the shared design law. The selected `brand.md` supplies colors,
-type, spacing, an optional background texture, assets, and the closing-card
-handle; this file says how to apply them. The brand owns the chrome. The
-concept owns the stage.
+The frame is the law every style follows. The selected style's `style.md`
+supplies the look (colors, type, background, subject treatment, motion
+vocabulary, captions, and closing card) and its `index.html` is a working
+sample of it. Start each composition from that sample. When a style and this
+file disagree, the style decides the look and this file decides legibility,
+layout safety, and honesty.
 
-Declare the brand's colors as CSS custom properties on the composition root
+Declare the style's colors as CSS custom properties on the composition root
 (`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`, `--panel`,
-`--border`, and each `support` color as `--support-<name>`) and use them
-everywhere below. Load the brand's fonts locally.
+`--border`, and each `support` color as `--support-<name>`). Load its fonts
+locally.
 
 ## Layout
 
 At 1080×1920, top to bottom:
 
-- **Title zone** from `spacing.edge` down: the concept's title, 72–104 px, and
-  the score when it belongs with the title. Persistent.
+- **Title zone** from `spacing.edge` down: the concept's title and the anchor
+  when it belongs with the title. At most two balanced lines; never leave one
+  word alone on a line.
 - **Stage zone**: the middle of the frame, owned by the concept.
-- **Words zone**: captions (narrated) or on-screen lines (visual), anchored
-  `spacing.caption_bottom` above the bottom edge, bottom-aligned, growing upward
-  to two lines. Keep 48 px between words and the stage.
+- **Words zone**: captions or on-screen lines, anchored `spacing.caption_bottom`
+  above the bottom edge, bottom-aligned, growing upward to two lines, 48 px
+  clear of the stage. Keep words here even when replicating a reference, unless
+  the user asks otherwise.
 
-Scale these for square and landscape. Check text at roughly 360 px display
-width; shorten labels rather than shrinking essential text below 40 px.
+Use the whole frame: no empty band taller than about 15% of the height. Scale
+the zones for square and landscape. Check text at roughly 360 px display width;
+shorten labels rather than shrinking essential text below 40 px.
 
-## Background
+## Text and color
 
-Use `--canvas` as a plain background by default. If the brand defines a
-texture and it does not compete with the stage, it may sit under everything at
-the opacity `brand.md` gives. The background is static. Readable type never
-sits on a full-opacity photograph.
+- Labels sit on a calm area or a small local backing, never on busy detail,
+  edges, or a full-opacity photo. Over a busy scene, captions and lines get a
+  dark outline and soft shadow on the text itself, never a band behind them.
+- `--ink` carries text, `--accent` marks state, action, and data, and
+  `--highlight` belongs to the caption's current word, a visual-mode line's key
+  word, and a closing kicker. Never use `--highlight` for titles or values.
+- Depicted objects keep their real colors.
+- Captions follow the style's caption treatment and highlight only the current
+  word. A visual-mode line is one phrase in the style's type with its key word
+  in `--highlight`; a new line replaces the last with a short fade or rise.
 
-## Color
+## Subjects
 
-- `--ink` carries text and default marks.
-- `--accent` marks state, action, and data: the item that just moved, the
-  current code line, the leading lane.
-- `--highlight` belongs only to the caption's spoken word and the closing
-  kicker. Never use it for titles, values, badges, or stage objects.
-- The stage may use its own small illustration palette (skin, wood, water,
-  snow) harmonized with the brand. Depicted objects keep their real colors.
-- Give an important value emphasis through size and weight in `--ink`.
+Flat 2D only: SVG, HTML, and CSS. Show depth with layering, isometric drawing,
+or a cross-section.
 
-## Illustration
+**Drawn characters** are designed for the video and kept minimal and
+consistent. Build each as an SVG rig with separate groups for head, body, and
+each limb, and animate rotations around the joints with GSAP `svgOrigin`, for
+example `tl.to(".leg-l", { rotation: 18, svgOrigin: "85 206", duration: 0.25 }, t)`.
+Characters move to what they act on; never one static pose for the whole video.
 
-Flat vector shapes, one stroke weight, limited palette, simple geometry.
-Characters are simple and consistent across the video. Photo cut-outs share
-one crop style, scale logic, and shadow. No glassmorphism, emoji, card grids,
-floating, breathing, wobble, or decorative particles.
+**Photo subjects** (cut out with `remove-background`) share one crop style,
+scale logic, and shadow. They enter, pop, slide, tilt, or play their clip.
 
-## Captions and lines
+**Legibility.** About 20 or fewer repeated, readable items per phone screen;
+reduce or group the data rather than shrinking it.
 
-Captions: 52 px, `--ink`, no backing. Only the current word gets a `--highlight`
-background with `--on-highlight` text. Phrase length and timing are in
-[render.md](render.md).
-
-Visual-mode lines: 48–56 px, weight 700, `--ink`, centered, no backing. A new
-line replaces the previous one with a short fade or rise; no typewriter effect.
+**State contrast.** The active item is the most visible thing on screen.
+Finished items dim to about 40%; eliminated ranges dim as one block. A viewer
+sees each change without reading a number.
 
 ## Motion
 
-The stage persists and changes in place. Motion shows one change at a time:
-something moves, grows, swaps, wears, or gets labeled. Ease out of each change
-and let it settle before the next. Cuts happen only between list items or
-where the concept truly changes place; a list item may enter with a left push.
-The camera may push in or reframe to follow a change while keeping orientation.
-No crossfades between unrelated layouts and no ambient motion added to fill time.
+Open with a short intro beat: the cast or stage makes an entrance while the
+title lands, and the first frame already shows the setting and title. Show one
+change at a time and let it settle. Teach each new kind of change slowly
+enough to follow on first watch, speed up repeats of it, and slow down for the
+payoff. No ambient motion added to fill time. [review.md](review.md) checks the
+pace against the animation map.
 
-## Closing card
+## Closing
 
-The last scene is the follow card: 3–5 seconds, nothing else on it. No logo
-appears anywhere in the video. Fill it from `cta` in `brand.md`:
-
-```html
-<div class="cta-lockup">
-  <div class="cta-kicker"><!-- cta.kicker --></div>
-  <h1 class="cta-handle"><!-- cta.handle --></h1>
-  <div class="socials" aria-label="<!-- cta.platforms -->">
-    <!-- inline the icon SVGs here, in cta.platforms order -->
-  </div>
-</div>
-```
-
-```css
-.cta-lockup {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 60px;
-  text-align: center;
-}
-.cta-kicker {
-  color: var(--highlight);
-  font-size: 45px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-}
-.cta-handle {
-  margin: 30px 0 0;
-  color: var(--ink);
-  font-size: 82px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.06em;
-}
-.socials {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 48px;
-}
-.socials svg {
-  display: block;
-  width: 94px;
-  height: 94px;
-  flex: 0 0 94px;
-  fill: var(--ink);
-}
-```
-
-Entry: kicker rises at 0.30 s, handle at 0.48 s (`power4.out`, 0.72 s), then
-the icons rise together with a 0.10 s stagger from 0.98 s (`power3.out`, 0.48 s).
-
-Icons come from the brand's `icons/` folder: monochrome single-path 16×16
-marks with `fill="currentColor"`, from one family (Bootstrap Icons). Inline the
-SVG markup in `cta.platforms` order so one CSS rule colors the row. Use the
-first color in `cta.icon_colors` for every icon; never per-platform colors. To
-add a platform, drop its Bootstrap Icons SVG into `icons/` named after it and
-list it in `cta.platforms`.
+Every video ends on its payoff: the answer, held long enough to read. Then,
+if the style has a `cta`, its closing card follows, standing alone in the
+video's world with no logo. A style without a `cta` ends on the payoff.

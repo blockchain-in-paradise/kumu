@@ -43,7 +43,6 @@ Check time-sensitive claims such as prices, eligibility, limits, policies, and
 game versions for the requested date, including claims in supplied notes.
 Record uncertainty when current verification is unavailable.
 
-
 For local subjects, prefer state and county sources (`hawaii.gov`,
 `honolulu.gov`, and their equivalents elsewhere), local organizations, and
 local news, and check that rules, fees, hours, and locations are current for
@@ -87,6 +86,13 @@ and `local_path` when downloaded. Use null for unknown values. A picture alone
 does not verify a claim. Download only assets used in the plan into
 `composition/assets/` and record required credits in `caption.txt` or on screen.
 
+When the style or concept uses real photos, find photos and short clips with
+clear free-use licenses: Pexels, Unsplash, and Pixabay for general subjects, and Wikimedia
+Commons for specific models, places, and products (check each file's license
+and credit line). If `PEXELS_API_KEY` is set, search Pexels photos and videos
+through its API. Prefer clips under 10 seconds with one clear subject on a
+simple background, which cut out cleanly.
+
 For a walkthrough, capture public web pages with HyperFrames `capture` and
 record the URL and date. For screens behind a login, ask the user for
 screenshots or a screen recording, and blur names, emails, addresses, and
@@ -100,3 +106,9 @@ Check each image at its intended crop and size: right item, version, species,
 or interface, with enough context to avoid a misleading crop. Drawn
 reconstructions are fine when their geometry explains the real subject; do not
 invent interface details or results. Image generation is not required.
+
+When an asset cannot be reused but the subject is recognizable (a game's items
+and characters, a product, a landmark), study real images of it and redraw it
+faithfully: its proportions, colors, and distinctive details, such as a game's
+pixel grid. Record the images studied as visuals with `reuse_basis:
+"reference only"`.

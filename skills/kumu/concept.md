@@ -11,16 +11,16 @@ matches. A topic may serve more than one; choose the one the audience came for.
 
 | The viewer needs to... | Form | Stage | Anchor | Examples |
 | --- | --- | --- | --- | --- |
-| **Do** something | Walkthrough | The real screen or object, one step at a time, ending on the result | Step n/N | Claim a free Google Business listing, a game build, renew a license online |
+| **Do** something | Walkthrough | The real screen or object, one step at a time, ending on the result | Step n/N | Set up an online account, a game build, renew a license online |
 | **Choose** between options | Comparison | Options aligned under identical conditions, building one row or bar at a time | The deciding value | AI subscriptions, phone plans, bank fees |
-| **Decide** for their own case | Decision path | A short question path that lights up the route for each kind of viewer | The current question | Do I need a GET license? Which bus pass fits me? |
-| **Know** where or when | Local guide or timeline | A real map with pins and routes, or a dated timeline | The place or date | Farmers markets on Oʻahu, when a rule takes effect, road closures |
-| **Spot or avoid** something | Red flags | A realistic sample (a message, a listing, a beach) with each warning sign marked | Flags found n/N | Scam texts, rental listing fraud, rip current signs |
-| **Read** a thing they own | Anatomy | The real document or object, with each part labeled in turn | The part in focus | An electric bill, a pay stub, a nutrition label |
-| **Grasp** a size or amount | Scale | Side-by-side scale or a breakdown of one whole | The magnitude | How tall is the dune, where a dollar of rent goes |
-| **Understand** how it works | Mechanism | A changing diagram, stand-ins for data, or a simulation | The value that changes | How dunes form, bubble sort, shortest job first |
-| **Remember** a set | List | The same frame repeated for each item, each one shown working | Item n/N | Terminal tools, budgeting habits |
-| **Imagine** an outcome | What-if | One world changing over time | Time elapsed | Life after people, compound interest over 30 years |
+| **Decide** for their own case | Decision path | A short question path that lights up the route for each kind of viewer | The current question | Do I need a permit? Which transit pass fits me? |
+| **Know** where or when | Local guide or timeline | A real map with pins and routes, or a dated timeline | The place or date | Weekend markets in a city, when a rule takes effect, road closures |
+| **Spot or avoid** something | Red flags | A realistic sample (a message, a listing, a beach) with each warning sign marked | Flags found n/N | Scam texts, rental listing fraud, beach warning flags |
+| **Read** a thing they own | Anatomy | The real document or object, with each part labeled in turn | The part in focus | A utility bill, a pay stub, a nutrition label |
+| **Grasp** a size or amount | Scale | Side-by-side scale or a breakdown of one whole | The magnitude | How tall a building is, where a dollar of rent goes |
+| **Understand** how it works | Mechanism | A changing diagram, stand-ins for data, or a simulation | The value that changes | How a sorting algorithm works, how weather forms |
+| **Remember** a set | List | The same frame repeated for each item, each one shown working | Item n/N | Useful apps, budgeting habits |
+| **Imagine** an outcome | What-if | One world changing over time | Time elapsed | A city without power, compound interest over 30 years |
 
 A mechanism can be a changing diagram with numbered causes, stand-ins that
 swap or queue (two lanes compare two rules under identical input), a code panel
@@ -30,17 +30,16 @@ role-playing a process.
 ## 2. Choose literal or metaphor
 
 Concrete practical subjects stay literal: real places, real screens, real
-prices, real documents. A local business owner learning a listing needs the
-actual screens, not an analogy. Use a metaphor when the subject is abstract
-and a familiar scene preserves the property being taught (people queuing at a
-microwave for CPU scheduling). Any form may use one when it helps.
+prices, real documents. Someone learning an app needs its actual screens, not
+an analogy. Use a metaphor when the subject is abstract
+and a familiar everyday scene preserves the property being taught. Any form
+may use one when it helps.
 
 ## 3. What every concept needs
 
 1. **A concrete stage.** Something the viewer can picture: the real subject,
-   simplified (a map of Oʻahu, the Google Maps listing screen, a dune
-   cross-section) or an everyday metaphor. Never abstract boxes, floating icons,
-   or a deck of fact cards.
+   simplified (a map, the real app screen, a cross-section) or an everyday
+   metaphor. Never abstract boxes, floating icons, or a deck of fact cards.
 2. **One stage that changes.** The same stage stays on screen and changes
    state. Cuts are rare and deliberate. A list or walkthrough may repeat one
    frame per item or step.
@@ -53,8 +52,7 @@ microwave for CPU scheduling). Any form may use one when it helps.
    The final state pays it off.
 
 Optional, when it fits: a recurring character or mascot, and example data
-themed to it (a cat explaining terminal tools, with a `tuna-shop` folder). It
-adds personality without inventing facts.
+themed to it. It adds personality without inventing facts.
 
 ## 4. Mode
 
@@ -75,6 +73,7 @@ real choice. Record the goal sentence once, then for each concept:
 | Form    | From the table above                                                |
 | Title   | The question or promise held on screen                              |
 | Stage   | What is on screen the whole time, in one sentence                   |
+| Setting | Where the stage happens and its scenery within the style, or "the style's background" for diagrams, charts, and maps |
 | Mapping | For a metaphor, what stands for what, and where it breaks           |
 | Sources | What backs the states (facts, screens, map, model) and fact IDs     |
 | Anchor  | The tracked value and its start and end                             |
@@ -100,15 +99,12 @@ plan checkpoint.
 
 ## Look
 
-Default to flat 2D: SVG, HTML, and CSS, with a limited palette harmonized with
-the brand. It renders fast and suits every form above. Three.js 3D renders
-about five times slower; propose it only when depth is essential, say so in the
-concept, and let the user approve it at the checkpoint.
-
-Photos and short clips can play characters (cut out with HyperFrames
-`remove-background`) when their reuse basis is recorded in `research.json`.
-Treat them consistently: same crop style, same scale logic, same shadow.
+The style decides the look: its `style.md`, its sample `index.html`, and
+[frame.md](frame.md). Concepts describe what happens on the stage, in that
+style. When the subjects should be real (animals, products, vehicles) and the
+style draws, real photo cut-outs may still be used; say so in the concept.
 
 With `--ref`, apply the notes from [references/ref-video.md](references/ref-video.md):
 borrow structure, pacing, layout, and devices. Never copy a reference's
-characters, assets, branding, jokes, or wording.
+characters, assets, branding, jokes, or wording unless the user explicitly asks
+to replicate it.

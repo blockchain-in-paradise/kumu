@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Plain style sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Style sample: a headline, one chart on a white card that draws itself from a computed model,
+     a caption with the current word highlighted, and the payoff card. No closing card.
+     Demo topic: $1,000 growing at 7% a year for 30 years (computed below). */
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("assets/fonts/inter-400.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #ececec; font-family: "Inter", sans-serif; }
+  #root {
+    --canvas: #ececec; --ink: #111111; --on-highlight: #111111; --accent: #e4572e;
+    --highlight: #ffd84d; --panel: #ffffff; --border: rgba(17,17,17,.14);
+    position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); background: var(--canvas);
+  }
+  .headline { position: absolute; left: 80px; right: 80px; top: 200px; margin: 0;
+    font-size: 100px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
+  .headline span { display: block; }
+  .card { position: absolute; left: 80px; right: 80px; top: 520px; height: 820px; background: var(--panel);
+    border: 2px solid var(--border); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+  .readout { position: absolute; left: 56px; top: 44px; }
+  .readout b { display: block; font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .readout span { display: block; margin-top: 10px; font-size: 40px; color: #555; }
+  svg.chart { position: absolute; left: 56px; top: 300px; width: 808px; height: 460px; overflow: visible; }
+  .caption { position: absolute; left: 80px; right: 80px; bottom: 340px; text-align: center;
+    font-size: 52px; font-weight: 800; line-height: 1.2; }
+  .caption span { padding: 0 8px; border-radius: 8px; }
+  .payoff { position: absolute; left: 80px; right: 80px; top: 680px; text-align: center; opacity: 0; }
+  .payoff b { display: block; font-size: 220px; font-weight: 800; letter-spacing: -0.05em; color: var(--accent); line-height: 1; }
+  .payoff span { display: block; margin-top: 24px; font-size: 52px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="8">
+  <h1 class="headline" id="hl"><span>How $1,000 grows</span><span>in 30 years</span></h1>
+  <div class="card" id="card">
+    <div class="readout"><b id="val">$1,000</b><span id="yr">Year 0, at 7% a year</span></div>
+    <svg class="chart" viewBox="0 0 808 460">
+      <line x1="0" y1="460" x2="808" y2="460" stroke="rgba(17,17,17,.2)" stroke-width="2"/>
+      <path id="area" fill="rgba(228,87,46,.10)" />
+      <path id="curve" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" fill="none" stroke="#e4572e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle id="dot" r="12" fill="#e4572e" />
+    </svg>
+  </div>
+  <div class="caption" id="cap"><span id="w1">Each</span> <span id="w2">year</span> <span id="w3">earns</span> <span id="w4">on</span> <span id="w5">the</span> <span id="w6">last.</span></div>
+  <div class="payoff" id="payoff"><b>$7,612</b><span>after 30 years at 7%</span></div>
+</div>
+<script>
+  // Motion values for this style (see style.md).
+  const ENTER = "power3.out", EXIT = "power2.in", STAGGER = 0.08;
+  // Model: compound $1,000 at 7% for 30 years; every value on screen comes from here.
+  const years = 30, rate = 0.07, start = 1000;
+  const vals = Array.from({ length: years + 1 }, (_, n) => start * Math.pow(1 + rate, n));
+  const max = 8000, W = 808, H = 460;
+  const pt = (n) => [n / years * W, H - vals[n] / max * H];
+  const d = vals.map((_, n) => (n ? "L" : "M") + pt(n).join(" ")).join(" ");
+  document.getElementById("curve").setAttribute("d", d);
+  const areaTo = (n) => vals.slice(0, n + 1).map((_, i) => (i ? "L" : "M") + pt(i).join(" ")).join(" ") + ` L${pt(n)[0]} ${H} L0 ${H} Z`;
+  const money = (v) => "$" + Math.round(v).toLocaleString("en-US");
+  const curve = document.getElementById("curve");
+
+  const tl = gsap.timeline({ paused: true });
+  tl.set("#dot", { attr: { cx: pt(0)[0], cy: pt(0)[1] } }, 0);
+  // Intro: the background alone until 0.4 s, then the headline and card enter.
+  tl.from(["#hl span", "#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
+  // The curve draws year by year from 1.2 s to 4.2 s; the readout is set from the model each year.
+  tl.fromTo(curve, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: 3, ease: "none" }, 1.2);
+  vals.forEach((v, n) => {
+    const t = 1.2 + n * (3 / years);
+    tl.set("#dot", { attr: { cx: pt(n)[0], cy: pt(n)[1] } }, t);
+    tl.set("#area", { attr: { d: areaTo(n) } }, t);
+    tl.set("#val", { textContent: money(v) }, t);
+    tl.set("#yr", { textContent: `Year ${n}, at 7% a year` }, t);
+  });
+  // Caption: only the current word is highlighted.
+  [[1.8, 2.1], [2.1, 2.4], [2.4, 2.75], [2.75, 2.95], [2.95, 3.15], [3.15, 3.7]].forEach(([s, e], i) => {
+    tl.set(`#w${i + 1}`, { backgroundColor: "#ffd84d" }, s);
+    tl.set(`#w${i + 1}`, { backgroundColor: "rgba(0,0,0,0)" }, e);
+  });
+  // Payoff: the chart clears and the answer stands alone.
+  tl.to(["#hl", "#card", "#cap"], { opacity: 0, y: -24, duration: 0.45, ease: EXIT }, 5.0);
+  tl.fromTo("#payoff", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.6, ease: ENTER }, 5.4);
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>

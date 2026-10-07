@@ -1,14 +1,14 @@
 ---
 name: kumu
-description: Create any informative short video (how-to, comparison, local guide, explainer, decision guide, warning, timeline, list, or what-if) from a topic, article URL, or notes, researched and branded, for TikTok, Reels, and Shorts. Starts from what the viewer should be able to do or understand, then picks the form that teaches it. Narrated with word-highlighted captions or visual-only, built with HyperFrames and a brand.md. Not for product launch trailers or captioning existing footage.
+description: Create any informative short video (how-to, comparison, local guide, explainer, decision guide, warning, timeline, list, or what-if) from a topic, article URL, or notes, researched and styled, for TikTok, Reels, and Shorts. Starts from what the viewer should be able to do or understand, then picks the form that teaches it, in a saved style built from reference videos. Narrated with word-highlighted captions or visual-only, built with HyperFrames. Not for product launch trailers or captioning existing footage.
 ---
 
 # /kumu
 
 Kumu means teacher. Research the subject, decide what the viewer should walk
 away able to do or understand, choose the form that teaches it, and deliver a
-branded vertical video. This skill owns research, concept, story, and
-brand direction. HyperFrames supplies composition, animation, audio, and
+vertical video in the chosen style. This skill owns research, concept, story,
+and style. HyperFrames supplies composition, animation, audio, and
 rendering; it is not a separate agent.
 
 ## Inputs and defaults
@@ -22,13 +22,11 @@ only when it is missing.
   concept step recommends one. `--no-voice` means `--mode visual`.
 - `--duration <seconds>` includes the closing card.
 - `--format vertical|square|landscape`: 1080×1920 (default), 1080×1080, 1920×1080.
-- `--brand <name>`, `--tone <direction>`. Tone is freeform and never overrides the brand.
+- `--style <name>`: the saved look to build in (see Style).
+- `--tone <direction>`: freeform writing tone; it never overrides the style.
 - `--ref <url>` (repeatable): a video whose structure and pacing to learn from.
   Read [references/ref-video.md](references/ref-video.md).
 - `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
-
-Every completed video includes a separately designed `thumbnail.jpg` and one
-settled review frame per state under `composition/frames/`.
 
 Every run lives in `video-output/YYYY-MM-DD-HHmmss-topic/` in the invoking
 project. Never create a sibling of `video-output/`. Revisions reuse the run
@@ -37,15 +35,18 @@ new run, do not open earlier runs unless the user asks to review or resume one.
 
 ## Setup check
 
-Before the first production command of a session, run:
+Prefix every HyperFrames command with
+`HYPERFRAMES_PYTHON="$HOME/.kumu/venv/bin/python"`. If `~/.kumu/ready` exists,
+setup has already passed on this machine; skip the check. Otherwise, before the
+first production command, run:
 
 ```bash
 HYPERFRAMES_PYTHON="$HOME/.kumu/venv/bin/python" npx -y hyperframes doctor
 ```
 
-Prefix every HyperFrames command with the same `HYPERFRAMES_PYTHON`. If the
-environment is missing or doctor fails a check other than BGM (MusicGen),
-which Kumu never uses, tell the user what is missing and offer to run
+If every check passes except BGM (MusicGen), which Kumu never uses, write
+`~/.kumu/ready`. If a later command fails for a missing dependency, delete that
+file and check again. If anything else fails, tell the user what is missing and offer to run
 [scripts/setup.sh](scripts/setup.sh) (macOS and Linux). It installs the Python
 voice environment at `~/.kumu/venv`, HyperFrames skills, and the headless
 browser. If it reports a missing system package, show its install command and
@@ -55,39 +56,51 @@ need no setup, so start them while the user decides.
 On Windows or another unsupported system, complete planning, then report what
 is missing. Never claim to have rendered or simulate word timing.
 
-## Brand
+## Style
 
-`--brand` matches a brand's folder name or the `name` in its `brand.md`,
-case-insensitively. Search the project's `brands/` folder first, then the
-bundled [assets/brands/](assets/brands/). Without `--brand`, use the bundled
-Pūpūkahi Tech brand. A named brand that cannot be found is an error: list the
-available names instead of substituting. An article's publisher does not
-replace the channel's brand unless requested.
+A style is a folder holding `style.md` (tokens and look), `index.html` (a
+working sample composition), `thumbnail/` (a cover sample), `preview.png`
+(thumbnail, empty, elements, and closing frames side by side), and `assets/`. `--style` matches a folder name or
+the `name` in its `style.md`, case-insensitively. Search the project's
+`styles/` folder first, then the bundled [styles/](styles/): `pupukahi-tech`
+(the default), `plain` (neutral, no closing card), and `motion` (light UI
+motion graphics: drifting color fields, white UI cards, a cursor, blur-in
+headlines). A named style that cannot
+be found is an error: list the available names instead of substituting. An
+article's publisher does not replace the style unless requested.
 
-Read the selected `brand.md`, then [frame.md](frame.md) for how to apply it.
-Together they are "the frame". Resolve asset paths relative to `brand.md`,
-verify required files exist, and copy only used assets into
-`composition/assets/brand/`. Record the brand path in the plan. User direction
-wins over brand defaults.
+`$kumu style --ref <url> [--ref <url>...] --name <name>` builds a new style from
+reference videos: follow [style-builder.md](style-builder.md) instead of the
+workflow below.
+
+Read the selected `style.md`, then [frame.md](frame.md). Copy the style's
+`index.html` structure and only the assets used into the composition, and
+record the style path in the plan. User direction wins over style defaults.
 
 ## Workflow
 
-Run these stages in order, stopping at both checkpoints.
+Run these stages in order, stopping at both checkpoints. After each stage,
+update a `Stage:` line at the top of `video-plan.md` (for example
+`Stage: compose, review round 1`) so an interrupted session resumes exactly
+there.
 
 1. **Research.** Read [research.md](research.md). Save supported claims and
    visual sources in `research.json`.
 2. **Concept.** Read [concept.md](concept.md). Write three concepts and a
    recommendation into `video-plan.md`, after the run path and requested options
-   (mode, tone, format, duration, brand, flags, refs) so a later session can resume.
+   (mode, style, tone, format, duration, flags, refs) so a later session can resume.
 3. **Script and plan.** Read [script.md](script.md). For the recommended
    concept, write the words (`SCRIPT.md` when narrated, the on-screen lines in
-   the plan when visual), the stage, its states, and the thumbnail brief. Run no
-   TTS or HyperFrames command yet. Stop at the plan checkpoint.
+   the plan when visual), the stage, its states, and the thumbnail brief. Then
+   build only the first state as a still (stage, setting, title, and first
+   line, no animation or audio) and save it with `hyperframes snapshot --at 0`
+   as `composition/frames/style-frame.png`. Review it as
+   [review.md](review.md) describes. Run no TTS yet. Stop at the plan
+   checkpoint.
 4. **Compose.** Read [frame.md](frame.md) and [render.md](render.md). Build
    from the approved plan only. Inspect one state at phone size before building
-   the rest, then validate, check the mix, create `thumbnail.jpg` and
-   `caption.txt`, and save the review frames and contact sheet. Stop at the
-   frame checkpoint.
+   the rest, create `thumbnail.jpg` and `caption.txt`, then run the review in
+   [review.md](review.md). Stop at the frame checkpoint.
 5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`.
 
 Load `hyperframes-core` and `hyperframes-cli` for implementation, `media-use`
@@ -98,22 +111,26 @@ Pass this brief and plan into production without a generic intake interview.
 
 Both checkpoints are required on every run, including requests for a finished
 video. At each, record the status in `video-plan.md`, link the files to review,
-ask once, and end the turn. No, or no reply, leaves the run ready for later.
-Requested edits update the same run, and the same checkpoint asks again. A
-request to continue a named run approves only its current checkpoint.
+ask once, and end the turn. The message is a one-line summary, the links, and
+the question; do not quote this skill's rules. No, or no reply, leaves the run
+ready for later. Requested edits update the same run, and the same checkpoint
+asks again. A request to continue a named run approves only its current
+checkpoint.
 
 - **Plan:** record `Status: awaiting plan review`, link `research.json`,
-  `video-plan.md`, and `SCRIPT.md` when narrated, and ask: "Continue with
+  `video-plan.md`, `SCRIPT.md` when narrated, and the style frame, name the
+  style in use (switch with `--style <name>`), and ask: "Continue with
   concept <letter> and this plan, using the recommended thumbnail title unless
   you pick another? Yes / No, or name another concept." Choosing another concept
   rewrites the words and stage for it and asks again.
-- **Frames:** record `Status: awaiting frame review`, link
-  `composition/frames/contact-sheet.jpg`, `thumbnail.jpg`, `caption.txt`, and
-  the audio preview, and ask: "Render the final video from this composition?
-  Yes / No."
+- **Frames:** record `Status: awaiting frame review`, give the review scores
+  and any score below 4 with its reason, link
+  `composition/frames/contact-sheet.jpg`, the Studio preview URL,
+  `thumbnail.jpg`, `caption.txt`, and the audio preview, and ask: "Render the
+  final video from this composition? Yes / No."
 
-To resume, read the options and status from `video-plan.md` and continue from
-the saved files without repeating completed stages. Preserve approved wording
+To resume, read the options, `Stage:`, and status from `video-plan.md` and
+continue from the saved files without repeating completed stages. Preserve approved wording
 and resolve factual gaps before TTS.
 
 **Revising a run** (change a line, a color, a scene): edit its existing plan
@@ -126,11 +143,8 @@ such as prices and policies, and begin at the concept stage.
 
 ## Creative standard
 
-Teach one thing well. The form follows the viewer's goal: real screens for a
-how-to, an aligned chart for a choice, a map for a place, a changing diagram or
-metaphor for a mechanism. One concrete stage that changes, backed by real
-sources, beats a sequence of well-designed slides. Make the subject
-recognizable and every number honest. Generic icons cannot carry the main idea.
+Teach one thing well: the form follows the viewer's goal (see
+[concept.md](concept.md)), and every number on screen is honest.
 
 Spell Hawaiian and other non-English words correctly everywhere they appear,
 including the ʻokina and kahakō (Hawaiʻi, Kalākaua). Pronunciation for the

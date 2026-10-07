@@ -1,16 +1,17 @@
 # Render
 
 Use `video-plan.md` as the storyboard, `SCRIPT.md` as the narration source when
-narrated, and the selected `brand.md` with [frame.md](frame.md) as the styling
-record. Resolve skill assets relative to this skill directory. Prefix every
+narrated, and the selected style's `style.md` and sample `index.html` with
+[frame.md](frame.md) as the styling record. Start the composition from the
+style's sample: its background, type, caption, and closing code, and the
+motion-value constants at the top of its script instead of new durations and
+eases. Resolve skill assets relative to this skill directory. Prefix every
 HyperFrames command with `HYPERFRAMES_PYTHON="$HOME/.kumu/venv/bin/python"`.
 Use the installed CLI's `--help` for version-dependent flags.
 
 ## Output layout
 
-The run root holds `video.mp4`, `thumbnail.jpg`, `caption.txt`,
-`research.json`, `video-plan.md`, `SCRIPT.md` when narrated, and
-`composition/`. Inside `composition/`: `assets/` for final media,
+Inside `composition/`: `assets/` for final media,
 `components/` for registry components, `scenes/` for sub-compositions when
 needed, `frames/` for review frames, and `.work/` for raw audio, transcripts,
 model scratch output, and review images. Create only directories you use.
@@ -28,8 +29,8 @@ such as a code window, terminal, chart, or map.
 Build the stage, title, words zone, and closing card first. Inspect one state
 at phone size with active captions or lines before building the rest.
 
-When the concept has a model, compute states from it at load time, then place one tween per state at
-its planned time. Set displayed values with `tl.set`, so they are correct at
+When the concept has a model, compute states from it at load time, then place
+one tween per state at its planned time. Set displayed values with `tl.set`, so they are correct at
 any seek, forward or backward. Never count, simulate, or read the clock during
 playback. This pattern is verified with HyperFrames 0.8:
 
@@ -70,15 +71,12 @@ too large to run in the page, run it once in `.work/`, save its states as JSON,
 and embed that JSON in the composition.
 
 Build each state with actual content; blank bars and placeholder text stay
-placeholders even when animated. Use consistent scales and labeled units. Give
-every settled element reading time: about 0.8 s for a short label after it
-stops moving, 0.3 s per word for a sentence.
+placeholders even when animated. Use consistent scales and labeled units.
 
-Photo or clip characters: download the licensed source into `.work/`, cut it
-out with `hyperframes remove-background`, and keep the result in `assets/`.
-
-Three.js only when the approved concept calls for it; read the `three` adapter
-in `hyperframes-animation` and expect about five times the render time of SVG.
+Photo or clip subjects: download the licensed source into `.work/`, cut it out
+with `hyperframes remove-background <file> -o assets/<name>.png` for a photo or
+`-o assets/<name>.webm` for a clip (transparent video), and check the edges at
+full size before use.
 
 ## Narration and timing (narrated mode)
 
@@ -112,8 +110,9 @@ for English voices). Save each flat word array to `assets/vo/scene-01.words.json
 as `[{"text":"Hello","start":0.1,"end":0.4}]`. Check words against `SCRIPT.md`,
 especially names, numbers, contractions, and negations; fix spelling while
 keeping measured intervals. Respelled words appear in captions with their
-correct `SCRIPT.md` spelling, including the ʻokina and kahakō. Never distribute timestamps by word-count ratios.
-A displayed `$4.99` may highlight as one unit over its spoken interval.
+correct `SCRIPT.md` spelling, including the ʻokina and kahakō. Never distribute
+timestamps by word-count ratios. A displayed `$4.99` may highlight as one unit
+over its spoken interval.
 
 Install and adapt HyperFrames' `caption-highlight` component rather than
 hand-rolling captions:
@@ -137,8 +136,13 @@ supplied one. Copy only selected files. Never generate music.
 
 - **Narrated:** keep music about 24 LU below the voice, measured with FFmpeg's
   `ebur128` filter on both; for bundled tracks that is roughly 0.05 gain.
-- **Visual:** music leads at a comfortable level. State changes may land on
-  beats; `hyperframes beats <composition-dir>` finds them.
+- **Visual:** measure the track with `ebur128` and set its gain so the bed
+  sits around -21 LUFS; the bundled tracks are mastered near -14 LUFS, so that
+  is roughly 0.45 gain. State changes may land on beats; `hyperframes beats
+  <composition-dir>` finds them.
+- **Both:** the full mix stays at or below -14 LUFS with true peaks under
+  -1 dBTP. You cannot hear the mix, so measure it and record the numbers in
+  the plan.
 
 Use a few SFX from `assets/sfx/` on actual state changes, reusing a small sound
 vocabulary. Read `hyperframes-audio` for fades, ducking, or effects; browser
@@ -147,35 +151,13 @@ card at the real mix level before the frame checkpoint.
 
 ## Review
 
-Run `hyperframes check` and clear lint errors first; a lint error disables the
-layout and contrast audits.
-
-Snapshot the whole video, from the run directory, at 0 s, each state's settled
-time (after its last change, before the next), and inside the closing card:
-
-```bash
-npx hyperframes snapshot composition --at 0,<settled times> --no-end --describe false -o composition/frames
-```
-
-This writes `composition/frames/contact-sheet.jpg`. Review it against the plan
-as one piece:
-
-- The first frame shows the title and stage and reads as a hook at phone size.
-- The stage visibly changes across the sheet and reaches the payoff state.
-  If many frames look alike, the concept is not moving; fix the states.
-- Every visible number matches the model and the plan.
-- Text stays within the frame's zones and budget; no narration on screen, no
-  `--highlight` outside captions and the kicker.
-- Captions or lines match the plan and clear before the closing card.
-- The closing card stands alone with its own hold.
-
-Fix demonstrated defects, re-snapshot only affected times, then run `check`
-once more. There is no screenshot quota and no need for duplicate sweeps.
+Follow [review.md](review.md) before the frame checkpoint.
 
 ## Thumbnail and caption
 
 Design `composition/thumbnail.html` as a separate static cover at the video's
-aspect ratio and render it to JPEG with the same browser. At 1080×1920, keep
+aspect ratio, starting from the style's `thumbnail/index.html`, and render it
+to JPEG with the same browser. At 1080×1920, keep
 text and subject within x 60–960 and y 240–1400, which survives the profile
 grid crop and platform UI. Use the chosen title as HTML text and rebuild the
 stage at its most telling state as the hero, filling 40–60% of that box.

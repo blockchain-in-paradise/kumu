@@ -42,7 +42,13 @@ SKILLS_CLONE_TIMEOUT_MS=600000 npx -y hyperframes skills update \
 npx -y hyperframes browser ensure
 
 echo "==> Health check (ignore BGM / MusicGen: Kumu uses bundled music)"
-HYPERFRAMES_PYTHON="$PY" npx -y hyperframes doctor || true
+report="$(HYPERFRAMES_PYTHON="$PY" npx -y hyperframes doctor 2>&1 || true)"
+echo "$report"
+if echo "$report" | grep "✗" | grep -qv "BGM"; then
+  echo "Some checks failed; fix them and run this script again."
+  exit 1
+fi
+touch "$KUMU_HOME/ready"
 
 echo
 echo "Kumu is ready. Python for HyperFrames: HYPERFRAMES_PYTHON=$PY"

@@ -68,11 +68,13 @@ installs have not been tested yet.
   captions (30–90 s). Visual has no voice: short on-screen lines, music, and
   sound effects (10–90 s). Without it, Kumu recommends one per concept.
 - `--ref <url>`: a video whose structure you like. Kumu studies its layout and
-  pacing; it never copies its characters, assets, or wording. Repeatable.
+  pacing; it copies its characters and style only when you ask it to replicate
+  the reference, and never reuses its footage or audio. Repeatable.
 - `--tone` sets the voice of the writing, such as "clear build-along guide".
 - `--duration` sets the target length in seconds, including the closing card.
 - `--format vertical|square|landscape`. Vertical 1080×1920 is the default.
-- `--brand "<name>"` picks a brand from your project's `brands/` folder.
+- `--style <name>` picks a saved style (see Styles). Without it, Kumu uses
+  the bundled `pupukahi-tech` style. `plain` is neutral with no closing card.
 - `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
   `--no-voice` is the same as `--mode visual`.
 
@@ -96,15 +98,22 @@ To pick up a saved run in a new session:
    (`SCRIPT.md`) or the on-screen lines, and the stage's states, each tied to
    the words that trigger it, in `video-plan.md`.
 
-   **Checkpoint 1: plan review.** Approve, pick another concept, or ask for
-   changes. Nothing has been generated yet, so changes here are cheap.
+   **Checkpoint 1: plan review.** Check the plan and a still style frame of the
+   opening, then approve, pick another concept, or ask for changes. No audio or
+   animation has been made yet, so changes here are cheap.
 
 4. **Compose.** It generates the voice and captions when narrated, builds the
    animated stage in HyperFrames, mixes music and sound effects, designs the
    cover, and writes the post caption.
 
-   **Checkpoint 2: frame review.** Check the contact sheet of the whole video
-   in `composition/frames/contact-sheet.jpg`, plus `thumbnail.jpg`,
+   Before showing you anything, Kumu reviews the video and scores it on hook,
+   teaching, readability, pace, motion, consistency, audio, accuracy, and
+   ending, using frames, motion strips, an animation map, and loudness
+   measurements. It fixes low scores, up to two rounds.
+
+   **Checkpoint 2: frame review.** Check the review scores, the contact sheet of the whole video
+   in `composition/frames/contact-sheet.jpg`, scrub the motion in the
+   HyperFrames Studio preview it opens, and check `thumbnail.jpg`,
    `caption.txt`, and an audio preview.
 
 5. **Render.** It encodes the final `video.mp4` and checks it.
@@ -124,34 +133,40 @@ video-output/
     caption.txt
 ```
 
-## Brand
+## Styles
 
-A brand sets the chrome: colors, fonts, spacing, captions, the closing card,
-and the thumbnail. The concept owns the stage in the middle. Styling comes
-from two files:
+A style is the look of a video: background, palette, type, how subjects are
+drawn or photographed, motion, captions, and the closing card. Each style is a
+folder with `style.md` (its tokens and rules), `index.html` (a working sample
+video), `thumbnail/` (a cover sample), `preview.png` (four frames side by
+side: thumbnail, empty, elements with caption, and closing), and `assets/`.
+Rebuild a preview with `skills/kumu/scripts/style-preview.sh <style-dir>`. Videos start from the style's sample, so every video in
+a style looks like it belongs to the same page. `skills/kumu/frame.md` holds
+the rules every style follows: layout zones, legibility, honest numbers, and
+pacing.
 
-- **`brand.md`** holds one brand's values: colors by role, fonts, spacing, an
-  optional background texture, assets, and the closing-card handle.
-- **`skills/kumu/frame.md`** is the shared design law: layout zones, caption
-  style, color roles, illustration and motion rules, and the closing card. It
-  uses role names such as `--accent` and `--highlight`, so it works with any brand.
+Bundled styles live in `skills/kumu/styles/`:
 
-The bundled brand is Pūpūkahi Tech Foundation, in
-`skills/kumu/assets/brands/pupukahi-tech/`. To add your own, copy it into a
-`brands/` folder in your project and edit it. Its folder name or the `name` in
-its `brand.md` becomes the `--brand` value:
+- `pupukahi-tech` (default): navy island ground, white Inter type, teal data,
+  gold word highlight, and the @pupukahi_tech closing card.
+- `plain`: light gray, black type, one orange-red accent, ends on a payoff card.
+- `motion`: light UI motion graphics with drifting color fields, white UI
+  cards, a cursor, blur-in headlines, and a two-line payoff ending.
 
-```bash
-mkdir -p brands && cp -r skills/kumu/assets/brands/pupukahi-tech brands/my-brand
+Build your own from reference videos:
+
+```text
+$kumu style --ref https://www.tiktok.com/t/XXXX/ --name menu-motion
 ```
 
-1. **Colors:** `canvas` is the background, `ink` the text, `accent` state and
-   data marks, `highlight` the spoken caption word and closing kicker,
-   `on-highlight` the text on it, and `panel` a backing behind content.
-2. **Type, spacing, and `cta`:** fonts, safe areas, your handle, and the
-   platforms shown on the closing card.
-3. **Texture (optional):** CSS for a subtle background under simple stages.
-4. **Icons:** one monochrome Bootstrap Icons SVG per platform in `icons/`.
+Kumu studies the references, builds three short sample directions (faithful,
+with an existing style's identity when you pass `--identity <style>`, and a
+variation), and opens a gallery page where you watch them side by side. Pick
+one, or mix them, and it saves to `styles/<name>/` in your project. Then:
+
+```text
+$kumu --style menu-motion --topic "Why menus stay open when you move diagonally"
+```
 
 ## Credits
 

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Motion thumbnail sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Static cover sample: title and hero UI inside the safe box (x 60–960, y 240–1400). */
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #f5f7fa; font-family: "Inter", sans-serif; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #1d1d1f; background: #f5f7fa; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+  .b1 { width: 900px; height: 900px; left: -200px; top: -150px; background: rgba(120,170,255,.6); }
+  .b2 { width: 800px; height: 800px; right: -300px; top: 800px; background: rgba(255,190,170,.35); }
+  .title { position: absolute; left: 80px; right: 80px; top: 290px; margin: 0; text-align: center;
+    font-size: 118px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+  .title span { display: block; } .title em { font-style: normal; color: #2f7bf6; }
+  .pair { position: absolute; left: 80px; right: 80px; top: 720px; display: flex; gap: 40px; }
+  .col { flex: 1; text-align: center; }
+  .col h5 { margin: 0 0 20px; font-size: 44px; font-weight: 600; color: #8e8e93; }
+  .card { height: 560px; background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 30px;
+    box-shadow: 0 30px 70px rgba(30,50,90,.16); position: relative; padding: 36px; box-sizing: border-box; text-align: left; }
+  .spinner { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; }
+  .bone { background: #e6e9ef; border-radius: 14px; }
+  .row { display: flex; align-items: center; gap: 20px; }
+  .av { width: 84px; height: 84px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <h1 class="title"><span><em>Skeletons</em></span><span>Over Spinners</span></h1>
+  <div class="pair">
+    <div class="col"><h5>Spinner</h5><div class="card">
+      <svg class="spinner" viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ef" stroke-width="10"/>
+        <path d="M48 10 A38 38 0 0 1 86 48" fill="none" stroke="#2f7bf6" stroke-width="10" stroke-linecap="round"/></svg></div></div>
+    <div class="col"><h5>Skeleton</h5><div class="card">
+      <div class="row"><div class="av bone"></div><div class="bone" style="height:28px;width:170px"></div></div>
+      <div class="bone" style="height:24px;margin-top:30px"></div><div class="bone" style="height:24px;width:70%;margin-top:18px"></div>
+      <div class="bone" style="height:250px;margin-top:34px;border-radius:20px"></div></div></div>
+  </div>
+</div>
+<script>window.__timelines.main = gsap.timeline({ paused: true });</script>
+</body>
+</html>
