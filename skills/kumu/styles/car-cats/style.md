@@ -18,7 +18,7 @@ typography:
   body: { fontFamily: "Barlow Condensed", weight: 500, lineHeight: 1.2 }
   meme: { fontFamily: "Anton", weight: 400, stroke: "6px black", case: uppercase }
   fonts: "assets/fonts/{barlow-condensed-800-italic,barlow-condensed-600-normal,barlow-condensed-500-normal,anton-400-normal}.woff2"
-preview_at: [0.2, 4.7, 10.6] # empty, first car with cat and line, closing
+preview_at: [0.2, 13.3, 15.8] # empty, boxer engine running with cat and line, closing
 spacing:
   edge: "70px"
   platform_ui_bottom: "420px"
@@ -49,6 +49,13 @@ car culture. `index.html` is the working sample (2024 MX-5 vs GR86 horsepower);
   words zone; the line stays on top. Its meme caption, in Anton with a black
   stroke, sits centered above its head, never over its face. One reaction per
   beat at most. Other transparent cat memes the user supplies may join it.
+- **Parts** (an engine, a turbo, a gearbox) are drawn as in
+  [frame.md](../../frame.md) Real objects, with this finish instead of flat
+  tones: metal shaded with linear gradients (a bright band along round parts
+  such as pistons, pins, and shafts), a thin light edge, and a soft drop
+  shadow under the whole drawing. Show the real details that make it read
+  (fins, bolts, valves, runners, an oil pan) and the motion in red and orange
+  on the drawing, as in the sample's boxer. Real photos stay for whole cars.
 - **Data**: one big italic number per car with a small gray unit, placed on
   the side opposite the cat. At most one short amber label (a few words on one
   line, like "Aftermarket support") near the number. No bars for single
@@ -89,7 +96,15 @@ light: a viewer reads the name, the number, and the line, nothing else.
 Hard and fast. The intro title slams in from the left with a slight skew,
 car names slam into the header, cars arrive and skid to a stop, numbers count
 up, and the mascot pops with a big overshoot. Nothing loops in the
-background; motion only happens on a change.
+background; motion only happens on a change, except a mechanism, which runs
+while it is on screen as [frame.md](../../frame.md) Motion describes.
+
+A mechanism scene plays like a dyno run: the drawing draws itself on in
+light gray lines, parts fill in as they are named, then it fires up with a
+short shake. Hot flow is `--accent` red and cold flow is a cool blue, both as
+glowing dashes moving along their real paths, and spinning parts carry motion
+blur at speed. Its key number (boost, rpm, temperature) counts up beside it as
+the speed builds.
 
 Between cars, the outgoing car leaves the way the next one does not arrive
 (up, sideways, or down) with a short blur, while the header name swaps. Before

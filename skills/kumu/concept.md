@@ -101,8 +101,9 @@ plan checkpoint.
 
 The style decides the look: its `style.md`, its sample `index.html`, and
 [frame.md](frame.md). Concepts describe what happens on the stage, in that
-style. When the subjects should be real (animals, products, vehicles) and the
-style draws, real photo cut-outs may still be used; say so in the concept.
+style. Photos show real things as they are (an animal, a product, a whole
+car); drawings show parts, internals, diagrams, and anything that moves or
+works (see [frame.md](frame.md) Subjects). Say which in the concept.
 
 With `--ref`, apply the notes from [references/ref-video.md](references/ref-video.md):
 borrow structure, pacing, layout, and devices. Never copy a reference's

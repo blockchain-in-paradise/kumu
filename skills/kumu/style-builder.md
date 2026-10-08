@@ -96,10 +96,13 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   Set `preview_at: [empty, elements, closing]` in `style.md`, then run
   [scripts/style-preview.sh](scripts/style-preview.sh) `styles/<name>`.
 - `style.md`: frontmatter tokens in the same shape as the bundled styles
-  (`colors`, `typography`, `preview_at`, `spacing`, and `cta` or `cta: null`),
+  (`colors`, `typography`, `preview_at`, `spacing`, and `cta` or `cta: null`,
+  plus an optional `voice` Kokoro ID and `voice_speed` that suit the style),
   then short sections for Character, Look, Type and captions, Motion, Motion
   values, Sound (events, files, gains, music), and Closing, written from
-  `notes.md` and the chosen direction. Motion values is a table of eases by
+  `notes.md` and the chosen direction. Look says how drawn objects are
+  finished (realistic with gradients and shadows, minimal flat shapes, or
+  cartoon), so real objects in the topic get a matching treatment. Motion values is a table of eases by
   direction, duration bands, overshoot, and stagger (plus camera or cursor
   behavior when used), and the sample defines the same values as constants at
   the top of its script. Name the reference URLs as sources.

@@ -1,4 +1,4 @@
-# /Kumu
+# Kumu
 
 Kumu is a human-in-the-loop agent skill that turns a
 topic, article URL, or notes into any kind of informative short video for
@@ -79,7 +79,7 @@ installs have not been tested yet.
 - `--duration` sets the target length in seconds, including the closing card.
 - `--format vertical|square|landscape`. Vertical 1080×1920 is the default.
 - `--style <name>` picks a saved style (see Styles). Without it, Kumu uses
-  the bundled `pupukahi-tech` style. `plain` is neutral with no closing card.
+  the bundled `plain` style: neutral, with no closing card.
 - `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
   `--no-voice` is the same as `--mode visual`.
 
@@ -152,9 +152,9 @@ pacing.
 
 Bundled styles live in `skills/kumu/styles/`:
 
-- `pupukahi-tech` (default): navy island ground, white Inter type, teal data,
+- `pupukahi-tech`: navy island ground, white Inter type, teal data,
   gold word highlight, and the @pupukahi_tech closing card.
-- `plain`: light gray, black type, one orange-red accent, ends on a payoff card.
+- `plain` (default): light gray, black type, one orange-red accent, ends on a payoff card.
 - `motion`: light UI motion graphics with drifting color fields, white UI
   cards, a cursor, blur-in headlines, and a two-line payoff ending.
 - `code-cats`: cartoon cats act out code above a code editor, on switchable
@@ -163,10 +163,14 @@ Bundled styles live in `skills/kumu/styles/`:
 - `car-cats`: real car photos in angled panels on a dark carbon racing
   backdrop, a header that swaps to each car's name, and the gato cat meme
   reacting, with garage tool and meow sounds.
-- `boxing`: flat rigged fighters on a dark stage with a red anchor line, a
-  two-line headline per beat, annotations drawn on the subject, and a camera
-  that turns between side and top-down views, with punch, whoosh, and bell
-  sounds. Ships a reusable character rig and poses in `assets/characters/`.
+- `boxing`: fight night in a spotlit canvas ring. Flat-shaded fighters on a 3D
+  rig (red corner vs blue corner) move through smooth camera views, body marks
+  and ghosts point at what the words name, and a quiet broadcast lower third
+  carries the words, with punch, whoosh, and bell sounds and the George voice.
+  There is no end card: everything fades out to the backdrop the video opened
+  on, so it loops. A knockout ending (done right the rival drops, then a replay
+  done wrong drops you) is available when the prompt asks for one. Ships the rig, poses, and
+  fighter looks in `assets/characters/`.
 
 Each style also carries its own sound effects in `assets/sfx/`, listed with
 their licenses in `assets/sfx/CREDITS.md`, and a Sound section in `style.md`

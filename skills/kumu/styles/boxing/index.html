@@ -3,180 +3,280 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=1080, height=1920" />
-<title>Sports style sample</title>
+<title>Fight night style sample</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/characters/rig3d.js"></script>
 <script src="assets/characters/poses.js"></script>
-<script src="assets/characters/fighter.js"></script>
 <style>
-  /* Style sample: flat rigged fighters on a dark stage with a red anchor line, a headline that is the
-     line (white, then red), a tiny mono chapter label, poses blending on the beat, annotations drawn on
-     the subject, and one camera move from the side view to top-down around the same line.
-     Demo topic: the pull counter in boxing (lean back from the jab, counter, step off the line). */
-  @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-400-normal.woff2") format("woff2"); }
-  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2"); }
-  @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-700.woff2") format("woff2"); }
-  body { margin: 0; background: #111318; font-family: "Anton", sans-serif; }
-  #root { --canvas: #111318; --ink: #ece6da; --muted: #7d828c; --accent: #ff3b3b; --guide: #3ddc84;
+  /* Style sample, "fight night": two flat-shaded fighters (red corner "you", blue corner rival) on a 3D skeleton
+     in a canvas ring under one overhead spot. A quiet broadcast lower third carries the words: a small beat
+     tag top-left, a lower-third chyron with the key word underlined in a corner color, and small tags on
+     the action. Four camera views, each change one eased move synced to the chyron. Punches aim at the
+     opponent's chin, floor notes are drawn in 3D, body marks and ghosts point at what the words name, and
+     the ending is a ragdoll knockdown twice: done right he drops, then a replay where you stay in range and you drop.
+     Everything then fades out to the empty ring the video opened on, so it loops.
+     Demo topic: the pull counter in boxing (lean back from the jab, counter, finish with the hook). */
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("assets/fonts/barlow-condensed-600-normal.woff2") format("woff2"); }
+  body { margin: 0; background: #110e0c; font-family: "Inter", sans-serif; }
+  #root { --canvas: #110e0c; --ink: #f6f3ee; --on-highlight: #110e0c; --accent: #d2333a; --highlight: #d2333a;
+    --panel: rgba(16,14,13,.84); --border: rgba(255,255,255,.05); --support-blue: #2c66d3; --support-muted: #b6aea3; --support-white: #fff;
     position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink);
-    background: radial-gradient(ellipse 80% 55% at 50% 58%, #1d2029, var(--canvas) 70%); }
-  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,.6) 100%); pointer-events: none; }
+    background: radial-gradient(ellipse 70% 42% at 50% 34%, #241d17, var(--canvas) 72%); }
+  .beam { position: absolute; left: 0; right: 0; top: -40px; height: 1300px; pointer-events: none;
+    clip-path: polygon(40% 0, 60% 0, 92% 100%, 8% 100%);
+    background: linear-gradient(rgba(255,232,190,.10), rgba(255,232,190,.03) 70%, transparent); filter: blur(30px); }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, transparent 48%, rgba(0,0,0,.7) 100%); pointer-events: none; }
+  #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; }
 
-  /* Words: a tiny mono chapter label over a two-line headline; line 2 carries the point in red. */
-  .kicker { position: absolute; left: 70px; top: 196px; font: 700 30px "JetBrains Mono", monospace; letter-spacing: .22em;
-    text-transform: uppercase; color: var(--muted); }
-  .kicker::before { content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 16px; background: var(--accent); vertical-align: 2px; }
-  .head { position: absolute; left: 70px; right: 70px; top: 248px; font-size: 128px; line-height: 1.02; text-transform: uppercase; letter-spacing: .005em; }
-  .head span { display: block; } .head .l2 { color: var(--accent); }
-  .intro { top: 690px; font-size: 220px; line-height: .95; }
+  /* Beat tag: the chapter name, small and quiet, top-left. */
+  .bug { position: absolute; left: 64px; top: 176px; height: 40px; font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600; font-size: 30px; letter-spacing: .16em; text-transform: uppercase; color: var(--support-muted); }
+  .bug span { position: absolute; left: 0; top: 0; white-space: nowrap; }
 
-  /* Stage: one world inside the camera layer; the red line is the anchor that survives every view. */
-  .cam { position: absolute; inset: 0; transform-origin: 540px 1480px; }
-  .grid { position: absolute; left: -400px; width: 1880px; top: 1480px; height: 520px; transform-origin: 50% 0; transform: perspective(700px) rotateX(58deg);
-    background: repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 2px, transparent 2px 120px),
-                repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 2px, transparent 2px 90px);
-    -webkit-mask-image: linear-gradient(#000, transparent 85%); mask-image: linear-gradient(#000, transparent 85%); }
-  .anchor { position: absolute; left: -1500px; width: 4080px; top: 1477px; height: 5px; background: var(--accent); box-shadow: 0 0 18px rgba(255,59,59,.45); }
-  .shadow { position: absolute; top: 1462px; width: 300px; height: 36px; border-radius: 50%; background: radial-gradient(rgba(0,0,0,.55), transparent 70%); }
-  .fighter { position: absolute; top: 655px; width: 600px; height: 900px; }
-  .mirror { transform: scaleX(-1); }
+  /* Lower-third chyron: a dark bar with a corner-color tab; sentence case, the key word underlined. */
+  .chyron { position: absolute; left: 60px; right: 60px; bottom: 470px; min-height: 132px; background: var(--panel); }
+  .chyron::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: var(--accent); }
+  .chyron p { position: absolute; left: 44px; right: 36px; top: 50%; margin: 0; transform: translateY(-50%);
+    font-weight: 800; font-size: 54px; line-height: 1.15; letter-spacing: -.01em; }
+  .k { text-decoration-skip-ink: none; text-decoration: underline; text-decoration-thickness: 6px; text-underline-offset: 10px; }
+  .k.red { text-decoration-color: var(--accent); } .k.blue { text-decoration-color: var(--support-blue); }
 
-  .note { position: absolute; font: 700 30px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
-  .gap { position: absolute; height: 0; border-top: 5px dotted var(--accent); }
-  .burst { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 6px solid var(--ink); }
+  /* Tags on the action, in the same language. */
+  .tag { position: absolute; display: flex; align-items: stretch; height: 46px; font-family: "Barlow Condensed", sans-serif; font-weight: 600;
+    font-size: 30px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+  .tag i { width: 8px; } .tag b { font-weight: 600; background: var(--panel); padding: 0 14px; display: flex; align-items: center; }
+  .gap { position: absolute; height: 0; border-top: 5px dotted var(--support-blue); }
+  .burst { position: absolute; width: 190px; height: 190px; margin: -95px 0 0 -95px; }
 
-  .top { position: absolute; inset: 0; }
-  .token { position: absolute; width: 280px; height: 280px; }
-  .glow { position: absolute; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(rgba(61,220,132,.55), rgba(61,220,132,0) 70%); }
-  .arc { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
-
-  .closing { position: absolute; left: 70px; right: 70px; top: 720px; text-align: center; text-transform: uppercase; }
-  .closing b { display: block; font-weight: 400; font-size: 112px; line-height: 1.02; }
-  .closing b em { font-style: normal; color: var(--accent); }
-  .closing span { display: block; margin-top: 40px; font: 700 32px "JetBrains Mono", monospace; letter-spacing: .22em; color: var(--muted); }
+  /* Intro: just the title over the empty lit ring. */
+  .card { position: absolute; left: 70px; right: 70px; top: 700px; text-align: center; }
+  .card h1 { margin: 0; font-weight: 800; font-size: 118px; line-height: 1.02; letter-spacing: -.02em; }
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="13">
-  <div class="cam" id="cam">
-    <div id="side">
-      <div class="grid"></div>
-      <div class="shadow" style="left:185px"></div><div class="shadow" style="left:655px"></div>
-      <div class="fighter" id="you" style="left:35px"></div>
-      <div class="fighter mirror" id="rival" style="left:505px"></div>
-      <div class="gap" id="gap" style="left:300px; top:790px; width:160px"></div>
-      <div class="note" id="noteMiss" style="left:322px; top:724px; color:var(--accent)">Miss</div>
-      <div class="burst" id="burst" style="left:640px; top:700px"></div>
-    </div>
-    <div class="anchor" id="anchor"></div>
-  </div>
-
-  <div class="top" id="top">
-    <div class="glow" id="spot" style="left:650px; top:1040px"></div>
-    <svg class="arc" viewBox="0 0 1080 1920">
-      <defs><mask id="arcMask"><path id="arcDraw" d="M540 1300 Q590 1150 780 1170" fill="none" stroke="#fff" stroke-width="16" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>
-      <path d="M540 1300 Q590 1150 780 1170" fill="none" stroke="#3ddc84" stroke-width="6" stroke-dasharray="4 16" stroke-linecap="round" mask="url(#arcMask)"/>
-    </svg>
-    <div class="token" id="rivalTop" style="left:400px; top:620px"></div>
-    <div class="token" id="youTop" style="left:400px; top:1160px"></div>
-    <div class="note" id="noteOff" style="left:700px; top:1300px; color:var(--guide)">Off the line</div>
-  </div>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="23">
+  <div class="beam"></div>
+  <svg id="stage"></svg>
+  <div class="gap" id="gap"></div>
+  <div class="tag" id="tagMiss"><i style="background:var(--support-blue)"></i><b>Miss</b></div>
+  <div class="tag" id="tagOpen"><i style="background:var(--accent)"></i><b>Open</b></div>
+  <div class="tag" id="tagLate"><i style="background:var(--support-blue)"></i><b>Late</b></div>
+  <svg class="burst" id="burst" viewBox="-100 -100 200 200"></svg>
   <div class="vignette"></div>
 
-  <div class="kicker" id="k0">Boxing breakdown</div>
-  <div class="kicker" id="k1">The setup</div>
-  <div class="kicker" id="k2">The counter</div>
-  <div class="kicker" id="k3">The exit</div>
-  <div class="head intro" id="h0"><span>The pull</span><span class="l2">counter</span></div>
-  <div class="head" id="h1"><span>He throws</span><span class="l2">the jab.</span></div>
-  <div class="head" id="h2"><span>You lean back,</span><span class="l2">it falls short.</span></div>
-  <div class="head" id="h3"><span>Now he's open,</span><span class="l2">so fire back.</span></div>
-  <div class="head" id="h4"><span>Then step</span><span class="l2">off his line.</span></div>
+  <div class="card" id="card"><h1>The pull counter</h1></div>
 
-  <div class="closing" id="closing"><b>Make him miss,<br><em>then make him pay.</em></b><span>The pull counter</span></div>
+  <div class="bug" id="bug"><span id="b1">The setup</span><span id="b2">The counter</span><span id="b3">The finish</span><span id="b4">When it fails</span></div>
+  <div class="chyron" id="chyron">
+    <p id="c1">He throws the <u class="k blue">jab</u>.</p>
+    <p id="c2">You lean back and it falls <u class="k blue">short</u>.</p>
+    <p id="c3">His jab leaves your line <u class="k red">open</u>.</p>
+    <p id="c4">So you fire the <u class="k red">straight</u> back.</p>
+    <p id="c5">Then the <u class="k red">hook</u> ends it.</p>
+    <p id="c6">Stay in range and he <u class="k blue">drops</u> you.</p>
+  </div>
+
 </div>
 <script>
   // Motion values (see style.md).
-  const EASE = { text: "power3.out", out: "power2.in", pose: "power3.inOut", punch: "power4.out", camera: "power3.inOut", pop: "back.out(1.8)" };
-  const DUR = { textIn: 0.45, textOut: 0.22, lineGap: 0.35, pose: 0.35, punch: 0.18, recover: 0.3, camera: 0.9 };
+  const EASE = { text: "power3.out", out: "power2.in", pose: "power3.inOut", punch: "power4.out", recoil: "back.out(1.6)" };
+  const DUR = { textIn: 0.4, textOut: 0.2, pose: 0.35, punch: 0.16, recover: 0.32 };
+  const END = 23;
 
-  const you = SportsRig.mount(document.getElementById("you"), SportsRig.LOOKS.you);
-  const rival = SportsRig.mount(document.getElementById("rival"), SportsRig.LOOKS.rival);
-  SportsRig.mountTop(document.getElementById("youTop"), SportsRig.LOOKS.you);
-  SportsRig.mountTop(document.getElementById("rivalTop"), SportsRig.LOOKS.rival);
+  document.getElementById("burst").innerHTML = Array.from({ length: 14 }, (_, k) => {
+    const a = (k / 14) * Math.PI * 2, r0 = k % 2 ? 46 : 38, r1 = k % 2 ? 78 : 94;
+    return `<line x1="${Math.cos(a) * r0}" y1="${Math.sin(a) * r0}" x2="${Math.cos(a) * r1}" y2="${Math.sin(a) * r1}" stroke="${k % 2 ? "#ffffff" : "#d2333a"}" stroke-width="5" stroke-linecap="round"/>`;
+  }).join("") + `<circle r="34" fill="none" stroke="#ffffff" stroke-width="3"/>`;
 
-  gsap.set(["#k0", "#k1", "#k2", "#k3", "#h0 span", "#h1 span", "#h2 span", "#h3 span", "#h4 span", "#side", "#anchor",
-    "#gap", "#noteMiss", "#burst", "#top", "#spot", "#noteOff", "#closing"], { opacity: 0 });
-  gsap.set("#rivalTop", { rotation: 180 });
+  // Side view framed a little left of center and pulled back, so every pose keeps both rear feet inside the frame:
+  // you start out of his range and lean further back.
+  const SIDE = { tx: -40, dist: 2700 };
+  const stage = SportsRig.stage(document.getElementById("stage"), { camera: SIDE });
+  // The floor, shadows, and bodies run past the frame at some angles by design.
+  document.querySelectorAll("#stage > g").forEach((g) => g.setAttribute("data-layout-allow-overflow", ""));
+  // They start 60 units out from their spots, hidden, and step in once the title is gone.
+  const you = SportsRig.mount(stage, SportsRig.LOOKS.red, { x: -315, facing: 0 });
+  const rival = SportsRig.mount(stage, SportsRig.LOOKS.blue, { x: 255, facing: 180 });
+  SportsRig.face(you, rival);
 
-  const tl = gsap.timeline({ paused: true });
+  // Floor notes: the straight's lane and his open chin (overhead), the hook's sweep, where he stood.
+  const lane = stage.note({ type: "wedge", at: [-190, -44], r: 300, a0: -12, a1: 12, color: "#d2333a" });
+  const spot = stage.note({ type: "target", at: [170, 0], r: 58, color: "#ffffff" });
+  const arc = stage.note({ type: "wedge", at: [-40, 44], r: 240, a0: 95, a1: 0, color: "#d2333a" });
+  const stood = stage.note({ type: "ring", at: [157, 0], r: 95, color: "#ffffff" });
+  // Marks (a ring on the body part the words name) and ghosts (a pale afterimage of a pose). Both fade with
+  // SportsRig.show(tl, thing, t, hold), like the notes above.
+  const wasHere = stage.ghost(you, "guard", { x: -255 });   // where your head was before you leaned
+  const headRing = stage.mark(you, "head");
+  const gloveRing = stage.mark(you, "rearGlove", { r: 46 });
+  const hipRing = stage.mark(you, "waist", { r: 72 });
+  const shouldBe = stage.ghost(you, "lean", { x: -157 });   // where you needed to be when his jab landed
 
-  // Headline: line 1 blurs in, line 2 follows on its own phrase; the old one blurs away first.
-  const lineIn = (sel, t) => tl.fromTo(sel, { opacity: 0, y: 26, filter: "blur(12px)" },
-    { opacity: 1, y: 0, filter: "blur(0px)", duration: DUR.textIn, ease: EASE.text }, t);
-  const headIn = (id, t) => { lineIn(`${id} span:nth-child(1)`, t); lineIn(`${id} span:nth-child(2)`, t + DUR.lineGap); };
-  const out = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(10px)", duration: DUR.textOut, ease: EASE.out }, t);
-  const kick = (from, to, t) => { if (from) out(from, t); tl.fromTo(to, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.3, ease: EASE.text }, t + 0.1); };
+  // The stage clock: before R the burst sits on his chin, after it on yours (the replay).
+  let R = 1e9;
+  // Tags and the burst follow the bodies through any camera and sit in clear space above the heads.
+  stage.onRender((S) => {
+    if (!you.J || !rival.J) return;
+    const g = S.project(rival.J.glF), h = S.project(you.J.head), hr = S.project(rival.J.head);
+    if (g && h && hr) {
+      const x1 = Math.min(g.x, h.x + 40), x2 = Math.max(g.x, h.x + 40);
+      Object.assign(document.getElementById("gap").style, { left: `${x1}px`, top: `${g.y}px`, width: `${x2 - x1}px` });
+      const top = Math.min(h.y - h.s * 45, hr.y - hr.s * 45, g.y) - 80;
+      Object.assign(document.getElementById("tagMiss").style, { left: `${(x1 + x2) / 2 - 50}px`, top: `${top}px` });
+      Object.assign(document.getElementById("tagOpen").style, { left: `${hr.x + 70}px`, top: `${hr.y - 120}px` });
+      Object.assign(document.getElementById("tagLate").style, { left: `${h.x - 50}px`, top: `${h.y - h.s * 45 - 110}px` });
+    }
+    const victim = tl.time() >= R ? you : rival;
+    const b = S.project({ x: victim.J.head.x, y: victim.J.head.y - 16, z: victim.J.head.z });
+    if (b) Object.assign(document.getElementById("burst").style, { left: `${b.x}px`, top: `${b.y}px` });
+  });
 
-  // Intro: the title alone on the stage's backdrop.
-  kick(null, "#k0", 0.45);
-  headIn("#h0", 0.5);
+  gsap.set(["#stage", "#bug", "#b1", "#b2", "#b3", "#b4", "#chyron", "#c1", "#c2", "#c3", "#c4", "#c5", "#c6", "#gap", "#tagMiss", "#tagOpen", "#tagLate", "#burst"], { opacity: 0 });
 
-  // The world fades up around the line; both fighters breathe while they hold.
+  const tl = SportsRig.bind(gsap.timeline({ paused: true }), stage);
+  const textIn = (sel, t) => tl.fromTo(sel, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: DUR.textIn, ease: EASE.text }, t);
+  const out = (sel, t) => tl.to(sel, { opacity: 0, duration: DUR.textOut, ease: EASE.out }, t);
+  const P = (f, name, t, dur = DUR.pose, ease = EASE.pose) => SportsRig.pose(tl, f, name, t, dur, ease);
+  // A view change is one camera move: the old chyron line leaves as it starts, the new one lands as it settles.
+  const cut = (view, t, extra, from, to) => { SportsRig.view(tl, stage, view, t, extra); if (from) out(from, t); textIn(to, t + 0.35); };
+  const beat = (from, to, t) => { out(from, t); textIn(to, t + 0.15); };
+  // The impact burst sits on the chin that was hit.
+  const burst = (t, scale = 1.5, rot = 20, dur = 0.45) =>
+    tl.fromTo("#burst", { opacity: 1, scale: 0.4, rotation: 0 }, { opacity: 0, scale, rotation: rot, duration: dur, ease: "power2.out", immediateRender: false }, t);
+
+  // The title alone over the empty lit ring.
+  tl.fromTo("#stage", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+  tl.fromTo("#card h1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE.text }, 0.4);
+
+  // Side view for range: the title leaves, then the fighters fade in and step into their spots, clear of the
+  // frame edges. The graphics come up and both fighters stay gently alive the whole time.
   const S = 2.1;
-  out(["#h0 span"], S);
-  tl.fromTo("#anchor", { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: EASE.text }, S);
-  tl.fromTo("#side", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE.text }, S + 0.1);
-  SportsRig.idle(tl, you, S, 7.7);
-  SportsRig.idle(tl, rival, S + 0.35, 7.7);
-  kick("#k0", "#k1", S + 0.1);
-  headIn("#h1", S + 0.3);
+  out("#card", S);
+  SportsRig.appear(tl, stage, S + 0.25);
+  tl.fromTo(you.state, { x: -315 }, { x: -255, duration: 0.6, ease: "power2.out", immediateRender: false }, S + 0.25);
+  tl.fromTo(rival.state, { x: 255 }, { x: 195, duration: 0.6, ease: "power2.out", immediateRender: false }, S + 0.25);
+  SportsRig.idle(tl, you, S, END);
+  SportsRig.idle(tl, rival, S, END);
+  tl.fromTo("#bug", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: EASE.text }, S + 0.3);
+  tl.set("#b1", { opacity: 1 }, S + 0.3);
+  tl.fromTo("#chyron", { opacity: 0, scaleX: 0.6, transformOrigin: "left center" }, { opacity: 1, scaleX: 1, duration: 0.4, ease: EASE.text }, S + 0.4);
+  textIn("#c1", S + 0.6);
+  P(rival, "jab", 3.15, DUR.punch, EASE.punch);
+  P(rival, "guard", 3.45, DUR.recover, EASE.recoil);
 
-  // He jabs: the lead hand snaps out and back.
-  SportsRig.pose(tl, rival, "jab", 3.0, DUR.punch, EASE.punch);
-  SportsRig.pose(tl, rival, "guard", 3.3, DUR.recover);
+  // He jabs again; you lean back and it falls short. The ghost is where your head was, the ring is it moving
+  // out of range, and the miss is drawn on the subject.
+  const L = 4.1;
+  beat("#c1", "#c2", L);
+  // He steps in behind the second jab; the lean is what keeps it short this time.
+  tl.to(rival.state, { x: 110, duration: 0.35, ease: EASE.pose }, L + 0.4);
+  P(you, "lean", L + 0.45);
+  P(rival, "jab", L + 0.55, DUR.punch, EASE.punch);
+  SportsRig.show(tl, wasHere, L + 0.5, 0.9);
+  SportsRig.show(tl, headRing, L + 0.8, 0.6);
+  tl.fromTo("#gap", { opacity: 1, scaleX: 0, transformOrigin: "right center" }, { opacity: 1, scaleX: 1, duration: 0.3, ease: EASE.text }, L + 0.75);
+  tl.fromTo("#tagMiss", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, L + 0.9);
+  P(rival, "guard", L + 1.3, DUR.recover, EASE.recoil);
+  P(you, "guard", L + 1.6);
 
-  // You lean back and the same jab falls short; the gap is drawn on the subject.
-  const L = 4.0;
-  out(["#h1 span"], L);
-  headIn("#h2", L + 0.15);
-  SportsRig.pose(tl, you, "lean", L + 0.5, DUR.pose);
-  SportsRig.pose(tl, rival, "jab", L + 0.6, DUR.punch, EASE.punch);
-  tl.fromTo("#gap", { opacity: 1, scaleX: 0, transformOrigin: "right center" }, { opacity: 1, scaleX: 1, duration: 0.3, ease: EASE.text }, L + 0.8);
-  tl.fromTo("#noteMiss", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, L + 0.95);
-  SportsRig.pose(tl, rival, "guard", L + 1.4, DUR.recover);
+  // Overhead for the line: his jab is out along your line and his chin is open down it.
+  const O = 6.1;
+  out(["#gap", "#tagMiss"], O);
+  cut("overhead", O, {}, "#c2", "#c3");
+  // A little more room between them so the overhead reads as two bodies, not one.
+  tl.to(you.state, { x: -200, duration: 0.55, ease: EASE.pose }, O);
+  tl.to(rival.state, { x: 190, duration: 0.55, ease: EASE.pose }, O);
+  tl.to(stage.line, { accent: 1, duration: 0.4 }, O + 0.4);
+  P(rival, "jab", O + 0.75, 0.2, EASE.punch);
+  tl.fromTo(spot, { o: 0, p: 0 }, { o: 1, p: 1, duration: 0.4, ease: EASE.text, immediateRender: false }, O + 0.95);
+  tl.fromTo("#tagOpen", { opacity: 0 }, { opacity: 1, duration: 0.25 }, O + 1.15);
+  tl.fromTo(lane, { o: 0, p: 0 }, { o: 1, p: 1, duration: 0.45, ease: EASE.text, immediateRender: false }, O + 1.1);
+  P(rival, "guard", O + 1.9, DUR.recover, EASE.recoil);
 
-  // Counter: you come forward with the rear hand while he is still recovering.
-  const C = 5.9;
-  out(["#h2 span", "#gap", "#noteMiss"], C);
-  kick("#k1", "#k2", C);
-  headIn("#h3", C + 0.15);
-  SportsRig.pose(tl, you, "straight", C + 0.65, DUR.punch, EASE.punch);
-  SportsRig.pose(tl, rival, "hit", C + 0.78, 0.2, EASE.punch);
-  tl.fromTo("#burst", { opacity: 1, scale: 0.3 }, { opacity: 0, scale: 1.6, duration: 0.45, ease: "power2.out", immediateRender: false }, C + 0.78);
-  SportsRig.pose(tl, you, "guard", C + 1.2, DUR.recover);
-  SportsRig.pose(tl, rival, "guard", C + 1.3, 0.4);
+  // Raised three-quarter over your rear shoulder for the counter: the straight's whole line to his chin.
+  const C = 8.4;
+  tl.to([spot, lane], { o: 0, duration: 0.25 }, C);
+  out("#tagOpen", C);
+  tl.to(stage.line, { accent: 0, duration: 0.4 }, C);
+  cut("threeQuarter", C, {}, "#c3", "#c4");
+  out("#b1", C); textIn("#b2", C + 0.35);
+  tl.to(you.state, { x: -70, duration: 0.4, ease: EASE.pose }, C + 0.5);
+  tl.to(rival.state, { x: 157, duration: 0.4, ease: EASE.pose }, C + 0.2);
+  P(you, "load", C + 0.62, 0.2);
+  SportsRig.show(tl, gloveRing, C + 0.5, 0.4);
+  P(you, "straight", C + 0.84, DUR.punch, EASE.punch);
+  const CH = C + 0.96;
+  P(rival, "hit", CH, 0.18, EASE.punch);
+  burst(CH);
+  SportsRig.shake(tl, stage, CH, 12);
+  P(you, "guard", C + 1.2, DUR.recover, EASE.recoil);
+  P(rival, "guard", C + 1.5, 0.4);
 
-  // Camera: the world turns around the red line until we look down on it from above.
-  const T = 7.7;
-  out(["#h3 span"], T);
-  kick("#k2", "#k3", T);
-  tl.to("#cam", { rotation: -90, scale: 1.08, duration: DUR.camera, ease: EASE.camera }, T);
-  tl.to("#side", { opacity: 0, filter: "blur(8px)", duration: 0.4, ease: EASE.out }, T + 0.2);
-  tl.fromTo("#top", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: EASE.text }, T + 0.55);
-  headIn("#h4", T + 0.4);
+  // The finish over your back, raised so the hook's bent arm reads as an L: you step in, the hips whip, it sweeps
+  // across, he buckles and drops.
+  const K = 10.5;
+  cut("threeQuarter", K, { yaw: -30, pitch: 32, dist: 2500, tx: 20, ty: 270, cy: 720 }, "#c4", "#c5");
+  out("#b2", K); textIn("#b3", K + 0.35);
+  tl.to(you.state, { x: -15, duration: 0.4, ease: EASE.pose }, K + 0.5);
+  P(you, "step", K + 0.5, 0.4);
+  P(you, "hookLoad", K + 0.85, 0.24);
+  SportsRig.show(tl, hipRing, K + 0.8, 0.45);
+  tl.fromTo(arc, { o: 0, p: 0 }, { o: 1, p: 1, duration: 0.25, ease: "power2.out", immediateRender: false }, K + 1.05);
+  P(you, "hook", K + 1.09, DUR.punch, EASE.punch);
+  const HIT = K + 1.22;
+  burst(HIT, 1.7, -20, 0.55);
+  // The whole knockdown in one call: slow motion as the knees go, full speed as he drops, shake, camera follows.
+  SportsRig.knockout(tl, stage, rival, HIT, { x: 157, kind: "hook" });
+  tl.to(arc, { o: 0, duration: 0.4 }, HIT + 0.3);
+  P(you, "guard", HIT + 0.35, 0.4, EASE.recoil);
+  tl.to(you.state, { x: -170, duration: 0.7, ease: EASE.pose }, HIT + 1.6);
+  // Then the camera rises to look down on where he fell; a ring marks where he stood.
+  SportsRig.view(tl, stage, "overhead", HIT + 2.6, { tx: 120, tz: -60, cy: 620 }, 0.6);
+  tl.fromTo(stood, { o: 0 }, { o: 1, duration: 0.4, immediateRender: false }, HIT + 3.0);
 
-  // Step off the line: the path draws, you follow it and turn back toward him.
-  const O = 9.0;
-  tl.fromTo("#arcDraw", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.5, ease: EASE.text }, O);
-  tl.fromTo("#spot", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.4, ease: EASE.pop }, O + 0.2);
-  tl.to("#youTop", { x: 240, y: -130, rotation: -40, duration: 0.6, ease: EASE.pose }, O + 0.45);
-  tl.fromTo("#noteOff", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, O + 0.9);
+  // Replay: the same exchange, but you stay in range. Cut, reset both fighters, and the camera goes back to the
+  // side view. His jab lands, the ghost is the lean you needed, and the straight puts you down.
+  const E1 = HIT + 3.8;
+  R = E1 + 0.7;
+  tl.to("#stage", { opacity: 0, duration: 0.25, ease: EASE.out }, E1);
+  tl.to(stood, { o: 0, duration: 0.25 }, E1);
+  out("#b3", E1); textIn("#b4", E1 + 0.35);
+  beat("#c5", "#c6", E1 + 0.35);
+  tl.set(stage.cam, { ...SportsRig.VIEWS.side, ...SIDE }, E1 + 0.3);
+  SportsRig.stand(tl, you, E1 + 0.3, -157);
+  SportsRig.stand(tl, rival, E1 + 0.3, 157);
+  tl.to("#stage", { opacity: 1, duration: 0.3 }, E1 + 0.4);
 
-  // Closing: everything clears, then the payoff alone.
-  const E = 10.8;
-  out(["#h4 span", "#k3", "#top", "#anchor"], E);
-  tl.fromTo("#closing", { opacity: 0, y: 30, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: EASE.text }, E + 0.3);
+  tl.to(rival.state, { x: 60, duration: 0.35, ease: EASE.pose }, R + 0.35);
+  P(rival, "jab", R + 0.45, DUR.punch, EASE.punch);
+  const I1 = R + 0.45 + DUR.punch;
+  P(you, "hit", I1, 0.18, EASE.punch);
+  burst(I1);
+  SportsRig.shake(tl, stage, I1, 10);
+  SportsRig.show(tl, shouldBe, I1 + 0.1, 0.9);
+  tl.fromTo("#tagLate", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, I1 + 0.15);
+  out("#tagLate", I1 + 0.7);
+  P(rival, "guard", I1 + 0.35, DUR.recover, EASE.recoil);
+  P(you, "guard", I1 + 0.55, 0.3);
 
+  // He steps in with the straight; the camera moves to the front (the mirror of the hook's view), and you go down.
+  const F = I1 + 1.5;
+  SportsRig.view(tl, stage, "threeQuarter", F - 0.7, { yaw: -38, pitch: 32, dist: 2500, tx: -40, ty: 240, cy: 700 });
+  tl.to(rival.state, { x: 45, duration: 0.25, ease: EASE.pose }, F - 0.3);
+  P(rival, "load", F - 0.3, 0.2);
+  P(rival, "straight", F, DUR.punch, EASE.punch);
+  const I2 = F + DUR.punch;
+  burst(I2, 1.7, -20, 0.55);
+  const down = SportsRig.knockout(tl, stage, you, I2, { x: -157, kind: "straight" });
+  P(rival, "guard", I2 + 0.35, 0.4, EASE.recoil);
+
+  // Close: everything fades out together to the empty ring the video opened on, so it loops.
+  const E = down + 0.9;
+  tl.to(["#chyron", "#bug", "#stage"], { opacity: 0, duration: 0.6, ease: EASE.out }, E);
+
+  stage.render();
   window.__timelines.main = tl;
 </script>
 </body>

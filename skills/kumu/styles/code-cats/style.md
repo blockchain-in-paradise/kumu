@@ -21,6 +21,8 @@ typography:
   body: { fontFamily: "Fredoka", weight: 600, lineHeight: 1.3 }
   code: { fontFamily: "JetBrains Mono", weight: 400 }
   fonts: "assets/fonts/{fredoka-600,fredoka-700,jetbrains-mono-400,jetbrains-mono-700}.woff2"
+voice: "af_heart"
+voice_speed: 1.0
 preview_at: [0.2, 3.0, 9.2] # empty, elements with line, payoff
 spacing:
   edge: "70px"

@@ -5,9 +5,8 @@ narrated, and the selected style's `style.md` and sample `index.html` with
 [frame.md](frame.md) as the styling record. Start the composition from the
 style's sample: its background, type, caption, and closing code, and the
 motion-value constants at the top of its script instead of new durations and
-eases. Resolve skill assets relative to this skill directory. Prefix every
-HyperFrames command with `HYPERFRAMES_PYTHON="$HOME/.kumu/venv/bin/python"`.
-Use the installed CLI's `--help` for version-dependent flags.
+eases. Resolve skill assets relative to this skill directory. Use the installed
+CLI's `--help` for version-dependent flags.
 
 ## Output layout
 
@@ -83,7 +82,9 @@ remains, show the photo in a frame or panel instead of a rough cutout.
 
 ## Narration and timing (narrated mode)
 
-Verify Kokoro by generating the first state group with `hyperframes tts` and
+Use the style's `voice` and `voice_speed` from its `style.md` (else `am_adam` at
+1.0) for every line. Verify Kokoro by generating the first state group with
+`hyperframes tts -v <voice> -s <speed>` and
 probing its duration. Generate one WAV per `SCRIPT.md` heading under
 `.work/vo/` from the spoken text only: no headings, fact IDs, or notes. Before
 generating, replace each word in the plan's Pronunciation table with its
@@ -113,7 +114,7 @@ for English voices). Save each flat word array to `assets/vo/scene-01.words.json
 as `[{"text":"Hello","start":0.1,"end":0.4}]`. Check words against `SCRIPT.md`,
 especially names, numbers, contractions, and negations; fix spelling while
 keeping measured intervals. Respelled words appear in captions with their
-correct `SCRIPT.md` spelling, including the ʻokina and kahakō. Never distribute
+correct `SCRIPT.md` spelling, including diacritics. Never distribute
 timestamps by word-count ratios. A displayed `$4.99` may highlight as one unit
 over its spoken interval.
 
@@ -148,7 +149,9 @@ files, and add any credit a file's license requires (see the style's
   <composition-dir>` finds them.
 - **Both:** the full mix stays at or below -14 LUFS with true peaks under
   -1 dBTP. You cannot hear the mix, so measure it and record the numbers in
-  the plan.
+  the plan. The export is stereo, so mono sources read 3 LU louder than a mono
+  mix: measure the mix as dual mono (or `video.mp4` after the render) and trim
+  `data-volume` until it passes.
 
 Use a few SFX from `assets/sfx/` on actual state changes, reusing a small sound
 vocabulary. Read `hyperframes-audio` for fades, ducking, or effects; browser
@@ -161,15 +164,10 @@ Follow [review.md](review.md) before the frame checkpoint.
 
 ## Thumbnail and caption
 
-Design `composition/thumbnail.html` as a separate static cover at the video's
-aspect ratio, starting from the style's `thumbnail/index.html`, and render it
-to JPEG with the same browser. At 1080×1920, keep
-text and subject within x 60–960 and y 240–1400, which survives the profile
-grid crop and platform UI. Use the chosen title as HTML text and rebuild the
-stage at its most telling state as the hero, filling 40–60% of that box.
-Render two cover variants, view each cropped and about 150 px wide, keep the
-clearer one, and save it as `thumbnail.jpg` at the run root. The first video
-frame should also work as a fallback cover.
+Finish the plan-stage cover in `composition/thumbnail/index.html` with the
+approved title and render it to JPEG with the same browser. Render two
+variants, view each cropped and about 150 px wide, keep the clearer one, and
+save it as `thumbnail.jpg` at the run root.
 
 Write the concise, sourced post caption to `caption.txt`, with exact URLs and
 required credits.

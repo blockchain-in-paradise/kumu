@@ -51,8 +51,8 @@ Check time-sensitive claims such as prices, eligibility, limits, policies, and
 game versions for the requested date, including claims in supplied notes.
 Record uncertainty when current verification is unavailable.
 
-For local subjects, prefer state and county sources (`hawaii.gov`,
-`honolulu.gov`, and their equivalents elsewhere), local organizations, and
+For local subjects, prefer official state, county, and city sources, local
+organizations, and
 local news, and check that rules, fees, hours, and locations are current for
 the video's date.
 
@@ -122,3 +122,7 @@ and characters, a product, a landmark), study real images of it and redraw it
 faithfully: its proportions, colors, and distinctive details, such as a game's
 pixel grid. Record the images studied as visuals with `reuse_basis:
 "reference only"`.
+
+For a mechanism (a machine, a device, or a natural process), find at least one cutaway
+photo or technical diagram of the real part, reusable or as reference only, so
+the stage can be drawn from its true layout.

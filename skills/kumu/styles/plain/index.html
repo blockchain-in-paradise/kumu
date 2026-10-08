@@ -6,8 +6,10 @@
 <title>Plain style sample</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <style>
-  /* Style sample: a headline, one chart on a white card that draws itself from a computed model,
-     a caption with the current word highlighted, and the payoff card. No closing card.
+  /* Style sample: a headline, a white card holding a drawn real object at work (a glass jar that coins drop into,
+     year by year) beside a chart that draws itself, both from one computed model; a caption with the current word
+     highlighted, and the payoff card. No closing card. Real objects are flat drawings: real shape, a few details,
+     two or three tones per part, a light outline. Coins earned on earlier interest are marked in --accent.
      Demo topic: $1,000 growing at 7% a year for 30 years (computed below). */
   @font-face { font-family: "Inter"; font-weight: 400; src: url("assets/fonts/inter-400.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
@@ -21,12 +23,15 @@
   .headline { position: absolute; left: 80px; right: 80px; top: 200px; margin: 0;
     font-size: 100px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
   .headline span { display: block; }
-  .card { position: absolute; left: 80px; right: 80px; top: 520px; height: 820px; background: var(--panel);
+  .card { position: absolute; left: 80px; right: 80px; top: 520px; height: 880px; background: var(--panel);
     border: 2px solid var(--border); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
   .readout { position: absolute; left: 56px; top: 44px; }
   .readout b { display: block; font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
   .readout span { display: block; margin-top: 10px; font-size: 40px; color: #555; }
-  svg.chart { position: absolute; left: 56px; top: 300px; width: 808px; height: 460px; overflow: visible; }
+  svg.chart { position: absolute; left: 540px; top: 330px; width: 320px; height: 420px; overflow: visible; }
+  svg.jar { position: absolute; left: 30px; top: 236px; width: 470px; height: 560px; overflow: visible; }
+  .label { position: absolute; left: 56px; top: 806px; font-size: 40px; font-weight: 600; display: flex; align-items: center; gap: 16px; }
+  .label i { width: 34px; height: 34px; border-radius: 50%; background: #f08a68; border: 2px solid rgba(17,17,17,.35); }
   .caption { position: absolute; left: 80px; right: 80px; bottom: 340px; text-align: center;
     font-size: 52px; font-weight: 800; line-height: 1.2; }
   .caption span { padding: 0 8px; border-radius: 8px; }
@@ -36,15 +41,23 @@
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="8">
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="9.5">
   <h1 class="headline" id="hl"><span>How $1,000 grows</span><span>in 30 years</span></h1>
   <div class="card" id="card">
     <div class="readout"><b id="val">$1,000</b><span id="yr">Year 0, at 7% a year</span></div>
-    <svg class="chart" viewBox="0 0 808 460">
-      <line x1="0" y1="460" x2="808" y2="460" stroke="rgba(17,17,17,.2)" stroke-width="2"/>
+    <!-- An open wide-mouth glass jar: coins drop in through the rim. -->
+    <svg class="jar" viewBox="0 0 400 476">
+      <path d="M38 60 H362 V426 Q362 466 322 466 H78 Q38 466 38 426 Z" fill="#e3e9ee" stroke="rgba(17,17,17,.3)" stroke-width="3"/>
+      <g id="coins"></g>
+      <rect x="56" y="96" width="16" height="320" rx="8" fill="#ffffff" opacity=".75"/>
+      <rect x="28" y="44" width="344" height="20" rx="10" fill="#c9d2da" stroke="rgba(17,17,17,.3)" stroke-width="3"/>
+    </svg>
+    <div class="label" id="lbl"><i></i>Interest on interest</div>
+    <svg class="chart" viewBox="0 0 320 420">
+      <line x1="0" y1="420" x2="320" y2="420" stroke="rgba(17,17,17,.2)" stroke-width="2"/>
       <path id="area" fill="rgba(228,87,46,.10)" />
-      <path id="curve" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" fill="none" stroke="#e4572e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle id="dot" r="12" fill="#e4572e" />
+      <path id="curve" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" fill="none" stroke="#e4572e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle id="dot" r="10" fill="#e4572e" />
     </svg>
   </div>
   <div class="caption" id="cap"><span id="w1">Each</span> <span id="w2">year</span> <span id="w3">earns</span> <span id="w4">on</span> <span id="w5">the</span> <span id="w6">last.</span></div>
@@ -56,7 +69,7 @@
   // Model: compound $1,000 at 7% for 30 years; every value on screen comes from here.
   const years = 30, rate = 0.07, start = 1000;
   const vals = Array.from({ length: years + 1 }, (_, n) => start * Math.pow(1 + rate, n));
-  const max = 8000, W = 808, H = 460;
+  const max = 8000, W = 320, H = 420;
   const pt = (n) => [n / years * W, H - vals[n] / max * H];
   const d = vals.map((_, n) => (n ? "L" : "M") + pt(n).join(" ")).join(" ");
   document.getElementById("curve").setAttribute("d", d);
@@ -64,27 +77,73 @@
   const money = (v) => "$" + Math.round(v).toLocaleString("en-US");
   const curve = document.getElementById("curve");
 
+  // Jar model: one coin per $150. Coin k lands the first year the balance reaches (k + 1) × $150. The part of the
+  // balance above principal plus simple interest exists only because interest earned interest; an arriving coin is
+  // --accent while the accent count is below that part in whole coins, so the jar's split matches the model each year.
+  const COIN = 150, YEAR = 5 / years, NS = "http://www.w3.org/2000/svg";
+  const coins = [];
+  let accents = 0;
+  for (let k = 0; (k + 1) * COIN <= vals[years]; k++) {
+    const n = vals.findIndex((v) => v >= (k + 1) * COIN);
+    const bonus = Math.floor((vals[n] - start * (1 + rate * n)) / COIN) > accents;
+    if (bonus) accents++;
+    coins.push({ k, n, bonus });
+  }
+  // Layout: coin k goes in stack k % 3; within a stack, gray coins sit below orange ones, so the orange reads as one
+  // band on top. levelAt(c, n) is the coin's level in year n; a gray arrival lifts that stack's orange coins one level.
+  const STACK_X = [110, 200, 290], FLOOR = 445, PITCH = 22, RIM = 30;
+  const levelAt = (c, n) => {
+    const here = coins.filter((o) => o.k % 3 === c.k % 3 && o.n <= n);
+    return [...here.filter((o) => !o.bonus), ...here.filter((o) => o.bonus)].indexOf(c);
+  };
+  const slotY = (lvl) => FLOOR - lvl * PITCH;
+  coins.forEach((c) => {
+    const g = document.createElementNS(NS, "g");
+    const [top, edge] = c.bonus ? ["#f08a68", "#e4572e"] : ["#d6d6d6", "#ababab"];
+    // Outer group places the coin; the inner group is what drops, so tweens never touch the placement.
+    g.innerHTML = `<g><rect x="-42" y="-11" width="84" height="22" rx="7" fill="${edge}" stroke="rgba(17,17,17,.35)" stroke-width="2"/>`
+      + `<ellipse cx="0" cy="-11" rx="42" ry="9" fill="${top}" stroke="rgba(17,17,17,.35)" stroke-width="2"/></g>`;
+    c.slot = g; c.el = g.firstChild; document.getElementById("coins").appendChild(g);
+  });
+
   const tl = gsap.timeline({ paused: true });
   tl.set("#dot", { attr: { cx: pt(0)[0], cy: pt(0)[1] } }, 0);
   // Intro: the background alone until 0.4 s, then the headline and card enter.
   tl.from(["#hl span", "#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
-  // The curve draws year by year from 1.2 s to 4.2 s; the readout is set from the model each year.
-  tl.fromTo(curve, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: 3, ease: "none" }, 1.2);
+  // The curve draws year by year from 1.2 s to 6.2 s; the readout is set from the model each year.
+  tl.fromTo(curve, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: years * YEAR, ease: "none" }, 1.2);
   vals.forEach((v, n) => {
-    const t = 1.2 + n * (3 / years);
+    const t = 1.2 + n * YEAR;
     tl.set("#dot", { attr: { cx: pt(n)[0], cy: pt(n)[1] } }, t);
     tl.set("#area", { attr: { d: areaTo(n) } }, t);
     tl.set("#val", { textContent: money(v) }, t);
     tl.set("#yr", { textContent: `Year ${n}, at 7% a year` }, t);
   });
+  // Coins: the principal sits in the jar from the start; each later coin drops through the rim the year it is
+  // earned, and orange coins lift one level when a gray coin settles under them. Every position comes from levelAt.
+  const DROP = 0.15, LIFT = 0.1; // short, so the year-by-year frames settle between drops
+  coins.forEach((c) => {
+    const t0 = 1.2 + c.n * YEAR + coins.filter((o) => o.n === c.n).indexOf(c) * 0.04;
+    tl.set(c.slot, { x: STACK_X[c.k % 3], y: slotY(levelAt(c, c.n)) }, 0);
+    if (c.n > 0) {
+      tl.set(c.el, { opacity: 0 }, 0);
+      tl.fromTo(c.el, { opacity: 1, y: RIM - slotY(levelAt(c, c.n)) }, { y: 0, duration: DROP, ease: "power2.in", immediateRender: false }, t0);
+    }
+    for (let n = c.n + 1; n <= years; n++) {
+      const from = levelAt(c, n - 1), to = levelAt(c, n);
+      if (to !== from) tl.fromTo(c.slot, { y: slotY(from) }, { y: slotY(to), duration: LIFT, ease: ENTER, immediateRender: false }, 1.2 + n * YEAR);
+    }
+  });
+  tl.from("#lbl", { opacity: 0, y: 20, duration: 0.5, ease: ENTER }, 3.6);
+
   // Caption: only the current word is highlighted.
-  [[1.8, 2.1], [2.1, 2.4], [2.4, 2.75], [2.75, 2.95], [2.95, 3.15], [3.15, 3.7]].forEach(([s, e], i) => {
+  [[2.2, 2.7], [2.7, 3.2], [3.2, 3.8], [3.8, 4.1], [4.1, 4.4], [4.4, 5.4]].forEach(([s, e], i) => {
     tl.set(`#w${i + 1}`, { backgroundColor: "#ffd84d" }, s);
     tl.set(`#w${i + 1}`, { backgroundColor: "rgba(0,0,0,0)" }, e);
   });
   // Payoff: the chart clears and the answer stands alone.
-  tl.to(["#hl", "#card", "#cap"], { opacity: 0, y: -24, duration: 0.45, ease: EXIT }, 5.0);
-  tl.fromTo("#payoff", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.6, ease: ENTER }, 5.4);
+  tl.to(["#hl", "#card", "#cap"], { opacity: 0, y: -24, duration: 0.45, ease: EXIT }, 7.0);
+  tl.fromTo("#payoff", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.6, ease: ENTER }, 7.4);
   window.__timelines.main = tl;
 </script>
 </body>

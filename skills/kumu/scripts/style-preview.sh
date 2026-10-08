@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Build a style's preview.png: thumbnail, empty frame, elements with caption,
-# and closing, side by side. Usage: style-preview.sh <style-dir>
-# Times come from `preview_at: [empty, elements, closing]` in the style's style.md.
+# Build a preview.png: thumbnail, empty or first frame, elements, and closing,
+# side by side. Usage: style-preview.sh <dir> [times] [output]
+# <dir> holds index.html and thumbnail/index.html. Times default to
+# `preview_at: [empty, elements, closing]` in <dir>/style.md; output defaults
+# to <dir>/preview.png.
 set -euo pipefail
 
-dir="${1:?usage: style-preview.sh <style-dir>}"
-times="$(sed -n 's/^preview_at: *\[\([^]]*\)\].*/\1/p' "$dir/style.md" | tr -d ' ')"
-[ -n "$times" ] || { echo "No preview_at in $dir/style.md"; exit 1; }
+dir="${1:?usage: style-preview.sh <dir> [times] [output]}"
+times="${2:-$(sed -n 's/^preview_at: *\[\([^]]*\)\].*/\1/p' "$dir/style.md" 2>/dev/null | tr -d ' ')}"
+out="${3:-$dir/preview.png}"
+[ -n "$times" ] || { echo "No times given and no preview_at in $dir/style.md"; exit 1; }
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
@@ -22,5 +25,6 @@ for i in 0 1 2 3; do
   filters+="[$i]scale=540:960,pad=564:984:12:12:color=0x1a1a1a[f$i];"
   labels+="[f$i]"
 done
-ffmpeg -v error -y "${inputs[@]}" -filter_complex "${filters}${labels}hstack=4" "$dir/preview.png"
-echo "Wrote $dir/preview.png"
+mkdir -p "$(dirname "$out")"
+ffmpeg -v error -y "${inputs[@]}" -filter_complex "${filters}${labels}hstack=4" "$out"
+echo "Wrote $out"

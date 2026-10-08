@@ -13,7 +13,7 @@ typography:
   display: { fontFamily: "Inter", weight: 800, lineHeight: 0.95, tracking: "-0.03em" }
   body: { fontFamily: "Inter", weight: 400, lineHeight: 1.4 }
   fonts: "assets/fonts/inter-{400,600,800}.woff2"
-preview_at: [0.2, 2.6, 7] # empty, elements with caption, payoff
+preview_at: [0.2, 4.69, 9] # empty, jar and chart mid-growth with caption, payoff
 spacing:
   edge: "80px"
   platform_ui_bottom: "420px"
@@ -33,6 +33,14 @@ Plain `--canvas` background, no texture. Props and diagrams are flat white
 cards with a 2 px `--border` and a soft shadow (`0 12px 32px rgba(0,0,0,.08)`).
 Captions are `--ink` with only the current word on a `--highlight` background.
 Scenes change in place or slide; no decorative motion.
+
+Real objects are flat drawings inside the card, shown working: real shape, a
+few telling details, two or three flat tones per part, a 2–3 px outline in
+`rgba(17,17,17,.3)`. Neutral grays for the object, `--accent` only for the part
+the video is about. In the sample, each year coins from the model drop into an
+open glass jar; coins that exist only because interest earned
+interest are `--accent` and stack on top of the gray ones as one growing band,
+beside a small chart of the same model. Pick still frames between drops.
 
 # Motion values
 

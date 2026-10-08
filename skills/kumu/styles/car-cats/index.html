@@ -9,6 +9,8 @@
   /* Style sample: a dark carbon backdrop, an intro title alone, then a header that swaps to each car's name,
      real car photos in skewed panels that arrive differently each time, one key number per car, the cat mascot
      (gato.webp) moving around the frame with meme captions, a centered visual-mode line, and a clean closing.
+     Then a mechanism scene: the GR86's Subaru-built boxer drawn on in gray lines, filled part by part, fired up with a
+     shake, and left running (opposed pistons, crank, combustion glow) while it is on screen.
      Demo topic: 2024 Mazda MX-5 vs Toyota GR86 horsepower (US specs). */
   @font-face { font-family: "Barlow Condensed"; font-weight: 800; font-style: italic; src: url("assets/fonts/barlow-condensed-800-italic.woff2") format("woff2"); }
   @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("assets/fonts/barlow-condensed-600-normal.woff2") format("woff2"); }
@@ -58,6 +60,11 @@
     text-transform: uppercase; -webkit-text-stroke: 3px #000; paint-order: stroke fill; text-shadow: 0 4px 16px rgba(0,0,0,.9); }
   .line em { font-style: italic; color: var(--accent); }
 
+  /* Mechanism: a front cutaway in flat gray tones with light outlines, drawn on, then running. */
+  #engine { position: absolute; left: 0; top: 360px; width: 1080px; height: 702px; filter: drop-shadow(0 24px 30px rgba(0,0,0,.6)); }
+  #engine .ln { fill: none; stroke: #d9dde3; stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 1; stroke-linejoin: round; }
+  #engine .fl { opacity: 0; }
+
   .pass { position: absolute; left: 0; top: 760px; width: 1600px; height: 420px; transform: skewX(-24deg);
     background: linear-gradient(90deg, transparent, #b5121f 18%, #ff2d3d 50%, #b5121f 82%, transparent);
     box-shadow: 0 0 80px rgba(255,45,61,.6); }
@@ -70,7 +77,7 @@
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="11">
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="16.5">
   <div class="carbon"></div><div class="glow"></div><div class="vignette"></div>
 
   <div class="intro" id="intro"><h1><span>MX-5</span><span><em>vs</em> GR86</span></h1></div>
@@ -97,6 +104,103 @@
   <div class="line" id="lineA">Light and <em>simple</em></div>
   <div class="line" id="lineB">The GR86 <em>pulls ahead</em></div>
 
+  <h2 id="nameE" style="position:absolute; left:70px; top:150px; margin:0; font-size:140px; font-weight:800; font-style:italic; line-height:.9; text-transform:uppercase; white-space:nowrap">GR86 <em style="color:var(--accent); font-style:italic">Boxer</em></h2>
+
+  <!-- Mechanism: the GR86's flat-four seen from the front. Opposed pistons share one crank, throws 180° apart. -->
+  <svg id="engine" viewBox="0 0 1000 650">
+    <defs>
+      <filter id="burn" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" /></filter>
+      <!-- Cylindrical metal: a bright band along the axis, dark at the edges. -->
+      <linearGradient id="gCyl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6c717a" /><stop offset=".32" stop-color="#e6e9ed" /><stop offset=".55" stop-color="#c2c7ce" /><stop offset="1" stop-color="#5f646d" /></linearGradient>
+      <linearGradient id="gCylV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5f646d" /><stop offset=".35" stop-color="#d4d8de" /><stop offset="1" stop-color="#5f646d" /></linearGradient>
+      <linearGradient id="gBlock" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#555a63" /><stop offset="1" stop-color="#2f3238" /></linearGradient>
+      <linearGradient id="gHead" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a7f89" /><stop offset="1" stop-color="#4a4e57" /></linearGradient>
+      <linearGradient id="gIntake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9bec7" /><stop offset="1" stop-color="#6f747e" /></linearGradient>
+      <linearGradient id="gExh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a645a" /><stop offset="1" stop-color="#3b3230" /></linearGradient>
+    </defs>
+
+    <!-- Intake: plenum with throttle body on top, runners down to each head. -->
+    <g class="fl" id="fIntake">
+      <g id="runnerR"><path d="M560 92 C 690 92, 860 120, 882 196" fill="none" stroke="#6f747e" stroke-width="40" stroke-linecap="round" />
+        <path d="M560 84 C 690 84, 856 112, 878 192" fill="none" stroke="#c9cdd3" stroke-width="8" stroke-linecap="round" opacity=".6" /></g>
+      <use href="#runnerR" transform="translate(1000 0) scale(-1 1)" />
+      <rect x="390" y="40" width="220" height="80" rx="26" fill="url(#gIntake)" stroke="rgba(255,255,255,.3)" stroke-width="2" />
+      <circle cx="500" cy="80" r="26" fill="#2b2e33" stroke="#d9dde3" stroke-width="3" /><line x1="480" y1="92" x2="520" y2="68" stroke="#9aa0aa" stroke-width="5" />
+    </g>
+
+    <!-- Exhaust: headers leave the bottom of each head and meet under the engine. -->
+    <g class="fl" id="fExhaust">
+      <path id="headerR" d="M882 462 C 882 560, 720 610, 566 606" fill="none" stroke="url(#gExh)" stroke-width="36" stroke-linecap="round" />
+      <use href="#headerR" transform="translate(1000 0) scale(-1 1)" />
+      <path id="hotR" d="M882 462 C 882 560, 720 610, 566 606" fill="none" stroke="#ff7a2d" stroke-width="22" stroke-linecap="round" filter="url(#burn)" opacity="0" />
+      <path id="hotL" d="M882 462 C 882 560, 720 610, 566 606" fill="none" stroke="#ff7a2d" stroke-width="22" stroke-linecap="round" filter="url(#burn)" opacity="0" transform="translate(1000 0) scale(-1 1)" />
+      <rect x="440" y="584" width="120" height="46" rx="22" fill="url(#gExh)" stroke="rgba(255,255,255,.2)" stroke-width="2" />
+    </g>
+
+    <!-- Block: finned barrels both sides, crankcase in the middle, bores and crank cavity cut away. -->
+    <g class="fl" id="fBlock">
+      <g id="barrelR"><g id="finsR"></g>
+        <rect x="590" y="238" width="250" height="184" fill="url(#gBlock)" stroke="rgba(255,255,255,.22)" stroke-width="2" /></g>
+      <use href="#barrelR" transform="translate(1000 0) scale(-1 1)" />
+      <rect x="400" y="212" width="200" height="240" rx="22" fill="url(#gBlock)" stroke="rgba(255,255,255,.22)" stroke-width="2" />
+      <rect x="165" y="262" width="670" height="136" fill="#141519" />
+      <circle cx="500" cy="330" r="104" fill="#141519" />
+    </g>
+
+    <!-- Oil pan under the crankcase, with its drain bolt. -->
+    <g class="fl" id="fPan">
+      <path d="M410 446 H590 L574 548 Q570 562 556 562 H444 Q430 562 426 548 Z" fill="url(#gBlock)" stroke="rgba(255,255,255,.22)" stroke-width="2" />
+      <path d="M428 480 H572 M432 506 H568 M436 532 H564" stroke="#25272c" stroke-width="4" />
+      <circle cx="500" cy="562" r="9" fill="#9aa0aa" />
+    </g>
+
+    <!-- Heads: valve cover, bolts, cams and valves (dynamic) per side. -->
+    <g class="fl" id="fHeads">
+      <g id="headR">
+        <rect x="835" y="196" width="100" height="268" rx="16" fill="url(#gHead)" stroke="rgba(255,255,255,.28)" stroke-width="2" />
+        <rect x="926" y="214" width="46" height="232" rx="20" fill="#3f434b" stroke="rgba(255,255,255,.2)" stroke-width="2" />
+        <circle cx="852" cy="212" r="6" fill="#c3c8cf" /><circle cx="918" cy="212" r="6" fill="#c3c8cf" />
+        <circle cx="852" cy="448" r="6" fill="#c3c8cf" /><circle cx="918" cy="448" r="6" fill="#c3c8cf" />
+        <rect x="846" y="270" width="50" height="120" rx="10" fill="#2a2c31" />
+      </g>
+      <use href="#headR" transform="translate(1000 0) scale(-1 1)" />
+      <g id="valves"></g>
+    </g>
+
+    <!-- Crank: main journal, a web to both throws, counterweights opposite. -->
+    <g class="fl" id="fCrank">
+      <g id="crank">
+        <path d="M500 330 m-66 0 a66 66 0 0 0 132 0 Z" fill="#5f646d" stroke="rgba(255,255,255,.2)" stroke-width="2" transform="rotate(90 500 330)" />
+        <path d="M500 330 m-66 0 a66 66 0 0 0 132 0 Z" fill="#5f646d" stroke="rgba(255,255,255,.2)" stroke-width="2" transform="rotate(-90 500 330)" />
+        <rect x="438" y="312" width="124" height="36" rx="18" fill="#8a8f99" />
+        <circle cx="550" cy="330" r="16" fill="url(#gCyl)" /><circle cx="450" cy="330" r="16" fill="url(#gCyl)" />
+        <circle cx="500" cy="330" r="26" fill="url(#gCyl)" stroke="#4a4e57" stroke-width="2" />
+      </g>
+    </g>
+    <g class="fl" id="fRods">
+      <line id="rodL" stroke="#9ea4ae" stroke-width="28" stroke-linecap="round" />
+      <line id="rodR" stroke="#9ea4ae" stroke-width="28" stroke-linecap="round" />
+    </g>
+    <g class="fl" id="fPistons">
+      <g id="pistonR"><rect x="-20" y="-64" width="120" height="128" rx="8" fill="url(#gCyl)" stroke="rgba(255,255,255,.3)" stroke-width="2" />
+        <path d="M70 -64 V64 M80 -64 V64 M90 -64 V64" stroke="#5f646d" stroke-width="3" /><circle r="15" fill="url(#gCylV)" stroke="#5f646d" stroke-width="2" /></g>
+      <g id="pistonL"><rect x="-100" y="-64" width="120" height="128" rx="8" fill="url(#gCyl)" stroke="rgba(255,255,255,.3)" stroke-width="2" />
+        <path d="M-70 -64 V64 M-80 -64 V64 M-90 -64 V64" stroke="#5f646d" stroke-width="3" /><circle r="15" fill="url(#gCylV)" stroke="#5f646d" stroke-width="2" /></g>
+    </g>
+    <ellipse id="burnL" cx="182" cy="330" rx="26" ry="62" fill="#ff7a2d" filter="url(#burn)" opacity="0" />
+    <ellipse id="burnR" cx="818" cy="330" rx="26" ry="62" fill="#ff7a2d" filter="url(#burn)" opacity="0" />
+
+    <path class="ln" pathLength="1" d="M590 238 H835 V422 H590 M410 238 H165 V422 H410" />
+    <rect class="ln" pathLength="1" x="400" y="212" width="200" height="240" rx="22" />
+    <rect class="ln" pathLength="1" x="835" y="196" width="100" height="268" rx="16" />
+    <rect class="ln" pathLength="1" x="65" y="196" width="100" height="268" rx="16" />
+    <rect class="ln" pathLength="1" x="390" y="40" width="220" height="80" rx="26" />
+    <path class="ln" pathLength="1" d="M410 446 H590 L574 548 Q570 562 556 562 H444 Q430 562 426 548 Z" />
+  </svg>
+  <div class="label" id="labelE" style="left:70px; top:1110px">Flat-four, Subaru built</div>
+  <div class="meme" id="memeE" style="right:-40px; top:1080px">Boxing?!</div>
+  <div class="line" id="lineE">The pistons punch <em>sideways</em></div>
+
   <div class="pass" id="pass"></div>
   <div class="closing" id="closing"><b>+47 HP</b><span>GR86 over MX-5</span></div>
 </div>
@@ -111,7 +215,8 @@
 
   const tl = gsap.timeline({ paused: true });
   gsap.set("#pass", { x: 1200 });
-  gsap.set(["#header h2", "#redline", "#carA", "#statA", "#labelA", "#carB", "#statB", "#cat", "#memeA", "#memeB", "#lineA", "#lineB", "#closing"], { opacity: 0 });
+  gsap.set(["#header h2", "#redline", "#carA", "#statA", "#labelA", "#carB", "#statB", "#cat", "#memeA", "#memeB", "#lineA", "#lineB", "#closing",
+    "#nameE", "#labelE", "#memeE", "#lineE"], { opacity: 0 });
 
   // Intro: the title alone on the backdrop, nothing else.
   tl.from("#intro h1 span", { opacity: 0, x: -140, skewX: -12, duration: DUR.medium, ease: EASE.drive, stagger: 0.12 }, 0.45);
@@ -151,11 +256,82 @@
   tl.fromTo("#cat", { scale: 0.4, rotation: -12, x: -300 }, { scale: 1, rotation: 0, x: 0, duration: DUR.medium, ease: EASE.pop, immediateRender: false }, B + 1.8);
   tl.fromTo("#memeB", { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: DUR.small, ease: EASE.skid }, B + 1.95);
 
+  // Mechanism: car B clears sideways, the header swaps, and the engine draws on, fills, fires up, and runs.
+  const E = 8.7;
+  tl.to(["#carB", "#statB", "#lineB"], { x: 1300, filter: "blur(12px)", duration: 0.35, ease: EASE.exit, stagger: 0.03 }, E);
+  tl.to(["#cat", "#memeB"], { opacity: 0, scale: 0.6, duration: 0.2, ease: EASE.exit }, E);
+  tl.to("#nameB", { opacity: 0, x: 200, duration: 0.25, ease: EASE.exit }, E + 0.05);
+  tl.fromTo("#nameE", { opacity: 0, x: -120, skewX: -12 }, { opacity: 1, x: 0, skewX: 0, duration: DUR.medium, ease: EASE.drive }, E + 0.25);
+  tl.to("#engine .ln", { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut", stagger: 0.12 }, E + 0.4);
+  tl.to(["#fBlock", "#fHeads", "#fPan", "#fIntake", "#fExhaust", "#fCrank", "#fRods", "#fPistons"], { opacity: 1, duration: DUR.small, stagger: 0.09 }, E + 1.1);
+  tl.to("#engine .ln", { opacity: 0, duration: DUR.small }, E + 1.8);
+  tl.fromTo("#lineE", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: DUR.small, ease: EASE.drive }, E + 1.9);
+  tl.to("#engine", { x: 8, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, E + 1.9);
+
+  // Model: crank angle drives both pistons; throws 180° apart, so opposed pistons move out and in together.
+  // Each side runs a four-stroke cycle over 4π: left fires at 0, right at 2π. Valves and cams follow it.
+  const CX = 500, CY = 330, R = 50, L = 150, FIRE = 0.5, NS = "http://www.w3.org/2000/svg";
+  const $ = (id) => document.getElementById(id);
+  const make = (tag, attrs, parent) => { const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]); parent.appendChild(el); return el; };
+  for (let x = 606; x <= 820; x += 22) make("rect", { x, y: 220, width: 11, height: 220, rx: 3, fill: "#3c4048" }, $("finsR"));
+  // Valves: intake above the bore, exhaust below. dir points into the cylinder.
+  const valves = [];
+  for (const [side, face, dir, cam] of [["L", 165, 1, 120], ["R", 835, -1, 880]])
+    for (const [kind, y] of [["in", 300], ["ex", 360]]) {
+      const g = make("g", {}, $("valves"));
+      make("line", { x1: face - dir * 52, y1: y, x2: face, y2: y, stroke: "#c3c8cf", "stroke-width": 6 }, g);
+      make("rect", { x: face - 4, y: y - 16, width: 8, height: 32, rx: 3, fill: "#d9dde3" }, g);
+      const c = make("g", {}, $("valves"));
+      make("circle", { cx: cam, cy: y, r: 13, fill: "#8a8f99" }, c);
+      make("path", { d: `M${cam - 13} ${y} A13 13 0 0 0 ${cam + 13} ${y} L${cam} ${y + 24} Z`, fill: "#8a8f99" }, c);
+      valves.push({ side, kind, dir, g, c, cam, y });
+    }
+  // Stroke windows within each side's 4π cycle, starting at its firing TDC.
+  const STROKE = { power: 0, ex: Math.PI, in: 2 * Math.PI };
+  const lift = (cyc, start) => { const t = cyc - start; return t > 0 && t < Math.PI ? Math.sin(t) : 0; };
+  const crank = { a: 0 };
+  function drawEngine() {
+    const a = crank.a, px = R * Math.cos(a), py = R * Math.sin(a);
+    const reach = Math.sqrt(L * L - py * py);
+    const rx = CX + px + reach, lx = CX - px - reach;
+    $("pistonR").setAttribute("transform", `translate(${rx} ${CY})`);
+    $("pistonL").setAttribute("transform", `translate(${lx} ${CY})`);
+    const rod = (id, x1, y1, x2) => { const el = $(id);
+      el.setAttribute("x1", x1); el.setAttribute("y1", y1); el.setAttribute("x2", x2); el.setAttribute("y2", CY); };
+    rod("rodR", CX + px, CY + py, rx); rod("rodL", CX - px, CY - py, lx);
+    $("crank").setAttribute("transform", `rotate(${a * 180 / Math.PI} ${CX} ${CY})`);
+    const cyc = ((a % (4 * Math.PI)) + 4 * Math.PI) % (4 * Math.PI);
+    const local = { L: cyc, R: (cyc + 2 * Math.PI) % (4 * Math.PI) };
+    const burn = (c) => (a > 0 ? Math.exp(-Math.pow(c - FIRE, 2) / 1.2) : 0);
+    $("burnL").setAttribute("opacity", burn(local.L).toFixed(3));
+    $("burnR").setAttribute("opacity", burn(local.R).toFixed(3));
+    for (const v of valves) {
+      const open = lift(local[v.side], STROKE[v.kind]);
+      v.g.setAttribute("transform", `translate(${v.dir * 12 * open} 0)`);
+      // Cams turn at half crank speed; the lobe points at the valve when it is fully open.
+      const deg = (local[v.side] - STROKE[v.kind] - Math.PI / 2) * 90 / Math.PI + (v.dir > 0 ? 90 : -90);
+      v.c.setAttribute("transform", `rotate(${deg} ${v.cam} ${v.y})`);
+    }
+    $("hotL").setAttribute("opacity", (0.8 * lift(local.L, STROKE.ex)).toFixed(3));
+    $("hotR").setAttribute("opacity", (0.8 * lift(local.R, STROKE.ex)).toFixed(3));
+  }
+  drawEngine();
+  const SPIN = E + 2.0, SPUN = SPIN + 1.5, PASS = E + 5.2;
+  const SPEED = 2 * (6 * Math.PI) / 1.5; // rad/s at the end of the spin-up
+  tl.fromTo(crank, { a: 0 }, { a: 6 * Math.PI, duration: SPUN - SPIN, ease: "power2.in", onUpdate: drawEngine, immediateRender: false }, SPIN);
+  tl.fromTo(crank, { a: 6 * Math.PI }, { a: 6 * Math.PI + SPEED * (PASS + 0.4 - SPUN), duration: PASS + 0.4 - SPUN, ease: "none", onUpdate: drawEngine, immediateRender: false }, SPUN);
+  tl.fromTo("#labelE", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: DUR.small, ease: EASE.drive }, E + 2.6);
+
+  // The cat rises from the bottom right again, now confused by the name.
+  tl.set("#cat", { left: "auto", right: 20, x: 0, scale: 1, rotation: 0, opacity: 1, y: 700 }, E + 2.9);
+  tl.to("#cat", { y: 0, duration: DUR.medium, ease: EASE.pop }, E + 2.9);
+  tl.fromTo("#memeE", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: DUR.small, ease: EASE.pop }, E + 3.2);
+
   // Race pass to the closing: everything clears, header included, and the closing skids in alone.
-  const PASS = 8.8;
-  tl.to(["#cat", "#memeB"], { opacity: 0, scale: 0.6, duration: 0.2, ease: EASE.exit }, PASS);
-  tl.to(["#header", "#redline", "#carB"], { x: -1300, filter: "blur(14px)", duration: 0.35, ease: EASE.exit, stagger: 0.04 }, PASS + 0.05);
-  tl.to(["#statB", "#lineB"], { x: 1300, filter: "blur(14px)", duration: 0.35, ease: EASE.exit, stagger: 0.04 }, PASS + 0.05);
+  tl.to(["#cat", "#memeE"], { opacity: 0, scale: 0.6, duration: 0.2, ease: EASE.exit }, PASS);
+  tl.to(["#nameE", "#redline", "#engine"], { x: -1300, filter: "blur(14px)", duration: 0.35, ease: EASE.exit, stagger: 0.04 }, PASS + 0.05);
+  tl.to(["#labelE", "#lineE"], { x: 1300, filter: "blur(14px)", duration: 0.35, ease: EASE.exit, stagger: 0.04 }, PASS + 0.05);
   tl.fromTo("#pass", { x: 1200 }, { x: -1800, duration: 0.45, ease: "power2.inOut" }, PASS + 0.15);
   tl.fromTo("#closing", { opacity: 0, x: 900, skewX: -18, filter: "blur(10px)" },
     { opacity: 1, x: 0, skewX: 0, filter: "blur(0px)", duration: DUR.medium, ease: EASE.skid }, PASS + 0.4);

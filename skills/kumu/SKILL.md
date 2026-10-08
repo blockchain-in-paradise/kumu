@@ -17,7 +17,8 @@ Accept a topic in natural language, `--topic`, `--url` (one `--source`), or
 `--source`. Ask for a subject
 only when it is missing.
 
-- `--mode narrated|visual`. Narrated: Kokoro `af_heart` voice, phrase captions
+- `--mode narrated|visual`. Narrated: the style's `voice` (a Kokoro voice ID in its
+  `style.md`), else `am_adam`, with phrase captions
   highlighting the spoken word, 30–90 seconds. Visual: no voice, short on-screen
   lines carry the words, music and SFX, 10–90 seconds. Without `--mode`, the
   concept step recommends one. `--no-voice` means `--mode visual`.
@@ -66,14 +67,8 @@ A style is a folder holding `style.md` (tokens and look), `index.html` (a
 working sample composition), `thumbnail/` (a cover sample), `preview.png`
 (thumbnail, empty, elements, and closing frames side by side), and `assets/`. `--style` matches a folder name or
 the `name` in its `style.md`, case-insensitively. Search the project's
-`styles/` folder first, then the bundled [styles/](styles/): `pupukahi-tech`
-(the default), `plain` (neutral, no closing card), `motion` (light UI
-motion graphics: drifting color fields, white UI cards, a cursor, blur-in
-headlines), `code-cats` (cartoon cats acting out code above an editor, on
-switchable 2D backdrops), `car-cats` (real car photos in angled panels on a dark
-racing backdrop, with the gato cat meme reacting), and `boxing` (flat rigged
-fighters on a dark stage, a headline per beat, and a camera that turns between
-side and top-down views). A named style that cannot
+`styles/` folder first, then the bundled [styles/](styles/); each folder is a
+style, and `plain` is the default. A named style that cannot
 be found is an error: list the available names instead of substituting. An
 article's publisher does not replace the style unless requested.
 
@@ -100,11 +95,14 @@ there.
 3. **Script and plan.** Read [script.md](script.md). For the recommended
    concept, write the words (`SCRIPT.md` when narrated, the on-screen lines in
    the plan when visual), the stage, its states, and the thumbnail brief. Then
-   build only the first state as a still (stage, setting, title, and first
-   line, no animation or audio) and save it with `hyperframes snapshot --at 0`
-   as `composition/frames/style-frame.png`. Review it as
-   [review.md](review.md) describes. Run no TTS yet. Stop at the plan
-   checkpoint.
+   build three states as stills (no animation or audio): the first state, the
+   hero state (the stage's main graphic at its most telling moment, with its
+   line), and the closing frame, plus the cover from the thumbnail brief in
+   `composition/thumbnail/index.html`. Save them side by side with
+   [scripts/style-preview.sh](scripts/style-preview.sh)
+   `composition 0,<hero>,<closing> composition/frames/plan-preview.png`.
+   Review it as [review.md](review.md) describes. Run no TTS yet. Stop at the
+   plan checkpoint.
 4. **Compose.** Read [frame.md](frame.md) and [render.md](render.md). Build
    from the approved plan only. Inspect one state at phone size before building
    the rest, create `thumbnail.jpg` and `caption.txt`, then run the review in
@@ -126,7 +124,7 @@ asks again. A request to continue a named run approves only its current
 checkpoint.
 
 - **Plan:** record `Status: awaiting plan review`, link `research.json`,
-  `video-plan.md`, `SCRIPT.md` when narrated, and the style frame, name the
+  `video-plan.md`, `SCRIPT.md` when narrated, and `plan-preview.png`, name the
   style in use (switch with `--style <name>`), and ask: "Continue with
   concept <letter> and this plan, using the recommended thumbnail title unless
   you pick another? Yes / No, or name another concept." Choosing another concept
@@ -154,9 +152,9 @@ such as prices and policies, and begin at the concept stage.
 Teach one thing well: the form follows the viewer's goal (see
 [concept.md](concept.md)), and every number on screen is honest.
 
-Spell Hawaiian and other non-English words correctly everywhere they appear,
-including the ʻokina and kahakō (Hawaiʻi, Kalākaua). Pronunciation for the
-voice is handled separately in [render.md](render.md).
+Spell non-English names and words correctly everywhere they appear, including
+their diacritics (for example the Hawaiian ʻokina and kahakō in Hawaiʻi).
+Pronunciation for the voice is handled separately in [render.md](render.md).
 
 Use the user's tone and any supplied writing samples without copying anecdotes.
 In agent-written audience copy, including on-screen labels and data lines,

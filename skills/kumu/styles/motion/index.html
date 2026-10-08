@@ -119,10 +119,18 @@
   const loadStart = 1.9, loadTime = 2.4, loaded = loadStart + loadTime;
 
   const tl = gsap.timeline({ paused: true });
-  // Ambient layer: color fields drift slowly behind everything.
-  tl.fromTo("#b1", { x: 0, y: 0 }, { x: 120, y: 80, duration: 8.5, ease: EASE.drift }, 0);
-  tl.fromTo("#b2", { x: 0, y: 0 }, { x: -100, y: -60, duration: 8.5, ease: EASE.drift }, 0);
-  tl.fromTo("#b3", { x: 0 }, { x: 90, duration: 8.5, ease: EASE.drift }, 0);
+  // Ambient layer: color fields flow and breathe behind everything. Each field swings back and forth
+  // on its own period (offset phases), with repeats computed to cover the whole duration; seek-safe.
+  const TOTAL = 8.5;
+  const FIELDS = [
+    { id: "#b1", to: { x: 110, y: 70, scale: 1.08, opacity: 0.85 }, period: 3.5 },
+    { id: "#b2", to: { x: -90, y: -80, scale: 0.92, opacity: 1 }, period: 4.25 },
+    { id: "#b3", to: { x: 100, y: -50, scale: 1.06, opacity: 0.8 }, period: 3 },
+  ];
+  FIELDS.forEach((f) => {
+    tl.fromTo(f.id, { x: 0, y: 0, scale: 1, opacity: 1 }, { ...f.to, duration: f.period, ease: EASE.drift,
+      repeat: Math.ceil(TOTAL / f.period) - 1, yoyo: true }, 0);
+  });
   tl.set(["#l2", "#closing", "#contentA", "#contentB", "#spin", "#skel", "#done"], { opacity: 0 }, 0);
   tl.set("#cursor", { x: 470, y: 820 }, 0);
 

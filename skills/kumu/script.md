@@ -72,7 +72,6 @@ unless the selected platform and placement support it.
 
 There is no `SCRIPT.md`. The on-screen lines carry the words:
 
-- The title stays on screen the whole video.
 - One short line per state group, about eight words or fewer, naming what just
   changed or why it matters ("The middle book rules out half"). Mark its one key
   word in bold in the plan; it renders in `--highlight`.
@@ -105,6 +104,11 @@ Visible values must come from these.
 | - | ----- | ------------ | ------ | ----- | ---- |
 | 1 | The spoken phrase or on-screen line that triggers it | What moves, appears, or changes, from what to what | Anchor value after | Fact IDs | Estimate, then measured start after TTS |
 
+Narrated: one row per spoken clause (about 3 s of speech), not one per scene.
+A hold is not a stage change, so no row says "hold" or "settle", and
+consecutive rows are never more than 3 s apart while the voice speaks (the
+title and closing card excepted).
+
 Keep the title, anchor, and the frame's required marks as the only persistent
 elements. A list format's n/N counter is the anchor. Do not add step rails,
 chapter tabs, or progress bars.
@@ -112,17 +116,16 @@ chapter tabs, or progress bars.
 **Audio.** Music track and level, SFX tied to specific state changes.
 
 **Pronunciation.** When narrated, list every word the voice may mispronounce,
-especially Hawaiian words and place names, as word and TTS respelling pairs
-(Kalākaua: ka-LAH-kow-ah). `SCRIPT.md` keeps the correct spelling. Confirm
+especially non-English words, names, and place names, as word and TTS
+respelling pairs (Kalākaua: ka-LAH-kow-ah). `SCRIPT.md` keeps the correct spelling. Confirm
 uncertain pronunciations with a reliable source or the user.
 
 ## Picture rules
 
 - The stage fills roughly 40–60% of the frame. When a state looks empty,
   enlarge the stage or add a meaningful change rather than adding text.
-- Visible text beyond title, captions or lines, and the anchor: about 15 words
-  per settled state, as short labels placed next to what they name. Never set
-  a narration sentence or footnote on screen.
+- Follow the text budget in [frame.md](frame.md); labels sit next to what they
+  name. Never set a narration sentence or footnote on screen.
 - One qualifier per item at most. State a comparison's scope, or that an
   example is illustrative, once where it is introduced, briefly on screen or
   in speech; never pin it for the whole video.
@@ -140,5 +143,14 @@ the subject's plain name. List two or three alternatives after it, each still
 naming the real subject. No subtitle. Describe the hero visual and the result
 it promises. The user's pick, or the recommendation after a plain Yes, becomes
 the cover title.
+
+Build the cover in `composition/thumbnail/index.html`, starting from the
+style's `thumbnail/index.html`, as a static page at the video's aspect ratio.
+Link `composition/thumbnail/assets` to `../assets`, as the style's thumbnail
+does, so the cover loads the composition's fonts and images.
+At 1080×1920, keep text and subject within x 60–960 and y 240–1400, which
+survives the profile grid crop and platform UI. Use the title as HTML text and
+the stage at its most telling state as the hero, filling 40–60% of that box.
+The first video frame should also work as a fallback cover.
 
 Planning ends here. Stop at the plan checkpoint in [SKILL.md](SKILL.md).

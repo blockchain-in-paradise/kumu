@@ -18,7 +18,9 @@ typography:
   display: { fontFamily: "Inter", weight: 800, lineHeight: 0.92, tracking: "-0.04em" }
   body: { fontFamily: "Inter", weight: 400, lineHeight: 1.4 }
   fonts: "assets/fonts/inter-{400,600,800}.woff2"
-preview_at: [0.2, 4.2, 9.6] # empty, elements with caption, closing
+voice: "af_heart"
+voice_speed: 1.0
+preview_at: [0.2, 4.6, 9.6] # empty, coin back at the peg with reserves feeding it and caption, closing
 spacing:
   edge: "92px"
   platform_ui_bottom: "420px"
@@ -57,9 +59,12 @@ object identity across beats.
 Proof objects look like the real thing. Build recognizable objects (a coin, a
 card, a phone, a receipt) with gradients, rims, and soft shadows rather than
 flat boxes, label them in plain words, and give values a white price-tag pill
-just above the object, with no connector line. Supporting panels are translucent
-`--panel` with a teal hairline border and simple line icons. Keep a settled
-state to the headline, one object group, and the caption.
+just above the object, with no connector line. What stands behind an object is
+drawn too (a banded cash stack, a Treasury certificate), never a text list, on
+a shelf lighter than the ground (`#1f6a80` to `#175469`) with a teal border so
+it reads clearly. When one thing drives another, show it working: the drivers
+pulse and a glowing teal dotted path flows from them to what they move. Keep a
+settled state to the headline, one object group, and the caption.
 
 Motion reveals information in stages. The film current is left: ordinary seams
 use a left push. A zoom-through is optional. Keep one readable scene at each

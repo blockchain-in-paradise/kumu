@@ -20,6 +20,8 @@ typography:
   display: { fontFamily: "Inter", weight: 600, lineHeight: 1.05, tracking: "-0.03em" }
   body: { fontFamily: "Inter", weight: 400, lineHeight: 1.4 }
   fonts: "assets/fonts/inter-{400,600,800}.woff2"
+voice: "af_heart"
+voice_speed: 1.0
 preview_at: [0.2, 2.9, 7.8] # empty, elements with line, closing
 spacing:
   edge: "80px"
@@ -41,7 +43,9 @@ interface or a clean object being used. `index.html` is the working sample;
 # Look
 
 - Background: `--canvas` with three large blurred color fields (blue upper
-  left, peach right, green lower) that drift slowly the whole video. No texture.
+  left, peach right, green lower) that flow and breathe the whole video: each
+  drifts 60–120 px, scales between 0.92 and 1.08, and eases its opacity a
+  little, back and forth on its own 6–9 s cycle with offset phases. No texture.
 - Subjects: white cards, 28 px radius, hairline `--border`, large soft shadow
   (`0 30px 70px rgba(30,50,90,.14)`), clean rows, fields, and colored
   rounded-square icons. A macOS-style black cursor with a white edge.
@@ -70,7 +74,11 @@ narrated, captions replace the gray line, in the top zone, current word in
 - Beats: one change at a time. The cursor glides on `power2.inOut`; a row
   highlights when reached; panels slide in 30 px with a fade; overlays scale
   in from their origin point. Calm, no bounce.
-- The background fields drift continuously; nothing else moves idly.
+- The background fields flow continuously, the one ambient motion this style
+  allows. They stay behind the content and stay slow enough never to compete
+  with it; nothing else moves idly. Drive them from the main timeline (`sine.inOut`
+  tweens with `yoyo` and repeats computed to cover the duration), never CSS
+  `infinite` or the clock.
 
 # Motion values
 

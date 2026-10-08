@@ -42,7 +42,7 @@ shorten labels rather than shrinking essential text below 40 px.
   carries at most one short label and one key number. A label is a few words on
   one line; drop or move to `caption.txt` anything that needs a second line.
 - **No separators.** On-screen text never uses middle dots, bullets, pipes, or
-  slashes to join facts ("2011–2013 · 3.0L turbo"). Pick the one fact that
+  slashes to join facts ("Ages 3–5 · $12 a month"). Pick the one fact that
   matters, put two facts on separate lines, or write them as words.
 - Captions follow the style's caption treatment and highlight only the current
   word. A visual-mode line is one phrase in the style's type with its key word
@@ -50,8 +50,26 @@ shorten labels rather than shrinking essential text below 40 px.
 
 ## Subjects
 
-Flat 2D only: SVG, HTML, and CSS. Show depth with layering, isometric drawing,
-or a cross-section.
+SVG, HTML, and CSS only, no 3D engines. Show depth with layering, isometric
+drawing, shading, or a cross-section.
+
+**Photo or drawing.** Photos show real things as they are and stay still
+except for entering and leaving: an animal, a product, a whole car. Drawings
+show parts, internals, diagrams, and anything that moves or works: gears
+turning, water through a pump, money moving between accounts.
+
+**Real objects** (a coin, a phone, a lock, a plant cell) are drawn from a real
+reference found in research, used as reference only. Unless the style's Look
+sets another treatment (minimal or cartoon), draw them as a clean
+illustration: the real shape with a few telling details, each part in two or
+three flat tones of its real color with a light outline, a cutaway when the
+inside matters. Not photoreal. Whatever the treatment,
+keep the true shape, proportions, and layout, show the parts that matter by
+their real arrangement (gears meshing at their real centers, a valve where the pipe enters), and let
+parts overlap only where they do in the object. An object seen from a new
+angle keeps its real outline and proportions. One
+diagram keeps one scale and position across scenes. A simple drawing is fine;
+a placeholder box standing in for a part is not.
 
 **Drawn characters** come from the style's `assets/characters/` kit when it
 ships one: use its rigs and named poses, and add a missing pose in the same
@@ -86,10 +104,23 @@ backdrop and title. Show one
 change at a time and let it settle. Teach each new kind of change slowly
 enough to follow on first watch, speed up repeats of it, and slow down for the
 payoff. No ambient motion added to fill time; characters may keep the small
-idle loop their style defines, so a held figure never freezes.
+idle loop their style defines, so a held figure never freezes, but an idle loop
+is not a change: while the voice speaks, something visible changes on every
+clause, never more than 3 s apart.
+
+A mechanism is shown working, not labeled. Build its drawing up on screen
+(outline first, then each part as the words name it), then run it: parts turn,
+slide, or pump, and whatever flows through it (air, fuel, current, money)
+travels its real path as moving dashes or particles. Once running, it keeps
+running while it is on screen; that motion is the explanation, not ambient
+filler. Speed shows the state (a wheel spinning up, flow thickening), and a
+part in focus is lit while the rest dims. Drive all of it from the timeline
+(rotation and `strokeDashoffset` tweens across the state's duration), never
+CSS `infinite` or the clock, so every seek shows the right frame.
 
 When the style uses camera moves, the stage is one world inside a camera
-layer. Change the view (side, top-down, close-up) by moving that layer and
+layer. Change the view (side, top-down, close-up) by moving that layer, or
+with the rig's camera when the style's kit ships one, and
 keep the style's anchor object across views; cut to a new scene only when the
 topic changes. [review.md](review.md) checks the
 pace against the animation map.
@@ -100,4 +131,4 @@ Every video ends on its payoff: the answer, held long enough to read. The
 payoff is its own closing frame: the title, stage, labels, and captions clear,
 leaving one large phrase and at most one short line under it on the backdrop.
 Then, if the style has a `cta`, its closing card follows, standing alone in the
-video's world with no logo. A style without a `cta` ends on that closing frame.
+video's world with no logo. A style without a `cta` ends on that closing frame. A style may define its own closing instead (boxing fades every element out so the video loops); then follow the style.

@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <style>
   /* Style sample: the ground, a headline, one proof object built from realistic parts (a glossy coin,
-     a price tag above it, a price ruler, a reserve panel), a caption with the current word highlighted, a
+     a price tag above it, a price ruler, drawn reserves on a lit shelf that feed the $1.00 peg), a caption with the current word highlighted, a
      left-push seam, the payoff, and the closing card. Demo topic: why a dollar stablecoin stays at $1. */
   @font-face { font-family: "Inter"; font-weight: 400; src: url("assets/fonts/inter-400.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
@@ -46,13 +46,14 @@
   .tick { position: absolute; top: -14px; width: 4px; height: 32px; background: var(--border); }
   .tick b { position: absolute; top: 44px; left: 50%; transform: translateX(-50%); font-size: 40px; font-weight: 600; white-space: nowrap; }
 
-  /* Reserve panel with icons. */
-  .panel { position: absolute; left: 140px; right: 140px; top: 1050px; background: var(--panel); border: 2px solid rgba(57,161,172,.55);
-    border-radius: 24px; padding: 28px 32px; }
-  .panel h4 { margin: 0 0 18px; font-size: 40px; font-weight: 600; }
-  .row { display: flex; align-items: center; gap: 22px; height: 92px; padding: 0 22px; margin-top: 12px;
-    border: 2px solid rgba(57,161,172,.4); border-radius: 16px; background: rgba(57,161,172,.08); font-size: 40px; font-weight: 600; }
-  .row svg { width: 52px; height: 52px; flex: 0 0 52px; }
+  /* Reserve shelf: a lighter navy than the ground with a teal border, holding drawn reserves. */
+  .shelf { position: absolute; left: 120px; right: 120px; top: 1070px; height: 340px; border-radius: 28px;
+    background: linear-gradient(180deg, #1f6a80 0%, #175469 100%); border: 3px solid rgba(57,161,172,.9);
+    box-shadow: 0 24px 48px rgba(0,0,0,.35), inset 0 2px 0 rgba(252,250,248,.12); }
+  .shelf h4 { position: absolute; left: 0; right: 0; top: 22px; margin: 0; text-align: center; font-size: 40px; font-weight: 600; }
+  .reserve { position: absolute; top: 96px; filter: drop-shadow(0 14px 18px rgba(0,0,0,.4)); }
+  .flow { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; overflow: visible; }
+  .flow path { fill: none; stroke: #6fd0da; stroke-width: 11; stroke-linecap: round; stroke-dasharray: 3 19; filter: drop-shadow(0 0 8px rgba(57,161,172,.9)); }
 
   .caption { position: absolute; left: 92px; right: 92px; bottom: 340px; text-align: center;
     font-size: 52px; font-weight: 800; line-height: 1.2; }
@@ -76,17 +77,51 @@
     <h1 class="headline" id="hl">Why it stays $1</h1>
     <div class="ruler" id="ruler">
       <div class="tick" style="left:0"><b>$0.99</b></div>
-      <div class="tick" style="left:calc(50% - 2px)"><b>$1.00</b></div>
+      <div class="tick" style="left:calc(50% - 2px)"><b id="peg">$1.00</b></div>
       <div class="tick" style="right:0"><b>$1.01</b></div>
     </div>
     <div class="mover" id="mover">
       <div class="tag" id="tag">$1.00</div>
       <div class="coin"><span>USDC</span></div>
     </div>
-    <div class="panel" id="panel">
-      <h4>Backed by</h4>
-      <div class="row"><svg viewBox="0 0 52 52"><rect x="3" y="11" width="46" height="30" rx="5" fill="none" stroke="#fcfaf8" stroke-width="3"/><circle cx="26" cy="26" r="7" fill="none" stroke="#fcfaf8" stroke-width="3"/></svg>Cash in banks</div>
-      <div class="row"><svg viewBox="0 0 52 52"><rect x="9" y="4" width="34" height="44" rx="4" fill="none" stroke="#fcfaf8" stroke-width="3"/><path d="M16 16h20M16 25h20M16 34h12" stroke="#fcfaf8" stroke-width="3" stroke-linecap="round"/></svg>Short-term U.S. Treasuries</div>
+    <svg class="flow" id="flow" viewBox="0 0 1080 1920">
+      <path id="flowL" d="M330 1166 C330 1060 470 1050 522 984" />
+      <path id="flowR" d="M750 1166 C750 1060 610 1050 558 984" />
+    </svg>
+    <div class="shelf" id="shelf">
+      <h4>Cash and Treasuries</h4>
+      <!-- Cash: banded stack of bills, drawn with paper gradients and edges. -->
+      <svg class="reserve" id="cash" viewBox="0 0 300 210" style="left:60px; width:300px">
+        <defs>
+          <linearGradient id="bill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe3c4"/><stop offset="1" stop-color="#8fb784"/></linearGradient>
+          <linearGradient id="band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6efdc"/><stop offset="1" stop-color="#d9cdaa"/></linearGradient>
+        </defs>
+        <g stroke="#4f7a4c" stroke-width="2">
+          <rect x="22" y="132" width="256" height="64" rx="6" fill="#7fa774"/>
+          <rect x="16" y="112" width="256" height="64" rx="6" fill="#8db582"/>
+          <rect x="26" y="92" width="256" height="64" rx="6" fill="#9cc391"/>
+          <rect x="18" y="40" width="256" height="116" rx="8" fill="url(#bill)"/>
+        </g>
+        <rect x="30" y="52" width="232" height="92" rx="5" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
+        <ellipse cx="146" cy="98" rx="30" ry="34" fill="#b7d3aa" stroke="#5d8a59" stroke-width="2.5"/>
+        <circle cx="62" cy="98" r="16" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
+        <circle cx="230" cy="98" r="16" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
+        <rect x="128" y="28" width="38" height="178" rx="4" fill="url(#band)" stroke="#a8996f" stroke-width="2"/>
+      </svg>
+      <!-- Treasury bill: cream certificate with a double border, seal, and printed lines. -->
+      <svg class="reserve" id="bond" viewBox="0 0 280 210" style="right:60px; width:280px; transform: rotate(-4deg)">
+        <defs>
+          <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf5e3"/><stop offset="1" stop-color="#e3d6b2"/></linearGradient>
+          <radialGradient id="seal" cx=".35" cy=".3"><stop offset="0" stop-color="#7fd3db"/><stop offset="1" stop-color="#196d76"/></radialGradient>
+        </defs>
+        <rect x="16" y="14" width="248" height="182" rx="6" fill="url(#paper)" stroke="#a8996f" stroke-width="2"/>
+        <rect x="28" y="26" width="224" height="158" rx="3" fill="none" stroke="#8a7a4a" stroke-width="3"/>
+        <rect x="35" y="33" width="210" height="144" rx="2" fill="none" stroke="#8a7a4a" stroke-width="1.5"/>
+        <path d="M58 60 H222 M78 80 H202" stroke="#6f6440" stroke-width="5" stroke-linecap="round"/>
+        <path d="M58 150 H150 M58 164 H130" stroke="#a89a70" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="198" cy="140" r="26" fill="url(#seal)" stroke="#145a62" stroke-width="2"/>
+        <circle cx="198" cy="140" r="17" fill="none" stroke="#e8f6f7" stroke-width="2" stroke-dasharray="3 4"/>
+      </svg>
     </div>
     <div class="caption" id="cap"><span id="w1">Traders</span> <span id="w2">pull</span> <span id="w3">it</span> <span id="w4">back</span> <span id="w5">to</span> <span id="w6">one.</span></div>
   </section>
@@ -119,14 +154,20 @@
   const tl = gsap.timeline({ paused: true });
   // Intro: the ground holds alone until 0.4 s, then the headline, coin, and ruler enter.
   tl.from(["#hl", "#mover", "#ruler"], { opacity: 0, y: 40, duration: 0.6, ease: ENTER, stagger: STAGGER }, 0.4);
-  tl.set(["#panel", "#cap"], { opacity: 0 }, 0);
-  // State 1: demand pushes the price to $1.01.
-  tl.to("#mover", { x: priceX(1.01), duration: 0.8, ease: MOVE }, 1.6);
-  tl.set("#tag", { textContent: "$1.01", backgroundColor: "#ee7c2b", color: "#fcfaf8" }, 2.0);
-  // State 2: what stands behind each coin.
-  tl.fromTo("#panel", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: ENTER }, 2.6);
-  // State 3: traders create coins at $1.00 and sell them above it, so the price returns.
-  tl.to("#mover", { x: priceX(1.00), duration: 0.8, ease: MOVE }, 3.5);
+  tl.set(["#shelf", "#cap", "#flow path"], { opacity: 0 }, 0);
+  // State 1: the reserves arrive on their shelf below the ruler.
+  tl.fromTo("#shelf", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: ENTER }, 1.0);
+  tl.from(["#cash", "#bond"], { y: 30, opacity: 0, duration: 0.5, ease: ENTER, stagger: STAGGER }, 1.2);
+  // State 2: selling drags the price down to $0.99; the coin tilts as it slides.
+  tl.to("#mover", { x: priceX(0.99), rotation: -8, duration: 0.8, ease: MOVE }, 1.9);
+  tl.set("#tag", { textContent: "$0.99", backgroundColor: "#ee7c2b", color: "#fcfaf8" }, 2.3);
+  // State 3: each coin redeems for a dollar of reserves, so traders buy below $1.00 and the price returns.
+  // The reserves pulse and flow into the $1.00 mark, then the coin is pulled back to it.
+  tl.to(["#cash", "#bond"], { scale: 1.08, duration: 0.22, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.1 }, 2.9);
+  tl.to("#flow path", { opacity: 1, duration: 0.2 }, 3.0);
+  tl.fromTo("#flow path", { strokeDashoffset: 0 }, { strokeDashoffset: -220, duration: 2.6, ease: "none" }, 3.0);
+  tl.to("#peg", { color: "#39a1ac", duration: 0.3, ease: ENTER }, 3.3);
+  tl.to("#mover", { x: priceX(1.00), rotation: 0, duration: 0.8, ease: MOVE }, 3.5);
   tl.set("#tag", { textContent: "$1.00", backgroundColor: "#fcfaf8", color: "#1d2930" }, 3.9);
   tl.fromTo("#cap", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
   [[3.4, 3.8], [3.8, 4.0], [4.0, 4.15], [4.15, 4.45], [4.45, 4.6], [4.6, 5.1]].forEach(([s, e], i) => {
@@ -134,7 +175,7 @@
     tl.set(`#w${i + 1}`, { backgroundColor: "rgba(0,0,0,0)", color: "#fcfaf8" }, e);
   });
   // Seam: the scene leaves with a left push, then the payoff holds alone.
-  tl.to(["#hl", "#mover", "#ruler", "#panel", "#cap"], { x: "-=1080", duration: 0.6, ease: EXIT }, 5.6);
+  tl.to(["#hl", "#mover", "#ruler", "#flow", "#shelf", "#cap"], { x: "-=1080", duration: 0.6, ease: EXIT }, 5.6);
   tl.from("#payoff", { opacity: 0, y: 30, duration: 0.6, ease: ENTER }, 6.3);
   // Closing card entry.
   tl.fromTo("#kicker", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, 8.3);
