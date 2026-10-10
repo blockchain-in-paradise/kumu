@@ -109,7 +109,7 @@ To pick up a saved run in a new session:
 
 4. **Compose.** It generates the voice and captions when narrated, builds the
    animated stage in HyperFrames, mixes music and sound effects, designs the
-   cover, and writes the post caption.
+   cover.
 
    Before showing you anything, Kumu reviews the video and scores it on hook,
    teaching, readability, pace, motion, consistency, audio, accuracy, and
@@ -119,7 +119,7 @@ To pick up a saved run in a new session:
    **Checkpoint 2: frame review.** Check the review scores, the contact sheet of the whole video
    in `composition/frames/contact-sheet.jpg`, scrub the motion in the
    HyperFrames Studio preview it opens, and check `thumbnail.jpg`,
-   `caption.txt`, and an audio preview.
+   and an audio preview.
 
 5. **Render.** It encodes the final `video.mp4` and checks it.
 
@@ -135,7 +135,6 @@ video-output/
     composition/     HyperFrames project, assets, review frames, contact sheet
     video.mp4
     thumbnail.jpg
-    caption.txt
 ```
 
 ## Styles

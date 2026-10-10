@@ -139,7 +139,7 @@ Use the style's Sound section: its events, files in the style's `assets/sfx/`,
 starting gains, and music track. Fall back to the shared `assets/sfx/` and
 `assets/music/` only for events the style does not cover. Copy only selected
 files, and add any credit a file's license requires (see the style's
-`assets/sfx/CREDITS.md`) to `caption.txt`. Never generate music.
+`assets/sfx/CREDITS.md`) to `video-plan.md`. Never generate music.
 
 - **Narrated:** keep music about 24 LU below the voice, measured with FFmpeg's
   `ebur128` filter on both; for bundled tracks that is roughly 0.05 gain.
@@ -155,7 +155,9 @@ files, and add any credit a file's license requires (see the style's
 
 Use a few SFX from `assets/sfx/` on actual state changes, reusing a small sound
 vocabulary. Read `hyperframes-audio` for fades, ducking, or effects; browser
-volume tweens do not reach export. Listen to a busy passage and the closing
+volume tweens do not reach export. SFX peaks stay at least 8 dB under the voice
+peaks: compare a punch moment with a voice-only moment using FFmpeg's `astats`
+and lower the SFX `data-volume` until they do. Listen to a busy passage and the closing
 card at the real mix level before the frame checkpoint.
 
 ## Review
@@ -169,13 +171,14 @@ approved title and render it to JPEG with the same browser. Render two
 variants, view each cropped and about 150 px wide, keep the clearer one, and
 save it as `thumbnail.jpg` at the run root.
 
-Write the concise, sourced post caption to `caption.txt`, with exact URLs and
-required credits.
-
 ## Final render
 
-After the frame checkpoint is approved, render once with the CLI's supported
-quality setting and `--output ../video.mp4`. Verify dimensions, duration, and
+After the frame checkpoint is approved, render once at 1080×1920 for TikTok with
+`--fps 30 --video-bitrate 20M --output ../video.mp4`. Never 4K (TikTok
+downscales and recompresses it harder), never 60 fps, and never moving grain
+or other animated noise: each gives TikTok's re-encode more to compress and
+the posted video comes out soft. Tested on the boxing style: 30 fps, no grain,
+20 Mbps posts sharp. Verify dimensions, duration, and
 audio streams with `ffprobe`, and inspect the opening, a middle state, and the
 ending. Re-render only for an observed defect or an intentional revision.
 Record the CLI version, output duration, and render wall time in the plan.

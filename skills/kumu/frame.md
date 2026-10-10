@@ -4,8 +4,9 @@ The frame is the law every style follows. The selected style's `style.md`
 supplies the look (colors, type, background, subject treatment, motion
 vocabulary, captions, and closing card) and its `index.html` is a working
 sample of it. Start each composition from that sample. When a style and this
-file disagree, the style decides the look and this file decides legibility,
-layout safety, and honesty.
+file disagree, the style decides the look and the video's structure (its
+opening, closing, and pacing rules) and this file decides legibility, layout
+safety, and honesty.
 
 Declare the style's colors as CSS custom properties on the composition root
 (`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`, `--panel`,
@@ -40,7 +41,7 @@ shorten labels rather than shrinking essential text below 40 px.
 - Depicted objects keep their real colors.
 - **Text budget.** Besides the title and the caption or line, one frame
   carries at most one short label and one key number. A label is a few words on
-  one line; drop or move to `caption.txt` anything that needs a second line.
+  one line; drop anything that needs a second line.
 - **No separators.** On-screen text never uses middle dots, bullets, pipes, or
   slashes to join facts ("Ages 3–5 · $12 a month"). Pick the one fact that
   matters, put two facts on separate lines, or write them as words.
@@ -100,7 +101,9 @@ sees each change without reading a number.
 Open with an intro, not the first item: the title (or one hook line) lands
 alone over the style's backdrop and holds long enough to read, then clears or
 shrinks away before the first item enters. The first frame already shows the
-backdrop and title. Show one
+backdrop and title. A style may define its own opening instead (boxing opens
+cold, mid-fight, with the title only on its closing card); then follow the
+style. Show one
 change at a time and let it settle. Teach each new kind of change slowly
 enough to follow on first watch, speed up repeats of it, and slow down for the
 payoff. No ambient motion added to fill time; characters may keep the small

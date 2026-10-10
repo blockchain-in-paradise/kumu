@@ -109,7 +109,7 @@ screenshots or a screen recording, and blur names, emails, addresses, and
 account numbers. Do not reconstruct a logged-in interface from memory.
 
 For maps, use OpenStreetMap data or HyperFrames registry map blocks, and add
-the "© OpenStreetMap contributors" credit on screen or in `caption.txt`. Do not
+the "© OpenStreetMap contributors" credit on screen or in `video-plan.md`. Do not
 screenshot Google Maps or other map products for the stage.
 
 Check each image at its intended crop and size: right item, version, species,

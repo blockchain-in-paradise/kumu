@@ -65,7 +65,7 @@ car culture. `index.html` is the working sample (2024 MX-5 vs GR86 horsepower);
   `media/` folder. Otherwise use a freely licensed photo (Wikimedia Commons
   CC0, public domain, or CC BY; Pexels; Unsplash) in a skewed panel, cropped
   to the car with `object-position`. Prefer clear side or three-quarter views
-  on a plain background. Record every credit in `caption.txt`.
+  on a plain background. Record every credit in `video-plan.md`.
 
 # Structure
 

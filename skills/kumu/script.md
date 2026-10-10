@@ -43,7 +43,7 @@ Make one editorial pass before TTS:
 - Remove filler such as "actually", "just", and "simply" when it adds nothing.
   Cut stock praise, artificial suspense, forced triples, and "X, not Y" formulas.
   Follow the entrypoint's audience-copy punctuation rules across speech, labels,
-  thumbnail, and post caption. Do not manufacture personality with slang or typos.
+  and thumbnail. Do not manufacture personality with slang or typos.
 - Check the opening and ending against research, as well as individual claims.
   Do not claim firsthand testing or experience the user has not supplied.
 - Keep each scene relevant to the audience question. Remove side advice that
@@ -59,7 +59,7 @@ narration is preserved and skips rewriting unless requested; report factual
 problems separately. This file is the source for TTS and all later speech edits.
 Do not shorten narration during implementation without updating it.
 
-Keep exact destination URLs in the plan's on-screen copy and `caption.txt`.
+Keep exact destination URLs in the plan's on-screen copy.
 In narration, name the service and direct the viewer to the address shown on
 screen. Do not read protocols,
 slashes, query strings, or long paths aloud. If a short address must be spoken,
@@ -98,7 +98,8 @@ character's design.
 model (its inputs, the rules or code that compute each state, and its outputs).
 Visible values must come from these.
 
-**States.** One row per state, starting with the intro beat:
+**States.** One row per state, starting with the intro beat (or the style's own
+opening, when it defines one):
 
 | # | Words | Stage change | Anchor | Facts | Time |
 | - | ----- | ------------ | ------ | ----- | ---- |

@@ -78,7 +78,9 @@ workflow below.
 
 Read the selected `style.md`, then [frame.md](frame.md). Copy the style's
 `index.html` structure and only the assets used into the composition, and
-record the style path in the plan. User direction wins over style defaults.
+record the style path in the plan. Precedence: user direction, then the style
+(its look, opening, closing, and motion and pacing rules), then [frame.md](frame.md);
+[frame.md](frame.md) always decides legibility, layout safety, and honesty.
 
 ## Workflow
 
@@ -105,7 +107,7 @@ there.
    plan checkpoint.
 4. **Compose.** Read [frame.md](frame.md) and [render.md](render.md). Build
    from the approved plan only. Inspect one state at phone size before building
-   the rest, create `thumbnail.jpg` and `caption.txt`, then run the review in
+   the rest, create `thumbnail.jpg`, then run the review in
    [review.md](review.md). Stop at the frame checkpoint.
 5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`.
 
@@ -132,7 +134,7 @@ checkpoint.
 - **Frames:** record `Status: awaiting frame review`, give the review scores
   and any score below 4 with its reason, link
   `composition/frames/contact-sheet.jpg`, the Studio preview URL,
-  `thumbnail.jpg`, `caption.txt`, and the audio preview, and ask: "Render the
+  `thumbnail.jpg`, and the audio preview, and ask: "Render the
   final video from this composition? Yes / No."
 
 To resume, read the options, `Stage:`, and status from `video-plan.md` and
@@ -166,7 +168,7 @@ Preserve supplied scripts and verbatim quotations.
 
 ## Delivery
 
-Return `video.mp4`, `thumbnail.jpg`, `caption.txt`, `research.json`,
+Return `video.mp4`, `thumbnail.jpg`, `research.json`,
 `video-plan.md`, `SCRIPT.md` when narrated, and the editable `composition/`.
 Report duration, dimensions, the contact sheet path, checks performed, and
 unresolved limitations. For a partial run, name the completed stage and how to

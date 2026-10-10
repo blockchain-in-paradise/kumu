@@ -39,6 +39,19 @@ Save everything under `composition/.work/review/`.
    (a lint error disables the layout and contrast audits).
 5. **Loudness.** Integrated LUFS and true peak of the full mix, and of the
    music bed alone, measured with FFmpeg's `ebur128` filter.
+6. **Motion audit** (styles built on `SportsRig`, such as boxing). It seeks the
+   timeline and lists, with timestamps, punches that snap out without a load,
+   twitches (a limb jolting between two frames at 60 fps), pose moves that overlap
+   on one fighter, gloves passing inside each other, fighters held at a distance
+   where their guards tangle, limbs near the frame edge,
+   skids, overlapping torsos, and pose changes during camera moves:
+
+   ```bash
+   node <kumu skill>/scripts/motion-audit.mjs composition
+   ```
+
+   Its errors cannot be scored away; fix them (the style's choreography helpers
+   prevent most). Judge its warnings in the motion strips.
 
 ## Reviewer
 
@@ -53,10 +66,10 @@ Score each 1–5, with one line of evidence per score:
 
 | Area | A 5 means |
 | --- | --- |
-| Hook | The first 2 s show the intro title alone on the backdrop, something moves, and the viewer wants the answer; the first item has not appeared yet |
+| Hook | The first 2 s show the intro title alone on the backdrop, something moves, and the viewer wants the answer; the first item has not appeared yet. Or the style's own opening lands as the style describes (a cold open: action in the first 2 s that makes the viewer want the answer) |
 | Teaching | After the last state, a viewer could do or understand the plan's goal sentence |
 | Readability | Every title, label, line, and value reads at phone size with no contrast failures; each frame stays within the text budget and no on-screen text uses separator dots, bullets, pipes, or slashes |
-| Pace | Each new kind of change can be followed on first watch, repeats move faster, no dead zone over 3 s while the voice speaks (an idle loop is not motion; the intro title and closing card are the only holds), the payoff holds long enough to read |
+| Pace | Each new kind of change can be followed on first watch, repeats move faster, no dead zone over 3 s while the voice speaks (an idle loop is not motion; the intro title, or the style's opening, and the closing card are the only holds), the payoff holds long enough to read |
 | Motion | Movement has weight and purpose, characters act rather than slide, nothing flickers, jumps, or overlaps by accident |
 | Depiction | Every drawn object reads as the real thing at a glance, follows [frame.md](frame.md) Subjects, and keeps one scale and position across scenes; nothing important touches the frame edge or flickers from frame to frame in any pose |
 | Style | Matches the style's sample (`index.html`, `preview.png` when present): background, palette, type, captions, motion vocabulary, and closing; one scale and character design throughout; repeated items vary in entrance and placement, and every item shows its name and key number |
@@ -65,6 +78,11 @@ Score each 1–5, with one line of evidence per score:
 | Ending | The payoff lands as its own closing frame with the title and stage cleared, then the closing card, if any, stands alone in the video's world; or the style's own closing (such as a loop fade) lands as the style describes |
 
 ## Verdict and fixes
+
+When the user asks for a fix to motion that looked wrong (a limb clipping, a
+punch that snaps, a slide), fix it, and if that kind of glitch can be measured
+from the fighters' joints or the timeline, add a check for it to
+`scripts/motion-audit.mjs` so the next run catches it before the user does.
 
 Pass when every score is 4 or higher and nothing blocks the goal. Otherwise
 fix the lowest scores first, regenerate only the affected evidence, and review

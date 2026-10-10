@@ -1,39 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=1080, height=1920" />
-<title>Fight night thumbnail sample</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<title>How the Slip Counter Works</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <script src="assets/characters/rig3d.js"></script>
 <script src="assets/characters/poses.js"></script>
 <style>
-  /* Static cover sample: the side view at the start, the title alone under the fighters, inside the safe box
-     (x 60–960, y 240–1400). */
   @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
   body { margin: 0; background: #110e0c; }
   #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #f6f3ee; font-family: "Inter", sans-serif;
     background: radial-gradient(ellipse 70% 42% at 50% 34%, #241d17, #110e0c 72%); }
   .beam { position: absolute; left: 0; right: 0; top: -40px; height: 1300px; clip-path: polygon(40% 0, 60% 0, 92% 100%, 8% 100%);
     background: linear-gradient(rgba(255,232,190,.10), rgba(255,232,190,.03) 70%, transparent); filter: blur(30px); }
-  .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, transparent 48%, rgba(0,0,0,.7) 100%); }
   #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; }
-  .card { position: absolute; left: 60px; right: 60px; top: 1060px; text-align: center; }
-  .card h1 { margin: 0; font-weight: 800; font-size: 124px; line-height: 1.02; letter-spacing: -.02em; text-shadow: 0 4px 24px rgba(0,0,0,.6); }
+  #guide { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #jabTrace { stroke: #2c66d3; stroke-width: 5; stroke-dasharray: 13 12; stroke-linecap: round; }
+  #counterTrace { stroke: #d2333a; stroke-width: 5; stroke-dasharray: 12 10; stroke-linecap: round; }
+  #oldHead { fill: none; stroke: #ffffff; stroke-width: 4; stroke-dasharray: 9 8; }
+  .card { position: absolute; left: 60px; right: 60px; top: 80px; text-align: center; }
+  .card h1 { margin: 0; font-weight: 800; font-size: 96px; line-height: 1.02; letter-spacing: -.02em; text-shadow: 0 4px 24px rgba(0,0,0,.6); }
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
-  <div class="beam"></div>
-  <svg id="stage"></svg>
-  <div class="vignette"></div>
-  <div class="card"><h1>The pull counter</h1></div>
+<div data-hf-id="hf-bfrd" id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
+  <div data-hf-id="hf-hqud" class="beam"></div><svg data-hf-id="hf-dqkc" id="stage" />
+  <svg data-hf-id="hf-9s2t" id="guide" viewBox="0 0 1080 1920" aria-hidden="true"><line data-hf-id="hf-s6x6" id="jabTrace" /><circle data-hf-id="hf-n8be" id="oldHead" r="62" /><line data-hf-id="hf-ofin" id="counterTrace" /></svg>
+  <div data-hf-id="hf-vn2y" class="card"><h1 data-hf-id="hf-gdgh">How the Slip Counter Works</h1></div>
 </div>
 <script>
-  const stage = SportsRig.stage(document.getElementById("stage"), { camera: { cy: 470 } });
-  const you = SportsRig.mount(stage, SportsRig.LOOKS.red, { x: -157, facing: 0 });
+  const stage = SportsRig.stage(document.getElementById("stage"), { camera: { yaw: -18, pitch: 18, dist: 2300, tx: 0, ty: 320, cy: 650 } });
+  const you = SportsRig.mount(stage, SportsRig.LOOKS.red, { x: -157, facing: 0, z: -70 });
   const rival = SportsRig.mount(stage, SportsRig.LOOKS.blue, { x: 157, facing: 180 });
-  SportsRig.face(you, rival);
+  const jabTargetState = { ...you.state };
+  Object.assign(you.state, window.SportsPoses.slipCounter);
+  Object.assign(rival.state, window.SportsPoses.jab);
+  you.foe = rival;
+  rival.foe = { state: jabTargetState };
+  stage.onRender((S) => {
+    if (!you.J || !rival.J) return;
+    const oldHead = S.project(SportsRig.fk(jabTargetState, null).head);
+    const jabShoulder = S.project(rival.J.shF);
+    const counterShoulder = S.project(you.J.shB);
+    const targetHead = S.project(rival.J.head);
+    if (oldHead && jabShoulder) {
+      document.getElementById("jabTrace").setAttribute("x1", jabShoulder.x);
+      document.getElementById("jabTrace").setAttribute("y1", jabShoulder.y);
+      document.getElementById("jabTrace").setAttribute("x2", oldHead.x);
+      document.getElementById("jabTrace").setAttribute("y2", oldHead.y);
+      document.getElementById("oldHead").setAttribute("cx", oldHead.x);
+      document.getElementById("oldHead").setAttribute("cy", oldHead.y);
+    }
+    if (counterShoulder && targetHead) {
+      document.getElementById("counterTrace").setAttribute("x1", counterShoulder.x);
+      document.getElementById("counterTrace").setAttribute("y1", counterShoulder.y);
+      document.getElementById("counterTrace").setAttribute("x2", targetHead.x);
+      document.getElementById("counterTrace").setAttribute("y2", targetHead.y);
+    }
+  });
   stage.render();
   window.__timelines.main = gsap.timeline({ paused: true });
 </script>

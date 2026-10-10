@@ -16,8 +16,9 @@ window.SportsPoses = {
   straight: { reachB: 1, torso: 16,  hipYaw: -12, chestYaw: -34, armF: -48, foreF: -122, abdF: 14, armB: -112, foreB: -2, abdB: 0,
               legF: -26, shinF: 24, legB: 34, shinB: 2, legAbdF: 4, legAbdB: 6 },
   // Weight sinks onto the bent rear leg, hips go back, the back arches away, the chin stays tucked.
+  // (Legs solved so both feet stay on the floor: the old bent rear knee lifted the back foot ~85 units.)
   lean:     { torso: -30, hipYaw: 10, chestYaw: 2, roll: 4, head: 12, armF: -34, foreF: -128, abdF: 10, armB: -20, foreB: -150, abdB: 14,
-              legF: -10, shinF: 4, legB: 30, shinB: 34, legAbdF: 4, legAbdB: 6 },
+              legF: -20, shinF: 0, legB: 14, shinB: 8, legAbdF: 4, legAbdB: 6 },
   // Small slip outside the jab: knees bend, waist turns, the head sidesteps (z) with both hands still in guard
   // and the weight on the rear foot. z is a sidestep that stays until another pose or tween sets z again
   // (guard does not reset it): tween z back to 0 when the fighter returns to the line.
@@ -42,11 +43,15 @@ window.SportsPoses = {
   // Weave: the bob carried sideways in the U, the head still low and now past the punch (z sidesteps, roll tilts).
   weave:    { torso: 18, roll: -22, hipYaw: -6, chestYaw: -22, head: 4, armF: -42, foreF: -124, abdF: 10, armB: -26, foreB: -148, abdB: 14, z: -60,
               legF: -48, shinF: 76, legB: 24, shinB: 26, legAbdF: 4, legAbdB: 6 },
-  // Weave to the other side (mirror of weave): z +60, roll +22.
-  weaveR:   { torso: 18, roll: 22, hipYaw: 30, chestYaw: 42, head: -4, armF: -42, foreF: -124, abdF: 10, armB: -26, foreB: -148, abdB: 14, z: 60,
+  // Weave to the other side: z +60, a deeper duck (torso 40) with the chest only a little turned. (A straight mirror
+  // of weave twisted the chest toward the rear side, which carried the head forward into the opponent's punches.)
+  weaveR:   { torso: 40, roll: 18, hipYaw: 10, chestYaw: 4, head: 0, armF: -42, foreF: -124, abdF: 10, armB: -26, foreB: -148, abdB: 14, z: 60,
               legF: -48, shinF: 76, legB: 24, shinB: 26, legAbdF: 4, legAbdB: 6 },
   // Hit in the middle of a weave: the same low, sidestepped stance with the head snapped back and the guard knocked open.
   weaveHit: { torso: 8, roll: -26, hipYaw: -6, chestYaw: -22, head: -26, armF: -22, foreF: -102, abdF: 30, armB: -14, foreB: -122, abdB: 28, z: -60,
+              legF: -48, shinF: 76, legB: 24, shinB: 26, legAbdF: 4, legAbdB: 6 },
+  // weaveHit on the other side (caught in a weaveR).
+  weaveHitR: { torso: 14, roll: 28, hipYaw: 10, chestYaw: 4, head: -26, armF: -22, foreF: -102, abdF: 30, armB: -14, foreB: -122, abdB: 28, z: 60,
               legF: -48, shinF: 76, legB: 24, shinB: 26, legAbdF: 4, legAbdB: 6 },
   // Snapped back and twisted by a punch: the head whips back on the neck.
   hit:      { torso: -6,  roll: -8, head: -28, hipYaw: 10, chestYaw: 28, armF: -8, foreF: -70, abdF: 26, armB: -4, foreB: -96, abdB: 28,
@@ -89,3 +94,43 @@ window.SportsPoses = {
   overhand: { reachB: 1, overB: 1, torso: 26, roll: 14, hipYaw: -16, chestYaw: -42, armF: -40, foreF: -122, abdF: 14, armB: -130, foreB: -40, abdB: 40,
               legF: -34, shinF: 34, legB: 34, shinB: 2, legAbdF: 4, legAbdB: 6 },
 };
+
+// Drunken style (loose on purpose): run SportsRig.wobble under these. Both feet keep the guard's floor contact; the
+// upper body supplies the imbalance.
+window.SportsPoses.loose = { ...window.SportsPoses.guard, torso: -6, roll: -16, chestYaw: -8, head: 10,
+  armF: -14, foreF: -88, abdF: 24, armB: -8, foreB: -100, abdB: 28, legB: 2, shinB: 20, legAbdB: 4 };
+// A sideways lean with a half step, like losing balance on purpose (a drunken slip).
+window.SportsPoses.stagger = { ...window.SportsPoses.loose, torso: -12, roll: -30, chestYaw: -20, head: 12, z: -35, abdF: 38, abdB: 42 };
+// Arms out wide, chin up, taunting.
+window.SportsPoses.showboat = { ...window.SportsPoses.loose, torso: -8, roll: 6, chestYaw: 0, head: -18,
+  armF: -12, foreF: -22, abdF: 78, armB: -8, foreB: -28, abdB: 78 };
+// The stagger to the other side, so he does not always lurch the same way.
+window.SportsPoses.staggerR = { ...window.SportsPoses.stagger, torso: -16, roll: 18, chestYaw: 8, head: 6, z: 0 };
+// Drunken slip: the stagger dropped low on bent knees, head rolled far off the line, hands loose. Loose and lurching,
+// not tight like the peek-a-boo weave (weave/weaveR stay the textbook dodge under a punch).
+window.SportsPoses.drunkSlip = { ...window.SportsPoses.stagger, torso: 10, roll: -36, head: 16, armF: -10, foreF: -80, abdF: 40,
+  legF: -48, shinF: 76, legB: 24, shinB: 26 };
+window.SportsPoses.drunkSlipR = { ...window.SportsPoses.drunkSlip, roll: 32, chestYaw: 14, head: 4, z: 30 };
+
+// Liver shot: a left hook to the body, thrown with the lead hand (F, his left: the fighters stand orthodox). The
+// load dips the level (knees bend) and coils the lead side back; the hook whips the lead shoulder through low, with the
+// body lane (body: 1) aiming the glove at the opponent's liver (his right side, under the ribs) instead of his chin.
+// It turns less than a head hook, so the lead side stays toward the camera.
+window.SportsPoses.liverLoad = { ...window.SportsPoses.hookLoad, torso: 20, roll: 14, head: 6, legF: -40, shinF: 58, legB: 36, shinB: 34 };
+window.SportsPoses.liverHook = { ...window.SportsPoses.hook, body: 1, torso: 22, roll: 2, head: 4, hipYaw: 16, chestYaw: 26,
+  armF: -30, foreF: -100, abdF: 70, legF: -40, shinF: 56, legB: 40, shinB: 30 };
+// After a liver shot: his right hand (the rear, B) clamps to his right side, he hunches over it on bent knees, the left
+// hand drops.
+window.SportsPoses.clutch = { ...window.SportsPoses.guard, torso: 30, roll: -12, head: 18, hipYaw: 4, chestYaw: -6,
+  armB: 22, foreB: -96, abdB: 20, armF: -20, foreF: -70, abdF: 14, legF: -30, shinF: 44, legB: 30, shinB: 34 };
+// A high guard: both gloves snap up to the forehead, elbows up and in, which leaves the body open (the reaction a jab
+// feint draws before a body shot).
+window.SportsPoses.highGuard = { ...window.SportsPoses.guard, torso: 0, head: -4, armF: -62, foreF: -150, abdF: 18, armB: -58, foreB: -152, abdB: 20 };
+// A punch caught on the guard: both gloves come up in front of the face, onto the punch line (the resting guard sits
+// lower and wide, so a jab slides between the gloves), the head does not snap, and the
+// punch stops on the gloves (block: 1 makes the guard win the glove collision). Set it 0.1 s before the punch lands,
+// hold it through contact, then back to guard over 0.3 s; without it a punch into a guard pushes through to the face.
+window.SportsPoses.block = { ...window.SportsPoses.guard, block: 1, torso: 3, head: -3, armF: -60, foreF: -140, abdF: 0, armB: -55, foreB: -150, abdB: 4 };
+// Stunned after a clean hit: the hands sag to the chest, the chin drops, the body tilts, the knees soften. Blend in
+// over 0.4 to 0.6 s after the `hit` snap and hold it; the next punch can land on it.
+window.SportsPoses.dazed = { ...window.SportsPoses.guard, torso: 12, roll: 8, head: 12, armF: -16, foreF: -104, abdF: 18, armB: -12, foreB: -112, abdB: 20, legF: -26, shinF: 34, legB: 28, shinB: 22 };
