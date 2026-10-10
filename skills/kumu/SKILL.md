@@ -78,7 +78,10 @@ workflow below.
 
 Read the selected `style.md`, then [frame.md](frame.md). Copy the style's
 `index.html` structure and only the assets used into the composition, and
-record the style path in the plan. Precedence: user direction, then the style
+record the style path in the plan. Follow what the style's frontmatter sets:
+`skills` lists the HyperFrames skills to load (and no others), `visuals: drawn`
+skips photo and screen research, and `form` fixes the concept's form. Read a
+file the style names (such as `extras.md`) only when the topic needs it. Precedence: user direction, then the style
 (its look, opening, closing, and motion and pacing rules), then [frame.md](frame.md);
 [frame.md](frame.md) always decides legibility, layout safety, and honesty.
 
@@ -107,13 +110,16 @@ there.
    plan checkpoint.
 4. **Compose.** Read [frame.md](frame.md) and [render.md](render.md). Build
    from the approved plan only. Inspect one state at phone size before building
-   the rest, create `thumbnail.jpg`, then run the review in
-   [review.md](review.md). Stop at the frame checkpoint.
+   the rest, create `thumbnail.jpg`, then run the self-review in
+   [review.md](review.md) until it passes. Stop at the frame checkpoint.
 5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`.
 
-Load `hyperframes-core` and `hyperframes-cli` for implementation, `media-use`
-for media and speech, and other HyperFrames guidance only for the task at hand.
-Pass this brief and plan into production without a generic intake interview.
+Load `hyperframes-core` and `hyperframes-cli` for implementation. Load
+`media-use` only for speech, transcription, or sourced media, and
+`hyperframes-animation` or `hyperframes-registry` only when the style's sample
+lacks the pattern needed. Do not open their reference folders unless a command
+fails. Pass this brief and plan into production without a generic intake
+interview.
 
 ### Checkpoints
 
@@ -131,11 +137,12 @@ checkpoint.
   concept <letter> and this plan, using the recommended thumbnail title unless
   you pick another? Yes / No, or name another concept." Choosing another concept
   rewrites the words and stage for it and asks again.
-- **Frames:** record `Status: awaiting frame review`, give the review scores
-  and any score below 4 with its reason, link
-  `composition/frames/contact-sheet.jpg`, the Studio preview URL,
-  `thumbnail.jpg`, and the audio preview, and ask: "Render the
-  final video from this composition? Yes / No."
+- **Studio:** the self-review in [review.md](review.md) has already passed.
+  Record `Status: awaiting studio review`, start the Studio preview, and give
+  its URL and `thumbnail.jpg`, with one line on the review (errors fixed,
+  warnings explained, anything still open). The user watches the video in
+  Studio, not stills. Ask: "Watch it in Studio. Render the final video? Yes /
+  No, or list the changes."
 
 To resume, read the options, `Stage:`, and status from `video-plan.md` and
 continue from the saved files without repeating completed stages. Preserve approved wording
@@ -154,22 +161,22 @@ such as prices and policies, and begin at the concept stage.
 Teach one thing well: the form follows the viewer's goal (see
 [concept.md](concept.md)), and every number on screen is honest.
 
-Spell non-English names and words correctly everywhere they appear, including
-their diacritics (for example the Hawaiian ʻokina and kahakō in Hawaiʻi).
-Pronunciation for the voice is handled separately in [render.md](render.md).
+Spell non-English names and words correctly everywhere they appear, with
+their diacritics. Pronunciation for the voice is handled separately in
+[render.md](render.md).
 
 Use the user's tone and any supplied writing samples without copying anecdotes.
 In agent-written audience copy, including on-screen labels and data lines,
 do not use em dashes, semicolons, canned contrasts, or middle-dot separators. Colons belong in times or necessary
 notation, not hook formulas. Never write staccato copy: no runs of clipped
-sentences or fragments for effect ("Fast. Simple. Free."). Join them into
-sentences that carry the reasoning; a visual-mode line is one complete phrase.
+sentences or fragments for effect. Join them into sentences that carry the
+reasoning; a visual-mode line is one complete phrase.
 Preserve supplied scripts and verbatim quotations.
 
 ## Delivery
 
 Return `video.mp4`, `thumbnail.jpg`, `research.json`,
 `video-plan.md`, `SCRIPT.md` when narrated, and the editable `composition/`.
-Report duration, dimensions, the contact sheet path, checks performed, and
-unresolved limitations. For a partial run, name the completed stage and how to
+Report duration, dimensions, the review's results, and unresolved
+limitations. For a partial run, name the completed stage and how to
 resume. Never describe a technical validation pass as proof of editorial quality.

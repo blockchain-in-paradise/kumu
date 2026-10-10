@@ -21,9 +21,10 @@ Before installing registry items, set `paths.components` to `components` and
 
 ## Building the stage
 
-Read `hyperframes-core` before writing HTML and `hyperframes-animation` for
-motion. Consult `hyperframes-registry` before hand-building a named visual
-such as a code window, terminal, chart, or map.
+Read `hyperframes-core` before writing HTML. Read `hyperframes-animation` only
+if the style's sample lacks the motion needed, and consult
+`hyperframes-registry` before hand-building a named visual such as a code
+window, terminal, chart, or map.
 
 Build the stage, title, words zone, and closing card first. Inspect one state
 at phone size with active captions or lines before building the rest.
@@ -36,29 +37,17 @@ playback. This pattern is verified with HyperFrames 0.8:
 ```html
 <script>
   // Model: run the real algorithm once and record every state.
-  const values = [5, 2, 4, 1, 3];
-  const steps = [];
-  const v = values.slice();
+  const values = [5, 2, 4, 1, 3], steps = [], v = values.slice();
   for (let i = 0; i < v.length - 1; i++)
     for (let j = 0; j < v.length - 1 - i; j++)
       if (v[j] > v[j + 1]) { [v[j], v[j + 1]] = [v[j + 1], v[j]]; steps.push(v.slice()); }
-
-  // Stage: one element per value, positioned by its index in each state.
-  const x = (i) => 90 + i * 190;
-  const els = new Map(values.map((n) => {
-    const el = document.createElement("div");
-    el.className = "item"; el.textContent = n;
-    document.getElementById("stage").appendChild(el);
-    return [n, el];
-  }));
-
-  // Timeline: one tween per state at its planned time; values are set, not counted.
+  // Stage: one element per value, set to its index slot in each state, one tween per state at its planned time.
+  const els = new Map(values.map((n) => [n, document.querySelector(`[data-n="${n}"]`)]));
   const tl = gsap.timeline({ paused: true });
-  values.forEach((n, i) => tl.set(els.get(n), { x: x(i) }, 0));
   steps.forEach((state, k) => {
-    const t = 1 + k * 1.2; // replace with the measured start from the plan
-    state.forEach((n, i) => tl.to(els.get(n), { x: x(i), duration: 0.5, ease: "power2.inOut" }, t));
-    tl.set("#score", { textContent: `Swaps ${k + 1}` }, t + 0.5);
+    const t = 1 + k * 1.2;   // replace with the measured start from the plan
+    state.forEach((n, i) => tl.to(els.get(n), { x: 90 + i * 190, duration: 0.5, ease: "power2.inOut" }, t));
+    tl.set("#score", { textContent: `Swaps ${k + 1}` }, t + 0.5);   // set, never counted
   });
   window.__timelines.main = tl;
 </script>
@@ -72,13 +61,7 @@ and embed that JSON in the composition.
 Build each state with actual content; blank bars and placeholder text stay
 placeholders even when animated. Use consistent scales and labeled units.
 
-Photo or clip subjects: download the licensed source into `.work/` and cut it
-out. For people, and for any clip (transparent video), use
-`hyperframes remove-background <file> -o assets/<name>.png` or `.webm`. For
-objects and animals on a plain background, rembg's `isnet-general-use` model
-in `$HOME/.kumu/venv/bin/python` works better (keep the largest shape, crop,
-save as WebP). Check the edges at full size; if anything from the background
-remains, show the photo in a frame or panel instead of a rough cutout.
+Photo or clip subjects: see [references/photo-subjects.md](references/photo-subjects.md).
 
 ## Narration and timing (narrated mode)
 
@@ -118,8 +101,9 @@ correct `SCRIPT.md` spelling, including diacritics. Never distribute
 timestamps by word-count ratios. A displayed `$4.99` may highlight as one unit
 over its spoken interval.
 
-Install and adapt HyperFrames' `caption-highlight` component rather than
-hand-rolling captions:
+If the style's sample already has caption code (boxing), reuse it with the
+transcript. Otherwise install and adapt HyperFrames' `caption-highlight`
+component rather than hand-rolling captions:
 
 ```bash
 hyperframes add caption-highlight --dir <composition-dir>
@@ -156,20 +140,18 @@ files, and add any credit a file's license requires (see the style's
 Use a few SFX from `assets/sfx/` on actual state changes, reusing a small sound
 vocabulary. Read `hyperframes-audio` for fades, ducking, or effects; browser
 volume tweens do not reach export. SFX peaks stay at least 8 dB under the voice
-peaks: compare a punch moment with a voice-only moment using FFmpeg's `astats`
-and lower the SFX `data-volume` until they do. Listen to a busy passage and the closing
-card at the real mix level before the frame checkpoint.
+peaks: use the style's gains and lower the SFX `data-volume` if the mix
+measurement in [review.md](review.md) shows them hot.
 
 ## Review
 
 Follow [review.md](review.md) before the frame checkpoint.
 
-## Thumbnail and caption
+## Thumbnail
 
 Finish the plan-stage cover in `composition/thumbnail/index.html` with the
-approved title and render it to JPEG with the same browser. Render two
-variants, view each cropped and about 150 px wide, keep the clearer one, and
-save it as `thumbnail.jpg` at the run root.
+approved title and render it to JPEG with the same browser. Check it once at
+about 150 px wide and save it as `thumbnail.jpg` at the run root.
 
 ## Final render
 

@@ -66,7 +66,9 @@ Recommend narrated or visual for each concept unless `--mode` was given.
 ## 5. Write three concepts
 
 Write three concepts covering at least two different forms, so the user gets a
-real choice. Record the goal sentence once, then for each concept:
+real choice. When the style's `form` is fixed (boxing: a technique breakdown),
+write three different angles on the topic within that form instead. Record the
+goal sentence once, then for each concept:
 
 | Field   | What to write                                                       |
 | ------- | ------------------------------------------------------------------- |
@@ -80,7 +82,8 @@ real choice. Record the goal sentence once, then for each concept:
 | Payoff  | The final state and the one line it lands on                        |
 | Mode    | Narrated or visual, and estimated duration                          |
 
-Then test each and drop or fix any that fails:
+Then test the one you will recommend and fix it if it fails; test another only
+if the user picks it:
 
 - **Goal test.** After the last state, can the viewer do or understand what the
   goal sentence says? If not, the form is wrong.

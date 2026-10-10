@@ -26,8 +26,10 @@ At 1080×1920, top to bottom:
   clear of the stage. Keep words here even when replicating a reference, unless
   the user asks otherwise.
 
-Use the whole frame: no empty band taller than about 15% of the height. Scale
-the zones for square and landscape. Check text at roughly 360 px display width;
+Use the whole frame: no empty band taller than about 15% of the height. Keep
+small labels (a chapter tag) at least 250 px from the top and 84 px from the
+left, clear of the platform's own header. Scale the zones for square and
+landscape. Check text at roughly 360 px display width;
 shorten labels rather than shrinking essential text below 40 px.
 
 ## Text and color
@@ -49,10 +51,19 @@ shorten labels rather than shrinking essential text below 40 px.
   word. A visual-mode line is one phrase in the style's type with its key word
   in `--highlight`; a new line replaces the last with a short fade or rise.
 
+## Survives TikTok
+
+TikTok re-encodes every upload at a low bitrate, and thin or noisy detail is
+what it loses first. Draw outlines and strokes at least 3 px at 1080 wide. Add
+no film grain, noise, or animated texture, and no vignette. Keep large
+near-black gradients few and soft, since they band. [render.md](render.md) sets
+the render settings.
+
 ## Subjects
 
-SVG, HTML, and CSS only, no 3D engines. Show depth with layering, isometric
-drawing, shading, or a cross-section.
+SVG, HTML, and CSS, plus the WebGL kit a style ships (boxing's `SportsRig`);
+no other 3D engines. Show depth with layering, isometric drawing, shading, or a
+cross-section.
 
 **Photo or drawing.** Photos show real things as they are and stay still
 except for entering and leaving: an animal, a product, a whole car. Drawings

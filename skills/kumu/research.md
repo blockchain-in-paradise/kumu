@@ -77,6 +77,9 @@ a misleading headline. Share copy follows the same factual boundary.
 
 ## Visual evidence
 
+Skip this section when the style sets `visuals: drawn`: nothing is sourced, the
+subject is drawn.
+
 Research what the subject looks like as well as what is true about it. For
 recognizable products, places, animals, or objects, find usable material before
 planning the stage. Use `media-use` for image search, logos, icons, and asset
@@ -92,16 +95,9 @@ Add selected candidates to `research.json`'s `visuals` array with `id`, `subject
 `source_page`, `asset_url` or supplied path, `reuse_basis`, `credit`, `purpose`,
 and `local_path` when downloaded. Use null for unknown values. A picture alone
 does not verify a claim. Download only assets used in the plan into
-`composition/assets/` and record required credits in `caption.txt` or on screen.
+`composition/assets/` and record required credits in `video-plan.md` or on screen.
 
-When the style or concept uses real photos, look first for images that are
-already transparent (PNG with an alpha channel) or supplied by the user, since
-automatic cutouts of busy photos leave debris; otherwise find photos and short
-clips with clear free-use licenses: Pexels, Unsplash, and Pixabay for general subjects, and Wikimedia
-Commons for specific models, places, and products (check each file's license
-and credit line). If `PEXELS_API_KEY` is set, search Pexels photos and videos
-through its API. Prefer clips under 10 seconds with one clear subject on a
-simple background, which cut out cleanly.
+For real photos or clips, read [references/photo-subjects.md](references/photo-subjects.md).
 
 For a walkthrough, capture public web pages with HyperFrames `capture` and
 record the URL and date. For screens behind a login, ask the user for

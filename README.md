@@ -111,15 +111,14 @@ To pick up a saved run in a new session:
    animated stage in HyperFrames, mixes music and sound effects, designs the
    cover.
 
-   Before showing you anything, Kumu reviews the video and scores it on hook,
-   teaching, readability, pace, motion, consistency, audio, accuracy, and
-   ending, using frames, motion strips, an animation map, and loudness
-   measurements. It fixes low scores, up to two rounds.
+   Before showing you anything, Kumu reviews its own work: it renders a draft
+   and measures it (checks, a video audit for edge clipping, flicker, and
+   frozen stretches, a motion audit for fighter styles, and loudness), looks
+   only at the frames those measurements flag, fixes them, and repeats, up to
+   three rounds.
 
-   **Checkpoint 2: frame review.** Check the review scores, the contact sheet of the whole video
-   in `composition/frames/contact-sheet.jpg`, scrub the motion in the
-   HyperFrames Studio preview it opens, and check `thumbnail.jpg`,
-   and an audio preview.
+   **Checkpoint 2: Studio review.** Watch the video in the HyperFrames Studio
+   preview it opens, and check `thumbnail.jpg`. Approve it or list changes.
 
 5. **Render.** It encodes the final `video.mp4` and checks it.
 
@@ -132,7 +131,7 @@ video-output/
     research.json
     video-plan.md    concepts, stage, states, thumbnail brief, status
     SCRIPT.md        narrated mode only
-    composition/     HyperFrames project, assets, review frames, contact sheet
+    composition/     HyperFrames project, assets, review evidence
     video.mp4
     thumbnail.jpg
 ```

@@ -428,7 +428,7 @@ window.SportsRig = (() => {
     leopard: { base: "#d29d58", spot: "#24160c", center: "#b4753a", tile: 120 },
   };
   PRINTS.cheetah = PRINTS.leopard;
-  const OUTW = 2.4;   // outline width, world units
+  const OUTW = 3.6;   // outline width, world units
   const LIGHT = norm(V(0.15, 1, 0.45));
   const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
 

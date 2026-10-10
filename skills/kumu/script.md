@@ -14,7 +14,7 @@ frame-required closing card. An explicit duration takes precedence.
 
 Write inside the chosen concept. Its metaphor or stage is the only framing
 device: introduce it in a few words, stay inside it, and say plainly when the
-explanation leaves it for the real subject ("Computers do this too").
+explanation leaves it for the real subject.
 
 Open with one brief, specific sentence, roughly five seconds or less, that
 states the question, useful outcome, or strongest supported finding. Start
@@ -38,8 +38,7 @@ Make one editorial pass before TTS:
 - Read the draft without headings. Fix jumps, ambiguous pronouns, repeated
   sentence openings, and feature fragments. Vary length as the thought requires.
 - Replace slogans and generic claims with a supported action, consequence, or
-  distinction. "One license, one person" needs a sentence explaining who the
-  price covers and when additional access changes the cost.
+  distinction, in a sentence that explains who or what it covers.
 - Remove filler such as "actually", "just", and "simply" when it adds nothing.
   Cut stock praise, artificial suspense, forced triples, and "X, not Y" formulas.
   Follow the entrypoint's audience-copy punctuation rules across speech, labels,
@@ -73,11 +72,10 @@ unless the selected platform and placement support it.
 There is no `SCRIPT.md`. The on-screen lines carry the words:
 
 - One short line per state group, about eight words or fewer, naming what just
-  changed or why it matters ("The middle book rules out half"). Mark its one key
+  changed or why it matters. Mark its one key
   word in bold in the plan; it renders in `--highlight`.
 - Hold each line at least 0.3 s per word plus 0.8 s after it settles.
-- The final line lands the payoff and may leave the metaphor
-  ("Computers sort their work the same way").
+- The final line lands the payoff and may leave the metaphor.
 - Lines follow the same factual boundary as narration.
 
 Labels on the stage (values, names, the anchor) are not lines and do not count
@@ -118,7 +116,7 @@ chapter tabs, or progress bars.
 
 **Pronunciation.** When narrated, list every word the voice may mispronounce,
 especially non-English words, names, and place names, as word and TTS
-respelling pairs (Kalākaua: ka-LAH-kow-ah). `SCRIPT.md` keeps the correct spelling. Confirm
+respelling pairs. `SCRIPT.md` keeps the correct spelling. Confirm
 uncertain pronunciations with a reliable source or the user.
 
 ## Picture rules
@@ -131,8 +129,8 @@ uncertain pronunciations with a reliable source or the user.
   example is illustrative, once where it is introduced, briefly on screen or
   in speech; never pin it for the whole video.
 - Mockup and terminal fields hold real or clearly sample data, never script text.
-- Weight comes from contrast before thickness: at 1080 px wide, strokes about
-  2–3 px, no cards inside cards.
+- Weight comes from contrast before thickness: at 1080 px wide, strokes at
+  least 3 px, no cards inside cards.
 
 ## Thumbnail brief
 

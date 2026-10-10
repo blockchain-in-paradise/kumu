@@ -1,106 +1,106 @@
 # Review
 
-The builder judges what it meant to make; the viewer sees what is on screen.
-Before each checkpoint, gather evidence, score it, and fix what fails. Commands run from the run directory.
+The agent reviews its own work and fixes it before the user sees anything. The
+user's only review is watching the video in HyperFrames Studio. So measure
+first, look only where the measurements point, fix, and repeat. A score the
+agent gives itself proves nothing; a measured error is a fact. Commands run
+from the run directory. Save evidence under `composition/.work/review/`.
 
-## Evidence
+## 1. Measure
 
-Save everything under `composition/.work/review/`.
+Run all of these. Every error must be fixed; every warning is fixed or
+explained in step 3.
 
-1. **Contact sheet.** One frame at 0 s, at each state's settled time (after its
-   last change, before the next), and inside the closing card:
-
-   ```bash
-   npx hyperframes snapshot composition --at 0,<settled times> --no-end --describe false -o composition/frames
-   ```
-
-2. **Motion strips.** Frames every 0.25 s across four windows: the intro, the
-   first change of each kind, one repeated change, and the payoff into the
-   closing card. One snapshot call per window, each into its own folder:
+1. **Checks.** `npx hyperframes check composition`, lint errors first (a lint
+   error disables the layout and contrast audits).
+2. **Draft render** at the final frame rate (a flicker lasts one frame, so a
+   lower rate hides it):
 
    ```bash
-   npx hyperframes snapshot composition --at 0,0.25,0.5,0.75,1,1.25,1.5,1.75,2 --no-end --describe false -o composition/.work/review/strip-intro
+   npx hyperframes render composition --quality draft --fps 30 --output composition/.work/review/draft.mp4
    ```
 
-3. **Animation map.** Measures every tween and flags `paced-fast` (under 0.2 s),
-   `paced-slow` (over 2 s), dead zones with no motion, offscreen elements, and
-   collisions. Use the script in the installed `hyperframes-animation` skill:
+3. **Video audit** of that render, in any style:
 
    ```bash
-   HYPERFRAMES_SKILL_PKG_VERSION=$(npx hyperframes --version) HYPERFRAMES_SKILL_BOOTSTRAP_DEPS=1 \
-     node <hyperframes-animation skill>/scripts/animation-map.mjs composition --out composition/.work/review
+   node <kumu skill>/scripts/video-audit.mjs composition/.work/review/draft.mp4 \
+     --hold <intended still stretches, e.g. 0-2.3,70-73> --crops composition/.work/review/crops
    ```
 
-   Collisions between items that sit side by side by design (a row of books, a
-   line of characters) are expected; the rest are worth a look. A running
-   mechanism's long rotation and flow tweens are expected `paced-slow`.
-
-4. **Checks.** `hyperframes check` results, with lint errors cleared first
-   (a lint error disables the layout and contrast audits).
-5. **Loudness.** Integrated LUFS and true peak of the full mix, and of the
-   music bed alone, measured with FFmpeg's `ebur128` filter.
-6. **Motion audit** (styles built on `SportsRig`, such as boxing). It seeks the
-   timeline and lists, with timestamps, punches that snap out without a load,
-   twitches (a limb jolting between two frames at 60 fps), pose moves that overlap
-   on one fighter, gloves passing inside each other, fighters held at a distance
-   where their guards tangle, limbs near the frame edge,
-   skids, overlapping torsos, and pose changes during camera moves:
+   It reports `edge` errors (sharp content within 14 px of the frame edge),
+   `flicker` warnings (a region that changes for one frame and changes back,
+   with a 3-frame crop saved for each), and `dead` warnings (3 s with almost
+   nothing moving, outside `--hold`).
+4. **Motion audit** (styles built on `SportsRig`, such as boxing): it seeks the
+   timeline and lists, with timestamps, punches with no load, twitches, pose
+   moves that overlap on one fighter, gloves passing inside each other,
+   fighters held where their guards tangle, limbs near the frame edge, skids,
+   overlapping torsos, and pose changes during camera moves:
 
    ```bash
    node <kumu skill>/scripts/motion-audit.mjs composition
    ```
 
-   Its errors cannot be scored away; fix them (the style's choreography helpers
-   prevent most). Judge its warnings in the motion strips.
+5. **Animation map** (styles that are not `SportsRig`; it only counts DOM
+   tweens, so it cannot see fighters). Flags `paced-fast` (under 0.2 s),
+   `paced-slow` (over 2 s), dead zones, offscreen elements, and collisions, from
+   the installed `hyperframes-animation` skill's
+   `scripts/animation-map.mjs composition --out composition/.work/review`.
+   Side-by-side items and a running mechanism's long tweens are expected.
+6. **Loudness** of the full mix: integrated LUFS and true peak with FFmpeg's
+   `ebur128` filter. At or below -14 LUFS, peak under -1 dBTP (and, when the
+   style has music, the bed against the voice per [render.md](render.md)).
 
-## Reviewer
+## 2. Look where the measurements point
 
-Review in the same session, as its own pass: open the evidence first, before
-re-reading the plan, and judge what is on screen, not what was intended. Every
-score cites something in the evidence (a frame, a strip, a map flag, a
-measurement). Measured failures (contrast, loudness, `paced-fast`,
-`paced-slow`, a dead zone over 3 s under the voice) cannot be scored away; fix
-them or name them.
+View at about 360 px wide, as a phone shows it, and only what the evidence
+asks for:
 
-Score each 1–5, with one line of evidence per score:
+- **One contact image** from the draft: the first frame, the hero state, and
+  the closing frame side by side, plus a few evenly spaced frames.
+- **Every crop** the video audit saved (at most 8). A flicker at a hit, a
+  flash, or a camera shake is intended. A part that blinks when nothing lands
+  (hair, clothing, an outline, a label, a shadow) is a defect.
+- **A frame at each flagged time** from steps 3 to 5 that has no crop.
 
-| Area | A 5 means |
-| --- | --- |
-| Hook | The first 2 s show the intro title alone on the backdrop, something moves, and the viewer wants the answer; the first item has not appeared yet. Or the style's own opening lands as the style describes (a cold open: action in the first 2 s that makes the viewer want the answer) |
-| Teaching | After the last state, a viewer could do or understand the plan's goal sentence |
-| Readability | Every title, label, line, and value reads at phone size with no contrast failures; each frame stays within the text budget and no on-screen text uses separator dots, bullets, pipes, or slashes |
-| Pace | Each new kind of change can be followed on first watch, repeats move faster, no dead zone over 3 s while the voice speaks (an idle loop is not motion; the intro title, or the style's opening, and the closing card are the only holds), the payoff holds long enough to read |
-| Motion | Movement has weight and purpose, characters act rather than slide, nothing flickers, jumps, or overlaps by accident |
-| Depiction | Every drawn object reads as the real thing at a glance, follows [frame.md](frame.md) Subjects, and keeps one scale and position across scenes; nothing important touches the frame edge or flickers from frame to frame in any pose |
-| Style | Matches the style's sample (`index.html`, `preview.png` when present): background, palette, type, captions, motion vocabulary, and closing; one scale and character design throughout; repeated items vary in entrance and placement, and every item shows its name and key number |
-| Audio | Mix at or below -14 LUFS with true peak under -1 dBTP; music sits under the voice or, in visual mode, near -21 LUFS; SFX match actual changes |
-| Accuracy | Every number and claim on screen matches the model, sources, and plan |
-| Ending | The payoff lands as its own closing frame with the title and stage cleared, then the closing card, if any, stands alone in the video's world; or the style's own closing (such as a loop fade) lands as the style describes |
+Then judge these, with the frame or number that shows each:
 
-## Verdict and fixes
+- **Edges and overlap.** Nothing important within 40 px of the frame edge in any
+  pose; no text or limb over another; the words clear of the subject.
+- **Legibility.** Every title, label, and line reads at 360 px; no contrast
+  failures; the frame's text budget holds.
+- **Motion.** No flicker, jump, or slide; idle loops stay small; every clause
+  changes something visible.
+- **Content.** Walk the States table against the draft: after the last state, a
+  viewer can do or understand the goal sentence; every number and claim matches
+  `research.json`; the opening and closing follow the style.
 
-When the user asks for a fix to motion that looked wrong (a limb clipping, a
-punch that snaps, a slide), fix it, and if that kind of glitch can be measured
-from the fighters' joints or the timeline, add a check for it to
-`scripts/motion-audit.mjs` so the next run catches it before the user does.
+## 3. Fix and repeat
 
-Pass when every score is 4 or higher and nothing blocks the goal. Otherwise
-fix the lowest scores first, regenerate only the affected evidence, and review
-again. Stop after two fix rounds. Record each round under a **Review** heading
-in the plan: scores, problems, and fixes, as short bullets.
+Fix every error and every warning that is a defect, then re-run only the
+measurements the fix affects, including a new draft render. Record each round
+under a **Review** heading in `video-plan.md` as short bullets: what was
+flagged, what was fixed, and the intended warnings with the reason ("62.10 s:
+shake on the knockout hit, intended"). Stop at zero errors with every warning
+fixed or explained, or after three rounds; list anything still open as a
+limitation. A passing review is the agent's judgment, not proof of quality;
+the user decides in Studio.
 
-The frame checkpoint message lists the final scores and any score below 4 with
-its reason. A passing review is the agent's judgment, not proof of quality;
-the user decides.
+When the user asks for a fix to something that looked wrong (a limb clipping, a
+punch that snaps, flicker, a drag), fix it, and if it can be measured from the
+timeline or the render, add a check for it to `scripts/motion-audit.mjs` or
+`scripts/video-audit.mjs` so the next run catches it first.
 
-## Plan preview review (plan checkpoint)
+## Plan preview (plan checkpoint)
 
-At the plan checkpoint, score Hook, Readability, and Depiction on
-`composition/frames/plan-preview.png`, and fix the stills before asking if any
-is below 4, using the Depiction row above for the hero graphic.
+View `composition/frames/plan-preview.png` once. Fix the stills before asking if
+the first state, hero, or closing is hard to read at 360 px, or if the hero
+graphic does not look like the real thing ([frame.md](frame.md) Subjects).
 
-At the frame checkpoint, also start the scrubbable Studio preview so the user
-can watch the motion, and stop it after the final render:
+## The user's review (frame checkpoint)
+
+After the review passes, start the scrubbable Studio preview, give the user its
+URL, and stop it after the final render:
 
 ```bash
 npx hyperframes preview composition --background

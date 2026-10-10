@@ -26,6 +26,9 @@ spacing:
   platform_ui_bottom: "420px"
   caption_bottom: "470px"
 cta: null
+form: "technique" # always a technique breakdown: write three angles, not three forms
+visuals: drawn # nothing is sourced; skip photo and screen research
+skills: [hyperframes-core, hyperframes-cli] # load no other HyperFrames skills
 opening: "cold" # no intro: the fight is on screen from frame 0 and the narration starts at once (see Opening)
 closing: "card" # every element fades out, then the title card holds with the bell (see Closing)
 ---
@@ -35,13 +38,7 @@ closing: "card" # every element fades out, then the title card holds with the be
 Fight night: two fighters in a canvas ring under one spotlight act out one
 technique, beat by beat, while a quiet broadcast lower third carries the words
 and the camera moves to the view that explains it. Suits technique breakdowns,
-footwork, tactics, and why a fighter wins. `index.html` is the working sample
-(the slip counter: the hook, the setup, the slip in stages, its base, the
-counter, a slow replay, its limits, then a knockout done right and one done
-wrong); `thumbnail/index.html` is the cover (the slip seen from behind the
-opponent: his jab goes into a pale ghost of where you stood, a dashed arrow
-shows the slip, and the title sits above). Every boxing video opens cold, mid-fight, and closes
-on a title card (see Opening and Closing).
+footwork, tactics, and why a fighter wins. `index.html` is the working sample (a slip counter breakdown: replace its words and beats, keep its helpers and structure); `thumbnail/index.html` is the cover. Every boxing video opens cold, mid-fight, and closes on a title card (see Opening and Closing).
 
 # Look
 
@@ -68,7 +65,10 @@ on a title card (see Opening and Closing).
 # Fighters and looks
 
 `assets/characters/rig3d.js` holds the rig, cameras, floor notes, and ragdoll;
-`poses.js` the poses; load them in that order. Make one stage on a full-frame
+`poses.js` the poses; `boxing-kit.js` the motion constants (`EASE`, `DUR`) and
+`BoxingKit(tl)`: captions, beat tags, action tags, the chyron, and the hit burst;
+load them in that order. The sample's narration timing is `assets/sample-voice.js`;
+a run replaces it with its own transcript timing. Make one stage on a full-frame
 `<svg>` with `SportsRig.stage(svg)`, mount each fighter with
 `SportsRig.mount(stage, look, { x, facing })` (`facing: 0` faces right, `180`
 left; about 314 units apart in guard), call `SportsRig.face(you, rival)` so
@@ -93,6 +93,8 @@ stripe); `top` a tank top color or `null`. Extras:
 - `waistband`: a color for the waistband instead of the corner color.
 - `stripe: false`: no side stripe on the trunks.
 
+Real fighters, drunken styles, body shots and knockout endings are in [extras.md](extras.md); read it only when the topic needs one.
+
 **Sides.** The fighters stand orthodox: `F` (lead) is the fighter's left side, `B`
 (rear) his right, so the lead jab is the left hand and the rear straight the
 right. Name hands by anatomy in the words and map them this way: the liver is on
@@ -103,15 +105,6 @@ swap them in the words; the rig has no southpaw stance.
 (tank top), `slugger`, `stylist` (tank top), `porcelain`. Spread a preset and
 override: `{ ...SportsRig.LOOKS.blue, top: "#111111" }`.
 
-**Real fighters.** Match skin tone, hair, facial hair, a signature tattoo or
-print, and the trunks, top, and boot colors; no face, no likeness beyond that, no
-logos. Recipes that worked:
-
-| Fighter | Look | Movement |
-| --- | --- | --- |
-| A drunken-style showman (Emanuel Augustus) | `skin: deep`, `hair: "short"`, `beard`, `print: "leopard"`, black `waistband` | `loose` rest pose, one `wobble` from the first beat to the fade, `stagger` feints, opens in `showboat` |
-| A peek-a-boo puncher (Mike Tyson) | `skin: brown`, `hair: "bald"`, `tattoo: "tribalEye"`, black trunks, socks and waistband, `stripe: false` | tight guard, `weave`/`weaveR` under punches, hooks and uppercuts from close range |
-| A game-style underdog (Little Mac) | `skin: light`, short black hair, green trunks and gloves (`corner: "#2d8b45"`), `top: "#111111"` | quick, upright, straight punches |
 
 # Motion and poses
 
@@ -201,42 +194,10 @@ The rules they keep, for anything you write by hand:
   and out (`power2.inOut`), not out only, or it stops with a jolt.
 - **A pose change finishes before a camera move starts.** Settle the fighter
   (out of a showboat, into the guard) and then swing the view.
-- **A drunken fighter is never still**: `wobble` from the first beat to the
-  fade, `wobbleMix` to 0 over each punch's load and back to 1 after it.
 - Gloves are solid against the opponent's head, chest, and gloves: a punch into
   a guard stops on the glove. Check the whole timeline with
   `scripts/motion-audit.mjs` (see [review.md](../../review.md)); the sample
   passes with no errors.
-
-## Anatomy and body shots
-
-For a "why it works" topic (a liver shot, a body shot, what a punch does), the
-rig shows the inside of a fighter. Use it for one or two moments, not as
-wallpaper. `video-output/xray-organ/` is a worked example.
-
-- `SportsRig.xray(tl, f, t, dur, to)`: his skin and clothes fade to a pale,
-  see-through shell (`to: 1`) over a skeleton built on his own joints (skull,
-  spine, ribs, sternum, clavicles, pelvis, limb bones) and his organs (lungs,
-  heart, stomach, liver); `to: 0` fades back.
-- `SportsRig.organHit(tl, f, t, dur)`: inside an x-ray, his liver flashes hot
-  red, two ripples spread from it, and it settles bruised. Fire it on the
-  landing.
-- `liverHook` (after `liverLoad`, which `punch` adds): a lead left hook that
-  dips the level and digs into the opponent's liver (his right side, under the
-  ribs). Throw it with `exchange` from about 185 apart.
-- `SportsRig.knockout(tl, stage, loser, t, { kind: "liver", x })`: he stays up
-  a beat, clutches his right side with his right hand, is knocked half a step back, then folds onto his
-  knees and curls over (not the backward fall of a head shot).
-- `stage.mark(f, "liver")` and `"ribs"` ring those spots.
-- `SportsRig.orbit(tl, stage, t, dur, degrees)`: a bullet-time sweep around the
-  action (hold the fighters still meanwhile); `SportsRig.push(tl, stage, t, dur,
-  0.8)`: a slow push in. Slow motion is longer pose and punch durations.
-
-The liver-shot recipe: x-ray the target with the liver ringed while the
-camera orbits him; a jab up top pulls his guard high; `exchange` the
-`liverHook` with `back` so the attacker steps out; on the landing `xray`
-(0.15 s), `organHit`, `shake`, `push`, a short `orbit`; x-ray off; then the
-liver knockdown.
 
 ## Poses
 
@@ -247,10 +208,6 @@ liver knockdown.
   `rearHookLoad` > `rearHook`, `upLoad` > `uppercut` (rear), `leadUpLoad` >
   `leadUppercut`, `overLoad` > `overhand` (rear), and the drunken style: `loose`, `stagger` (and `staggerR` to the other side), `drunkSlip`/`drunkSlipR` (a low, lurching dodge under a punch), `showboat`. `weave`/`weaveR` are the tight, textbook dodge (peek-a-boo); don't use them for a drunken fighter.
   Tween `f.state.x` or `z` to step.
-- A drunken or unorthodox fighter never stands still: run one `SportsRig.wobble(tl, f, from, to, amp)` (amp 12
-  to 16) from his first beat to the fade, rest him in `loose`, and drop a `stagger` feint between exchanges.
-  Set his punches: tween `f.state.wobbleMix` to 0 over the load (0.2 s) and back to 1 after the recoil, or the
-  sway twists the punch into a flail.
 - A look's `beard` (a color) draws a goatee with a mouth opening.
 - To make a punch miss, aim it at a frozen copy of the target's standing state before he moves: `rival.foe = { state: { ...you.state } }` (his punch goes where your head was; the chin tracking is for punches that should land).
 - Match the punch to the words: a "jab" is `jab`, a "hook" is `hookLoad` then `hook`. A load pose coils the
@@ -391,24 +348,6 @@ so keep these gains: every SFX peak sits at least 8 dB under the voice peaks.
 | A fighter reaches the canvas (1.4 s after the knockdown starts) | `soft-impact.ogg` | 0.25 |
 
 No music, in any mode: the voice and these sounds only.
-
-# Optional ending: knockouts
-
-Not a default. Use it only when the prompt asks for a knockout ending, for
-example "end with one take done right and one done wrong". The kit:
-
-1. **Done right.** The technique lands and the rival drops: pose the landing,
-   then `SportsRig.knockout(tl, stage, rival, t, { x, kind })`. Let the camera
-   settle on the fallen fighter for about a second.
-2. **Replay, done wrong.** Fade the stage out, reset with `SportsRig.stand` for
-   both fighters and `tl.set(stage.cam, { ...SportsRig.VIEWS.side })`, fade in.
-   Same exchange, but you stay in range, are late, or lean too far: his punch
-   lands, a ghost shows where you needed to be, and `knockout(tl, stage, you, ...)`
-   drops you. Swap the beat tag to the failure ("When it fails").
-
-Each take runs about 4 s from the landing to the body on the canvas, and in
-narrated mode one sentence covers each take. Either take can be used alone.
-The closing below still applies after the last fall.
 
 # Opening: cold, mid-fight
 
