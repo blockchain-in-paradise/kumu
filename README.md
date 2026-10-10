@@ -1,160 +1,192 @@
-# /Kumu
+# Kumu
 
-Kumu is a human-in-loop agent skill that turns a topic, article URL, or
-notes into a researched, branded infographic video. It makes a 30–90 second
-vertical video with narration, word-highlighted captions, music, and sparse
-sound effects, plus a separately designed thumbnail. You review the plan and
-scene frames before the agent renders the final video. Built on
+Kumu is a human-in-the-loop agent skill that turns a
+topic, article URL, or notes into any kind of informative short video for
+TikTok, Reels, and Shorts: how-tos, comparisons, local guides, decision guides,
+warnings, explainers, timelines, lists, and what-ifs. It starts from what the
+viewer should walk away able to do or understand, picks the form that teaches
+it (real screens, a map, an aligned chart, a changing diagram, or a metaphor),
+and builds one stage that changes as the explanation unfolds. Videos are narrated with word-highlighted captions, or
+visual-only with short on-screen lines and music. You approve the concept and
+plan, then the frames, before anything is rendered. Built on
 [HyperFrames](https://hyperframes.heygen.com/).
 
-## How to run locally
+## Where it runs
 
-This setup runs the Claude Code CLI from a copy of this repo on your computer.
-Plugin marketplace installation, Claude Code on the web, and other agents have
-not been tested.
+Kumu renders on your own computer. It needs macOS or Linux.
 
-### First-time setup
+| App | Status |
+| --- | --- |
+| Claude desktop app (Code tab, local session) | Supported, recommended if you don't use a terminal |
+| Claude Code in a terminal | Supported |
+| Codex app or Codex CLI | Should work (skill and plugin formats are supported), not yet tested |
+| OpenCode | Should work, not yet tested |
+| Cloud sessions (claude.ai/code, Codex cloud) | Not supported |
+| Chat apps (claude.ai chat, ChatGPT) | Not supported (they cannot render video) |
+| Windows | Not supported yet |
 
-You need [Claude Code](https://code.claude.com/docs/en/setup),
-[Git](https://git-scm.com/downloads), [Node.js 22+](https://nodejs.org/),
-[FFmpeg](https://ffmpeg.org/download.html), and [Python 3](https://www.python.org/downloads/).
+## Get started
 
-Then in your terminal run:
+1. Install [Node.js 22+](https://nodejs.org/), [FFmpeg](https://ffmpeg.org/download.html),
+   and [Python 3](https://www.python.org/downloads/). On macOS:
+   `brew install node ffmpeg python`.
+2. Download this repo (Code → Download ZIP, or `git clone https://github.com/blockchain-in-paradise/kumu.git`).
+3. Open the `kumu` folder in your agent:
+   - **Claude desktop app:** open the Code tab, choose the `kumu` folder, and
+     make sure the session runs locally, not in the cloud.
+   - **Claude Code:** `cd kumu && claude`
+   - **Codex:** open the `kumu` folder in the Codex app, or run `codex` in it.
+4. Ask for a video:
 
-```bash
-git clone https://github.com/blockchain-in-paradise/kumu.git
-cd kumu
+   ```text
+   /kumu --topic "Why shortest job first cuts average wait time"
+   ```
 
-# Python environment for Kokoro text-to-speech
-python3 -m venv .venv
-.venv/bin/pip install kokoro-onnx soundfile
-export HYPERFRAMES_PYTHON="$PWD/.venv/bin/python"
+   In Codex, mention the skill as `$kumu` instead of `/kumu`.
 
-# HyperFrames skills, headless browser, and a health check
-npx -y hyperframes skills update
-npx -y hyperframes browser ensure
-npx -y hyperframes doctor
-```
+On the first run, Kumu checks your setup and offers to run
+`skills/kumu/scripts/setup.sh`. It installs the voice model environment in
+`~/.kumu/venv`, the HyperFrames skills, and a headless browser, then runs a
+health check. Ignore the BGM (MusicGen) check; Kumu only uses bundled or
+supplied music. You can also run the
+script yourself at any time; it is safe to repeat.
 
-`doctor` should pass everything except BGM (MusicGen), which is optional. If
-whisper.cpp is missing, HyperFrames installs it the first time captions are
-needed. The first narrated run may also download voice and transcription
-models.
+To use Kumu from another project, install it as a plugin. In Claude Code:
+`/plugin marketplace add blockchain-in-paradise/kumu`, then
+`/plugin install kumu@kumu`. In Codex, add the repo from `/plugins`. Plugin
+installs have not been tested yet.
 
-### Each session
-
-Start Claude Code from the repo root with `HYPERFRAMES_PYTHON` pointing at
-the `.venv` interpreter:
-
-```bash
-HYPERFRAMES_PYTHON="$PWD/.venv/bin/python" claude --plugin-dir .
-```
-
-To skip permission prompts, add `--dangerously-skip-permissions` to the launch
-command. Leave it out to use your usual Claude Code permission settings.
-
-Run `/kumu --topic "your topic"`. Output goes under `video-output/` in
-this repo. After editing the skill, use `/reload-plugins` or start a new session.
-
-## How to Use
+## How to use
 
 ```text
-/kumu --topic "How to build a compact automatic sugar cane farm in Minecraft Java Edition" --tone "clear practical instructions for someone building alongside the video"
+/kumu --topic "How bubble sort works" --mode visual
 /kumu --url https://example.com/article --duration 45
+/kumu --topic "7 git commands worth knowing" --ref https://www.tiktok.com/t/XXXX/
+/kumu --style boxing --topic "How Lomachenko takes angles" \
+  --source https://example.com/lomachenko-profile --source https://example.com/fight-stats
 ```
 
-- `--tone` sets the voice of the script, such as "clear build-along guide".
-- `--duration` sets the target length in seconds (30–90, including the closing card).
-- `--format vertical|square|landscape` sets the shape. Vertical 1080×1920 is the default.
-- `--brand "<name>"` picks a brand by name from your project's `brands/` folder.
-- `--no-voice`, `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
+- `--mode narrated|visual`: narrated uses a voice and word-highlighted
+  captions (30–90 s). Visual has no voice: short on-screen lines, music, and
+  sound effects (10–90 s). Without it, Kumu recommends one per concept.
+- `--source <url>`: a web page the video is about (an article, profile, or
+  stats page). Kumu reads these before searching and uses search only to fill
+  gaps. Repeatable.
+- `--ref <url>`: a video whose structure you like. Kumu studies its layout and
+  pacing; it copies its characters and style only when you ask it to replicate
+  the reference, and never reuses its footage or audio. Repeatable.
+- `--tone` sets the voice of the writing, such as "clear build-along guide".
+- `--duration` sets the target length in seconds, including the closing card.
+- `--format vertical|square|landscape`. Vertical 1080×1920 is the default.
+- `--style <name>` picks a saved style (see Styles). Without it, Kumu uses
+  the bundled `plain` style: neutral, with no closing card.
+- `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
+  `--no-voice` is the same as `--mode visual`.
 
-Every run stops twice for your review (see [Pipeline](#pipeline)). To pick up a
-saved run in a new session:
+To pick up a saved run in a new session:
 
 ```text
 /kumu Resume video-output/<run-directory>/ and continue.
 ```
 
-## Brand
-
-Styling comes from two files:
-
-- **`brand.md`** holds one brand's values: colors by role, fonts, spacing, the
-  background ("ground") recipe, assets, and the closing-card handle.
-- **`skills/kumu/frame.md`** is the shared design law: caption style,
-  color roles, type sizes, safe areas, and the closing-card layout. It uses
-  role names such as `--accent` and `--highlight`, never raw colors, so it works
-  with any brand.
-
-The bundled brand is Pūpūkahi Tech Foundation, in
-`skills/kumu/assets/brands/pupukahi-tech/`.
-
-Pick one with `--brand "<name>"`; without it, the skill uses Pūpūkahi. To add
-your own, copy a bundled brand into a `brands/` folder in your project, rename
-it, and edit it. Its folder name or the `name` in its `brand.md` becomes the
-`--brand` value:
-
-```bash
-mkdir -p brands && cp -r skills/kumu/assets/brands/pupukahi-tech brands/my-brand
-```
-
-1. **Colors:** set each role. `canvas` is the background, `ink` the text,
-   `accent` actions and data, `highlight` the spoken caption word and closing
-   kicker, `on-highlight` the text on it, and `panel` a backing behind content.
-2. **Type, spacing, and `cta`:** fonts, safe areas, your handle, and the
-   platforms shown on the closing card.
-3. **Ground:** rewrite the CSS for your background. A photo works best at low
-   opacity as texture; a gradient works too.
-4. **Icons:** one monochrome Bootstrap Icons SVG per platform in `icons/`,
-   named after the platform.
-
-After building a composition, run `npx hyperframes check <composition-dir>`
-and look at the actual frames. If a brand color fails contrast in a role,
-note the adjustment in `brand.md`, for example setting the kicker as dark
-text on a highlight pill.
-
 ## Pipeline
 
-Each run moves through four stages. The agent pauses after the plan and again
-after composing the scenes so you can request changes before it continues. At
-either checkpoint, reply `Yes` to approve and continue, `No` to stop and keep
-the files for later, or describe what you want changed. The agent makes those
-changes and asks for another review. You can also edit the files directly
-before replying.
+1. **Research.** Kumu researches the topic and saves supported claims, sources,
+   and usable visuals to `research.json`, including evidence for whatever
+   drives the animation (an algorithm, a simulation, real command output).
+2. **Concept.** It names the goal (after watching, the viewer can ___), then
+   writes three concepts in at least two different forms, such as a
+   walkthrough, comparison, map, decision path, red flags, or metaphor. Each
+   names the stage, its sources, the value the viewer tracks, and the payoff.
+   It recommends one.
+3. **Script and plan.** For the recommended concept it writes the narration
+   (`SCRIPT.md`) or the on-screen lines, and the stage's states, each tied to
+   the words that trigger it, in `video-plan.md`.
 
-1. **Research.** The agent researches the topic and saves supported claims,
-   sources, qualifications, and usable visuals to `research.json`.
-2. **Script and plan.** It writes the narration in `SCRIPT.md`, then
-   `video-plan.md` with a brief for each scene and three or four thumbnail
-   title options.
+   **Checkpoint 1: plan review.** Check the plan and a still style frame of the
+   opening, then approve, pick another concept, or ask for changes. No audio or
+   animation has been made yet, so changes here are cheap.
 
-   **Checkpoint 1: plan review.** Read the script and plan and pick a thumbnail
-   title. A plain `Yes` uses the recommended one. No audio or video has been
-   generated yet, so changes here are cheap.
+4. **Compose.** It generates the voice and captions when narrated, builds the
+   animated stage in HyperFrames, mixes music and sound effects, designs the
+   cover.
 
-3. **Compose.** It generates the voiceover, times the word-by-word captions,
-   builds the animated scenes in HyperFrames, mixes music and sound effects,
-   designs the cover, and writes the post caption.
+   Before showing you anything, Kumu reviews its own work: it renders a draft
+   and measures it (checks, a video audit for edge clipping, flicker, and
+   frozen stretches, a motion audit for fighter styles, and loudness), looks
+   only at the frames those measurements flag, fixes them, and repeats, up to
+   three rounds.
 
-   **Checkpoint 2: frame review.** Check one finished frame per scene in
-   `composition/frames/`, plus `thumbnail.jpg`, `caption.txt`, and a short audio
-   preview. Changes are applied to the composition before any video is encoded.
+   **Checkpoint 2: Studio review.** Watch the video in the HyperFrames Studio
+   preview it opens, and check `thumbnail.jpg`. Approve it or list changes.
 
-4. **Render.** It encodes the final `video.mp4` and checks it.
+5. **Render.** It encodes the final `video.mp4` and checks it.
 
-Each run gets its own directory:
+At either checkpoint, reply `Yes` to continue, `No` to stop and keep the files,
+or describe what to change. You can also edit the files directly first.
 
 ```text
 video-output/
   YYYY-MM-DD-HHmmss-topic/
     research.json
-    SCRIPT.md
-    video-plan.md
-    composition/     HyperFrames project, assets, and review frames
+    video-plan.md    concepts, stage, states, thumbnail brief, status
+    SCRIPT.md        narrated mode only
+    composition/     HyperFrames project, assets, review evidence
     video.mp4
     thumbnail.jpg
-    caption.txt
+```
+
+## Styles
+
+A style is the look of a video: background, palette, type, how subjects are
+drawn or photographed, motion, captions, and the closing card. Each style is a
+folder with `style.md` (its tokens and rules), `index.html` (a working sample
+video), `thumbnail/` (a cover sample), `preview.png` (four frames side by
+side: thumbnail, empty, elements with caption, and closing), and `assets/`.
+Rebuild a preview with `skills/kumu/scripts/style-preview.sh <style-dir>`. Videos start from the style's sample, so every video in
+a style looks like it belongs to the same page. `skills/kumu/frame.md` holds
+the rules every style follows: layout zones, legibility, honest numbers, and
+pacing.
+
+Bundled styles live in `skills/kumu/styles/`:
+
+- `pupukahi-tech`: navy island ground, white Inter type, teal data,
+  gold word highlight, and the @pupukahi_tech closing card.
+- `plain` (default): light gray, black type, one orange-red accent, ends on a payoff card.
+- `motion`: light UI motion graphics with drifting color fields, white UI
+  cards, a cursor, blur-in headlines, and a two-line payoff ending.
+- `code-cats`: cartoon cats act out code above a code editor, on switchable
+  2D backdrops (green park, cozy room, night rooftop), with typing and meow
+  sounds.
+- `car-cats`: real car photos in angled panels on a dark carbon racing
+  backdrop, a header that swaps to each car's name, and the gato cat meme
+  reacting, with garage tool and meow sounds.
+- `boxing`: fight night in a spotlit canvas ring. Flat-shaded fighters on a 3D
+  rig (red corner vs blue corner) move through smooth camera views, body marks
+  and ghosts point at what the words name, and a quiet broadcast lower third
+  carries the words, with punch, whoosh, and bell sounds and the George voice.
+  There is no end card: everything fades out to the backdrop the video opened
+  on, so it loops. A knockout ending (done right the rival drops, then a replay
+  done wrong drops you) is available when the prompt asks for one. Ships the rig, poses, and
+  fighter looks in `assets/characters/`.
+
+Each style also carries its own sound effects in `assets/sfx/`, listed with
+their licenses in `assets/sfx/CREDITS.md`, and a Sound section in `style.md`
+that maps events to sounds.
+
+Build your own from reference videos:
+
+```text
+$kumu style --ref https://www.tiktok.com/t/XXXX/ --name menu-motion
+```
+
+Kumu studies the references, builds three short sample directions (faithful,
+with an existing style's identity when you pass `--identity <style>`, and a
+variation), and opens a gallery page where you watch them side by side. Pick
+one, or mix them, and it saves to `styles/<name>/` in your project. Then:
+
+```text
+$kumu --style menu-motion --topic "Why menus stay open when you move diagonally"
 ```
 
 ## Credits

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<title>How the Slip Counter Works</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/characters/rig3d.js"></script>
+<script src="assets/characters/poses.js"></script>
+<script src="assets/characters/boxing-kit.js"></script>
+<script src="assets/sample-voice.js"></script>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("assets/fonts/barlow-condensed-600-normal.woff2") format("woff2"); }
+  body { margin: 0; background: #110e0c; font-family: "Inter", sans-serif; }
+  #root { --canvas: #110e0c; --ink: #f6f3ee; --on-highlight: #110e0c; --accent: #d2333a; --highlight: #d2333a;
+    --panel: rgba(16,14,13,.84); --border: rgba(255,255,255,.05); --support-blue: #2c66d3; --support-muted: #b6aea3; --support-white: #fff; --red: var(--accent); --blue: var(--support-blue);
+    position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink);
+    background: radial-gradient(ellipse 70% 42% at 50% 34%, #241d17, var(--canvas) 72%); }
+  .beam { position: absolute; left: 0; right: 0; top: -40px; height: 1300px; pointer-events: none;
+    clip-path: polygon(40% 0, 60% 0, 92% 100%, 8% 100%);
+    background: linear-gradient(rgba(255,232,190,.10), rgba(255,232,190,.03) 70%, transparent); filter: blur(30px); }
+  #stage { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+  #guide { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: 0; }
+  #jabTrace, #freeHandTrace { stroke: var(--blue); stroke-width: 5; stroke-dasharray: 13 12; stroke-linecap: round; }
+  #oldHead { fill: none; stroke: var(--support-white); stroke-width: 4; stroke-dasharray: 9 8; }
+  #counterTrace { stroke: var(--red); stroke-width: 5; stroke-dasharray: 12 10; stroke-linecap: round; }
+  #jabTrace, #oldHead, #counterTrace, #freeHandTrace { opacity: 0; }
+  .burst { position: absolute; width: 190px; height: 190px; margin: -95px 0 0 -95px; pointer-events: none; opacity: 0; }
+  .bug { position: absolute; left: 84px; top: 250px; width: 360px; height: 46px; font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600; font-size: 36px; letter-spacing: .16em; text-transform: uppercase; color: var(--support-muted); opacity: 0; }
+  .bug span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+  .tag { position: absolute; display: flex; align-items: stretch; height: 46px; font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600; font-size: 30px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+  .tag i { width: 8px; background: var(--blue); }
+  .tag b { font-weight: 600; background: var(--panel); padding: 0 14px; display: flex; align-items: center; }
+  #tag-orthodox { top: 238px; right: 64px; opacity: 0; }
+  #tag-free, #tag-replay, #tag-pause, #tag-balance { opacity: 0; }
+  .chyron { position: absolute; left: 60px; right: 60px; bottom: 470px; min-height: 132px; background: var(--panel); opacity: 0; }
+  .chyron::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: var(--red); }
+  .phrase { position: absolute; left: 44px; right: 36px; top: 50%; margin: 0; transform: translateY(-50%);
+    font-weight: 800; font-size: 54px; line-height: 1.15; letter-spacing: -.01em; }
+  .word { text-decoration: underline; text-decoration-thickness: 6px; text-underline-offset: 10px; text-decoration-color: transparent; }
+  .card { position: absolute; left: 70px; right: 70px; top: 700px; text-align: center; }
+  .card h1 { margin: 0; font-weight: 800; font-size: 118px; line-height: 1.02; letter-spacing: -.02em; opacity: 1; }
+</style>
+</head>
+<body>
+<div data-hf-id="hf-3p3u" id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="73.36">
+  <div data-hf-id="hf-hqud" class="beam"></div>
+  <svg data-hf-id="hf-dqkc" id="stage" />
+  <svg data-hf-id="hf-9s2t" id="guide" viewBox="0 0 1080 1920" aria-hidden="true">
+    <line data-hf-id="hf-5aiw" id="jabTrace" x1="0" y1="0" x2="0" y2="0" />
+    <circle data-hf-id="hf-4nzn" id="oldHead" cx="0" cy="0" r="62" />
+    <line data-hf-id="hf-f609" id="counterTrace" x1="0" y1="0" x2="0" y2="0" />
+    <line data-hf-id="hf-8shy" id="freeHandTrace" x1="0" y1="0" x2="0" y2="0" />
+  </svg>
+  <svg data-hf-id="hf-i7lh" class="burst" id="burst" viewBox="-100 -100 200 200" aria-hidden="true" />
+  <div data-hf-id="hf-4zky" class="card" id="card"><h1 data-hf-id="hf-gdgh">How the Slip Counter Works</h1></div>
+  <div data-hf-id="hf-39oa" class="bug" id="bug"><span id="b0">Slip counter</span><span data-hf-id="hf-ll18" id="b1">The counter</span><span data-hf-id="hf-16e4" id="b2">The setup</span><span data-hf-id="hf-fql8" id="b3">The slip</span><span data-hf-id="hf-kzvc" id="b4">The base</span><span data-hf-id="hf-tj27" id="b5">The limit</span><span id="b6">Done right</span><span id="b7">Done wrong</span></div>
+  <div data-hf-id="hf-85i4" class="tag" id="tag-orthodox"><i data-hf-id="hf-m21s" style="background:var(--support-white)"></i><b data-hf-id="hf-xzoz">Both orthodox</b></div>
+  <div data-hf-id="hf-70rd" class="tag" id="tag-free"><i data-hf-id="hf-wt6k"></i><b data-hf-id="hf-rapo">Free hand</b></div>
+  <div class="tag" id="tag-replay"><i style="background:var(--support-white)"></i><b>Replay</b></div>
+  <div class="tag" id="tag-pause"><i style="background:var(--support-white)"></i><b>No pause</b></div>
+  <div class="tag" id="tag-balance"><i style="background:var(--accent)"></i><b>Off balance</b></div>
+  <div data-hf-id="hf-040y" class="chyron" id="chyron"><div data-hf-id="hf-iuvo" id="captions"></div></div>
+</div>
+<script>
+  // No intro: built on the original times, then the whole timeline is shifted SHIFT s earlier. The title card closes it.
+  const SHIFT = 2.0;
+  let END = 73.5;
+
+  const RUN_CAM = { yaw: -18, pitch: 18, roll: 0, dist: 2600, tx: -30, ty: 320, tz: 0, cy: 650 };
+  const V3Q = { ...SportsRig.VIEWS.threeQuarter, yaw: -32, pitch: 24, dist: 3050, tx: 0, ty: 300, tz: 0, cy: 700 };
+  const stage = SportsRig.stage(document.getElementById("stage"), { camera: RUN_CAM });
+  document.querySelectorAll("#stage > g").forEach((g) => g.setAttribute("data-layout-allow-overflow", ""));
+  document.getElementById("burst").innerHTML = Array.from({ length: 14 }, (_, k) => {
+    const a = (k / 14) * Math.PI * 2, r0 = k % 2 ? 46 : 38, r1 = k % 2 ? 78 : 94;
+    return `<line x1="${Math.cos(a) * r0}" y1="${Math.sin(a) * r0}" x2="${Math.cos(a) * r1}" y2="${Math.sin(a) * r1}" stroke="${k % 2 ? "#ffffff" : "#d2333a"}" stroke-width="5" stroke-linecap="round"/>`;
+  }).join("") + `<circle r="34" fill="none" stroke="#ffffff" stroke-width="3"/>`;
+  const you = SportsRig.mount(stage, SportsRig.LOOKS.red, { x: -157, facing: 0 });
+  const rival = SportsRig.mount(stage, SportsRig.LOOKS.blue, { x: 157, facing: 180 });
+  you.foe = rival;
+  // His jab aims at where red's head was, so every slip makes it miss. In the failure take (aim.v = 1) his rear
+  // straight aims at red himself.
+  const jabTargetState = { ...you.state, x: -157 };
+  const aim = { v: 0 };
+  rival.foe = { get state() { return aim.v ? you.state : jabTargetState; }, get rag() { return aim.v ? you.rag : null; } };
+
+  // Floor notes for the slip: how far the head moved, where the weight goes, the balanced base.
+  const oldHead3 = SportsRig.fk(jabTargetState, null).head;
+  const slipJ = SportsRig.fk({ ...you.state, ...SportsPoses.slip, x: -185, bob: 0, sway: 0 }, null);
+  const smallStep = stage.note({ type: "path", pts: [[oldHead3.x, oldHead3.z], [slipJ.head.x, slipJ.head.z]], color: "#ffffff" });
+  const shift = stage.note({ type: "path", pts: [[slipJ.ankleF.x, slipJ.ankleF.z], [slipJ.ankleB.x, slipJ.ankleB.z]], color: "#ffffff" });
+  const rearBase = stage.note({ type: "target", at: [slipJ.ankleB.x, slipJ.ankleB.z], r: 48, color: "#ffffff" });
+  // Ghosts: where red was (guard) and the slipped body the counter flows from. Rings follow the body part named.
+  const ghostGuard = stage.ghost(you, "guard", { x: -157, z: 0 });
+  const ghostSlip = stage.ghost(you, "slip", { x: -185 });
+  const ring = {
+    youHead: stage.mark(you, "head"), youLeadShoulder: stage.mark(you, "leadShoulder", { r: 34 }), youRearShoulder: stage.mark(you, "rearShoulder", { r: 34 }), youWaist: stage.mark(you, "waist", { r: 70 }),
+    youLeadKnee: stage.mark(you, "leadKnee", { r: 44 }), youRearKnee: stage.mark(you, "rearKnee", { r: 44 }),
+    youLeadFoot: stage.mark(you, "leadFoot", { r: 44 }), youRearFoot: stage.mark(you, "rearFoot", { r: 44 }),
+    youLeadGlove: stage.mark(you, "leadGlove", { r: 46 }), youRearGlove: stage.mark(you, "rearGlove", { r: 46 }),
+    rivalLeadFoot: stage.mark(rival, "leadFoot", { r: 44 }), rivalLeadGlove: stage.mark(rival, "leadGlove", { r: 46 }),
+  };
+
+  let TAKE2 = 1e9; // when the failure take starts: the burst moves from his chin to red's
+  stage.onRender((S) => {
+    if (!you.J || !rival.J) return;
+    const oldHead = S.project(SportsRig.fk(jabTargetState, null).head);
+    const jabShoulder = S.project(rival.J.shF);
+    const counterShoulder = S.project(you.J.shB);
+    const targetHead = S.project(rival.J.head);
+    const freeShoulder = S.project(rival.J.shB);
+    const slippedHead = S.project(you.J.head);
+    const hitHead = S.project((tl.time() >= TAKE2 - SHIFT ? you : rival).J.head);
+    if (oldHead && jabShoulder && counterShoulder && targetHead) {
+      document.getElementById("jabTrace").setAttribute("x1", jabShoulder.x);
+      document.getElementById("jabTrace").setAttribute("y1", jabShoulder.y);
+      document.getElementById("jabTrace").setAttribute("x2", oldHead.x);
+      document.getElementById("jabTrace").setAttribute("y2", oldHead.y);
+      document.getElementById("oldHead").setAttribute("cx", oldHead.x);
+      document.getElementById("oldHead").setAttribute("cy", oldHead.y);
+      document.getElementById("counterTrace").setAttribute("x1", counterShoulder.x);
+      document.getElementById("counterTrace").setAttribute("y1", counterShoulder.y);
+      document.getElementById("counterTrace").setAttribute("x2", targetHead.x);
+      document.getElementById("counterTrace").setAttribute("y2", targetHead.y);
+    }
+    if (freeShoulder && slippedHead) {
+      document.getElementById("freeHandTrace").setAttribute("x1", freeShoulder.x);
+      document.getElementById("freeHandTrace").setAttribute("y1", freeShoulder.y);
+      document.getElementById("freeHandTrace").setAttribute("x2", slippedHead.x);
+      document.getElementById("freeHandTrace").setAttribute("y2", slippedHead.y);
+      Object.assign(document.getElementById("tag-free").style, {
+        left: `${(freeShoulder.x + slippedHead.x) / 2 - 70}px`,
+        top: `${Math.min(freeShoulder.y, slippedHead.y) - 72}px`,
+      });
+      // Tags on red sit in clear space above his head.
+      for (const id of ["tag-replay", "tag-pause", "tag-balance"])
+        Object.assign(document.getElementById(id).style, { left: `${slippedHead.x - 70}px`, top: `${slippedHead.y - slippedHead.s * 45 - 110}px` });
+    }
+    if (hitHead) Object.assign(document.getElementById("burst").style, { left: `${hitHead.x}px`, top: `${hitHead.y}px` });
+  });
+
+  gsap.set(["#b2", "#b3", "#b4", "#b5", "#b6", "#b7"], { opacity: 0 });
+  const tl = SportsRig.bind(gsap.timeline({ paused: true }), stage);
+  const { addCaptionGroups, setBeat, tagIn, chyronIn, chyronOut, burst } = BoxingKit(tl);
+  addCaptionGroups(VOICE);
+  const T = (scene, wordIndex) => VOICE[scene - 1].start + VOICE[scene - 1].words[wordIndex].start;
+  const P = (f, name, t, dur = DUR.pose, ease = EASE.pose) => SportsRig.pose(tl, f, name, t, dur, ease);
+  const show = (thing, t, hold) => SportsRig.show(tl, thing, t, hold);
+  const home = (t, dur = 0.55) => SportsRig.camera(tl, stage, RUN_CAM, t, dur);
+
+  // No intro: the fighters are in their spots from frame 0, the beat tag is up, and the caption bar fades in with
+  // the first word (same opening as the Augustus and Tyson v2s).
+  gsap.set("#card h1", { opacity: 0 });
+  tl.set("#bug", { opacity: 1 }, 0);   // "Slip counter" (b0) heads the opening line until "The setup"
+  SportsRig.idle(tl, you, 2.1, END);
+  SportsRig.idle(tl, rival, 2.1, END);
+  tl.fromTo("#chyron", { opacity: 0 }, { opacity: 1, duration: 0.4, immediateRender: false }, 2.3);
+
+  // Hook: the jab misses the fixed head position, then the rear hand answers.
+  SportsRig.punch(tl, rival, "jab", T(1, 5), { hold: 0.34 });
+  // He reads the jab and slips as it snaps out, so his head is gone when it arrives.
+  P(you, "slip", T(1, 5) - 0.12, 0.3, EASE.pose);
+  SportsRig.step(tl, you, -175, T(1, 5) - 0.12, 0.3, EASE.pose);
+  // The answer loads and steps in like every other punch, instead of firing straight out of the slip.
+  SportsRig.step(tl, you, -130, T(1, 8) - 0.24, 0.4, "power2.inOut");
+  SportsRig.punch(tl, you, "slipCounter", T(1, 8), { load: 0.24, hold: T(1, 11) - T(1, 8) - 0.16 });
+  // Where he was: a ghost at his original spot as he slips, with the jab's line running into its head. Both go the
+  // moment he starts the counter.
+  tl.set("#guide", { opacity: 1 }, T(1, 5));
+  tl.set("#jabTrace", { opacity: 1 }, T(1, 5));
+  tl.fromTo(ghostGuard, { o: 0 }, { o: 1, duration: 0.25, immediateRender: false }, T(1, 5) - 0.08);
+  tl.to(ghostGuard, { o: 0, duration: 0.15 }, T(1, 8) - 0.24);
+  tl.to("#jabTrace", { opacity: 0, duration: 0.15 }, T(1, 8) - 0.24);
+  // The counter lands: his head snaps, the burst, the shake.
+  const hookHit = T(1, 8) + 0.16;
+  P(rival, "hit", hookHit, 0.18, EASE.punch);
+  P(rival, "guard", hookHit + 0.35, DUR.recover, EASE.recoil);
+  burst(hookHit);
+  SportsRig.shake(tl, stage, hookHit, 12);
+
+  // Setup: both feet and the lead hand are named, the jab fires, and the punch line lights up.
+  const S2 = VOICE[1].start;
+  setBeat("b2", S2);
+  tl.to(you.state, { x: -157, z: 0, duration: 0.3, ease: EASE.pose }, S2);
+  show(ring.youLeadFoot, T(2, 3), 1.4);
+  show(ring.rivalLeadFoot, T(2, 3), 1.4);
+  tl.fromTo("#tag-orthodox", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: EASE.text }, T(2, 6));
+  show(ring.rivalLeadGlove, T(2, 10), 1.0);
+  // The demonstration jab comes straight down the middle and stops just short of his face (he is only watching).
+  tl.set(jabTargetState, { x: -110 }, T(2, 15) - 0.3);   // a target in front of his face: the glove stops there
+  P(rival, "jab", T(2, 15), DUR.punch, EASE.punch);
+  tl.set(jabTargetState, { x: -157 }, T(2, 15) + 0.9);
+  P(rival, "guard", T(2, 15) + 0.5, DUR.recover, EASE.recoil);
+  tl.set("#guide", { opacity: 1 }, T(2, 21));
+  tl.set("#jabTrace", { opacity: 1 }, T(2, 21));   // what he watches: the punch line
+  tl.to("#tag-orthodox", { opacity: 0, duration: 0.25 }, VOICE[2].start);
+
+  // Outside slip: the jab travels in slowly enough to follow, then the knees, the waist, and the head each move
+  // on their own word while the jab's line stays fixed.
+  const S3 = VOICE[2].start;
+  setBeat("b3", S3);
+  tl.to("#jabTrace", { opacity: 0, duration: 0.25 }, T(3, 2));
+  P(rival, "jab", T(3, 2), 1.5, "power1.inOut");
+  P(you, "slipBend", T(3, 7), 0.6);
+  show(ring.youLeadKnee, T(3, 9), 1.0);
+  show(ring.youRearKnee, T(3, 9), 1.0);
+  P(you, "slipTurn", T(3, 12), 0.7);
+  show(ring.youWaist, T(3, 15), 0.4);   // gone before the head is named
+  P(you, "slip", T(3, 16), 0.9);
+  SportsRig.step(tl, you, -185, T(3, 16), 0.9, EASE.pose);
+  show(ring.youHead, T(3, 18), 0.3);   // gone before the shoulders are named
+  show(ring.youLeadShoulder, T(3, 20), 0.7);
+  show(ring.youRearShoulder, T(3, 20), 0.7);
+  // The jab stays out past his head through the overhead view; it only comes back as the counter lands.
+
+  // Base: how small the slip is, the overhead view for outside the line, then the weight onto the rear foot.
+  const S4 = VOICE[3].start;
+  setBeat("b4", S4);
+  show(ghostGuard, T(4, 1), T(5, 7) + 0.05 - T(4, 1) - 0.35);   // "the slip is small": it stays, like the held jab, until the camera moves for the counter
+  show(smallStep, T(4, 3), 1.2);
+  SportsRig.view(tl, stage, "overhead", T(4, 4) - 0.1);
+  home(T(4, 11) - 0.1);
+  show(shift, T(4, 11), 1.3);
+  show(ring.youRearFoot, T(4, 15), 1.0);
+
+  // Counter: both hands free, over his rear shoulder, the jab goes out and the rear straight lands as it retracts.
+  const S5 = VOICE[4].start;
+  setBeat("b1", S5);
+  SportsRig.camera(tl, stage, V3Q, T(5, 7) + 0.05);
+  P(rival, "guard", T(5, 13) - 0.1, 0.3, "power2.in");   // the held jab retracts as the counter comes in
+  SportsRig.step(tl, you, -70, T(5, 12) - 0.15, 0.45, "power2.inOut");
+  SportsRig.punch(tl, you, "slipCounter", T(5, 13), { hold: 0.24, recover: 0.4 });
+  const impact = T(5, 13) + 0.16;
+  P(rival, "hit", impact, 0.18, EASE.punch);
+  P(rival, "guard", impact + 0.35, DUR.recover, EASE.recoil);
+  burst(impact);
+  SportsRig.shake(tl, stage, impact, 12);
+  tl.set("#guide", { opacity: 1 }, T(5, 13));
+  tl.set("#counterTrace", { opacity: 1 }, T(5, 13));
+  tl.to("#counterTrace", { opacity: 0, duration: 0.25 }, T(5, 13) + 0.75);
+  // After it lands he recoils and steps back to range, so the two guards never sit inside each other.
+  SportsRig.step(tl, you, -145, impact + 0.4, 0.5, EASE.pose);
+
+  // Replay in slow motion from the side: the afterimage is the slipped body, and the counter flows out of it.
+  const RP = T(5, 19) - 0.1;
+  SportsRig.view(tl, stage, "side", RP, { tx: -40, dist: 2850 });
+  tagIn("#tag-replay", RP + 0.1, 1.9);
+  P(you, "slip", RP + 0.15, 0.45);
+  SportsRig.step(tl, you, -185, RP + 0.15, 0.45, EASE.pose);
+  P(rival, "jab", RP + 0.6, 0.5, "power2.inOut");   // slow motion, like the rest of the replay
+  P(rival, "guard", RP + 1.3, 0.5, "power2.inOut");   // back in guard before the counter lands at RP + 1.85
+  show(ghostSlip, RP + 1.0, 1.5);
+  P(you, "slipCounter", RP + 1.3, 0.55, "power2.inOut");
+  SportsRig.step(tl, you, -70, RP + 1.3, 0.55, "power2.inOut");
+  const impact2 = RP + 1.85;
+  P(rival, "hit", impact2, 0.18, EASE.punch);
+  P(rival, "guard", impact2 + 0.35, DUR.recover, EASE.recoil);
+  burst(impact2);
+  SportsRig.shake(tl, stage, impact2, 10);
+  tl.set("#counterTrace", { opacity: 1 }, impact2);
+  tl.to("#counterTrace", { opacity: 0, duration: 0.25 }, impact2 + 0.75);
+  P(you, "guard", impact2 + 0.4, DUR.recover, EASE.recoil);
+  SportsRig.step(tl, you, -145, impact2 + 0.4, 0.5);   // and steps back out to range, so the guards never sit pressed together
+  tagIn("#tag-pause", T(5, 27), 0.9);
+
+  // Limit: back to the side view, guard and the other hand, a slip that only buys a moment, too much movement,
+  // then the inside slip and the free hand.
+  const S6 = VOICE[5].start;
+  setBeat("b5", S6);
+  SportsRig.view(tl, stage, "side", T(6, 1), { tx: -40, dist: 2850 });
+  P(you, "guard", T(6, 1), DUR.recover, EASE.recoil);
+  P(rival, "guard", T(6, 1), DUR.recover, EASE.recoil);
+  tl.to(you.state, { x: -157, z: 0, duration: 0.6, ease: "power2.inOut" }, T(6, 1));   // back to his spot as a step, not a slide
+  P(you, "slip", T(6, 11), 0.3);
+  SportsRig.step(tl, you, -185, T(6, 11), 0.3, EASE.pose);
+  P(you, "guard", T(6, 14), 0.3);
+  tl.to(you.state, { x: -157, z: 0, duration: 0.3, ease: EASE.pose }, T(6, 14));
+  // Too much movement: a real lean back (weight onto the rear leg, a smaller arch) over half a second, not a skid.
+  SportsPoses.leanBack = { ...SportsPoses.lean, torso: -20, head: 8 };
+  P(you, "leanBack", T(6, 16), 0.55, "power2.inOut");
+  SportsRig.step(tl, you, -200, T(6, 16), 0.6, "power2.inOut");
+  tagIn("#tag-balance", T(6, 20), 0.8);
+  P(you, "guard", T(6, 21), 0.45, EASE.pose);
+  SportsRig.step(tl, you, -157, T(6, 21), 0.45, EASE.pose);
+  P(you, "slipInside", T(6, 24), 0.4);
+  SportsRig.step(tl, you, -112, T(6, 24), 0.4, EASE.pose);
+  tl.set("#tag-free", { opacity: 1 }, T(6, 29));
+
+  // Ending, take one: the same exchange with perfect timing. A cut, a reset, and the counter puts him down.
+  const V7 = VOICE[6].start, V8 = VOICE[7].start;
+  const CUT1 = VOICE[5].start + VOICE[5].duration + 0.25;
+  tl.to(["#guide", "#tag-free", "#stage"], { opacity: 0, duration: 0.25, ease: EASE.out }, CUT1);
+  tl.set(["#freeHandTrace"], { opacity: 0 }, CUT1 + 0.25);
+  setBeat("b6", CUT1 + 0.4);
+  SportsRig.stand(tl, you, CUT1 + 0.3, -157);
+  SportsRig.stand(tl, rival, CUT1 + 0.3, 157);
+  tl.set(stage.cam, V3Q, CUT1 + 0.3);
+  tl.set(aim, { v: 0 }, CUT1 + 0.3);
+  tl.to("#stage", { opacity: 1, duration: 0.3 }, CUT1 + 0.5);
+  SportsRig.punch(tl, rival, "jab", V7 + 0.5, { hold: 0.34 });
+  P(you, "slip", V7 + 0.62, 0.35);
+  SportsRig.step(tl, you, -175, V7 + 0.62, 0.3, EASE.pose);
+  SportsRig.step(tl, you, -70, V7 + 1.95, 0.45, "power2.inOut");
+  SportsRig.punch(tl, you, "slipCounter", V7 + 2.32, { hold: 0.35, recover: 0.4 });
+  const HIT1 = V7 + 2.48;
+  burst(HIT1, 1.7, -20);
+  const down1 = SportsRig.knockout(tl, stage, rival, HIT1, { x: 157, kind: "straight" });
+  chyronOut(V7 + 3.3);
+
+  // Ending, take two: slip the wrong way (inside) and his free hand puts you down.
+  const CUT2 = HIT1 + 2.2;
+  TAKE2 = CUT2 + 0.3;
+  tl.to("#stage", { opacity: 0, duration: 0.25, ease: EASE.out }, CUT2);
+  setBeat("b7", CUT2 + 0.4);
+  SportsRig.stand(tl, you, TAKE2, -157);
+  SportsRig.stand(tl, rival, TAKE2, 157);
+  tl.set(stage.cam, RUN_CAM, TAKE2);
+  tl.set(aim, { v: 0 }, TAKE2);
+  tl.to("#stage", { opacity: 1, duration: 0.3 }, CUT2 + 0.5);
+  chyronIn(V8 - 0.2);
+  SportsRig.punch(tl, rival, "jab", V8 + 0.1, { hold: 0.34 });
+  P(you, "slipInside", V8 + 0.2, 0.35);
+  SportsRig.step(tl, you, -112, V8 + 0.2, 0.35, EASE.pose);
+  tl.set("#guide", { opacity: 1 }, V8 + 1.2);
+  tl.set(["#freeHandTrace", "#tag-free"], { opacity: 1 }, V8 + 1.2);
+  tl.set(aim, { v: 1 }, V8 + 1.6);
+  SportsRig.punch(tl, rival, "straight", V8 + 2.2, { load: 0.45, hold: 0.35, recover: 0.4 });
+  const HIT2 = V8 + 2.36;
+  tl.set(["#freeHandTrace", "#tag-free"], { opacity: 0 }, HIT2);
+  burst(HIT2, 1.7, -20);
+  const down2 = SportsRig.knockout(tl, stage, you, HIT2, { x: -112, z: 55, kind: "straight" });
+  chyronOut(V8 + 4.3);
+
+  // Close: a moment after the fall everything fades to the bare backdrop, then the title card closes the video
+  // with the bell.
+  const CLOSE = down2 + 0.3;
+  tl.to(["#guide", "#bug", "#chyron", "#tag-free", "#tag-orthodox", "#stage"], { opacity: 0, duration: 0.6, ease: EASE.out }, CLOSE);
+  tl.shiftChildren(-SHIFT, true, SHIFT);   // everything from the narration on moves SHIFT s earlier
+  tl.fromTo("#card h1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE.text, immediateRender: false }, CLOSE - SHIFT + 0.7);
+  tl.set({}, {}, CLOSE - SHIFT + 3.3);   // hold the card to the end
+  stage.render();
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>

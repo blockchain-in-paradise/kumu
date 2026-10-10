@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Motion style sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Style sample: drifting color fields, blur-in headline words, UI cards that tilt in and settle,
+     a cursor acting on them, one drawn overlay (the skeleton shimmer), and the two-line payoff.
+     Demo topic: skeleton screens versus spinners for the same load time. */
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("assets/fonts/inter-400.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #f5f7fa; font-family: "Inter", sans-serif; }
+  #root { --canvas: #f5f7fa; --ink: #1d1d1f; --muted: #8e8e93; --accent: #2f7bf6; --bone: #e6e9ef;
+    position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); background: var(--canvas); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(120px); }
+  .b1 { width: 900px; height: 900px; left: -260px; top: -200px; background: rgba(120,170,255,.55); }
+  .b2 { width: 800px; height: 800px; right: -300px; top: 700px; background: rgba(255,190,170,.35); }
+  .b3 { width: 900px; height: 900px; left: -100px; bottom: -420px; background: rgba(170,230,190,.40); }
+  .grain { position: absolute; inset: 0; opacity: .03; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .words { position: absolute; left: 80px; right: 80px; top: 300px; text-align: center; }
+  .line { position: absolute; left: 0; right: 0; }
+  .line h1 { margin: 0; font-size: 68px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+  .line p { margin: 18px 0 0; font-size: 38px; color: var(--muted); }
+  .line em { font-style: normal; color: var(--accent); }
+  .w { display: inline-block; }
+
+  .stage { position: absolute; left: 70px; width: 940px; top: 640px; height: 900px; perspective: 1800px; }
+  .tilt { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .col { position: absolute; top: 0; width: 450px; }
+  .col.left { left: 0; } .col.right { right: 0; }
+  .col h5 { margin: 0 0 18px; text-align: center; font-size: 34px; font-weight: 600; color: var(--muted); }
+  .card { position: relative; height: 500px; background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 28px;
+    box-shadow: 0 30px 70px rgba(30,50,90,.14), 0 4px 12px rgba(30,50,90,.06); overflow: hidden; padding: 32px; box-sizing: border-box; }
+  /* Feed item layout, shared by the skeleton and the loaded content. */
+  .row { display: flex; align-items: center; gap: 20px; }
+  .av { width: 76px; height: 76px; border-radius: 50%; flex: 0 0 76px; }
+  .nm { height: 26px; width: 180px; border-radius: 13px; }
+  .tx { height: 22px; border-radius: 11px; margin-top: 22px; }
+  .img { height: 250px; border-radius: 18px; margin-top: 30px; }
+  .bone { background: var(--bone); }
+  .layer { position: absolute; inset: 32px; }
+  .shimmer { position: absolute; top: 0; bottom: 0; left: -260px; width: 260px;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.85), rgba(255,255,255,0)); }
+  .content .av { background: linear-gradient(135deg, #ffb27a, #f0544f); }
+  .content .nm { background: none; width: auto; height: auto; font-size: 30px; font-weight: 600; border-radius: 0; }
+  .content .tx { background: none; height: auto; font-size: 24px; color: #555; border-radius: 0; margin-top: 18px; line-height: 1.35; }
+  .content .img { background: linear-gradient(135deg, #8fb8ff, #2f7bf6 60%, #5b5ce2); }
+  .spinner { position: absolute; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; }
+  .timer { position: absolute; left: 0; right: 0; top: 580px; text-align: center; font-size: 38px; color: var(--muted); }
+  .timer b { color: var(--ink); font-weight: 800; }
+  #cursor { position: absolute; left: 0; top: 0; width: 46px; height: 46px; }
+  .closing { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .closing svg { width: 190px; height: 190px; }
+  .closing p { margin: 60px 0 0; font-size: 44px; color: var(--muted); }
+  .closing h2 { margin: 6px 0 0; font-size: 104px; font-weight: 800; letter-spacing: -0.04em; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="8.5">
+  <div class="blob b1" id="b1"></div><div class="blob b2" id="b2"></div><div class="blob b3" id="b3"></div>
+  <div class="grain"></div>
+
+  <div class="words">
+    <div class="line" id="l1"><h1><em class="w">Skeletons</em> <span class="w">over</span> <span class="w">spinners</span></h1><p class="w">Same wait, two feelings</p></div>
+    <div class="line" id="l2"><h1><span class="w">Show</span> <span class="w">the</span> <em class="w">shape</em> <span class="w">first</span></h1><p class="w">The page lands where you expect</p></div>
+  </div>
+
+  <div class="stage" id="stage"><div class="tilt" id="tilt">
+    <div class="col left"><h5>Spinner</h5>
+      <div class="card" id="cardA">
+        <svg class="spinner" id="spin" viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ef" stroke-width="10"/>
+          <path id="arc" d="M48 10 A38 38 0 0 1 86 48" fill="none" stroke="#2f7bf6" stroke-width="10" stroke-linecap="round"/></svg>
+        <div class="layer content" id="contentA">
+          <div class="row"><div class="av"></div><div class="nm">Maya Chen</div></div>
+          <div class="tx">Shipped the new onboarding today. Feedback welcome!</div>
+          <div class="img"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col right"><h5>Skeleton</h5>
+      <div class="card" id="cardB">
+        <div class="layer" id="skel">
+          <div class="row"><div class="av bone"></div><div class="nm bone"></div></div>
+          <div class="tx bone" style="width:100%"></div><div class="tx bone" style="width:70%"></div>
+          <div class="img bone"></div>
+          <div class="shimmer" id="shim"></div>
+        </div>
+        <div class="layer content" id="contentB">
+          <div class="row"><div class="av"></div><div class="nm">Maya Chen</div></div>
+          <div class="tx">Shipped the new onboarding today. Feedback welcome!</div>
+          <div class="img"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timer"><span id="loading">Loading <b id="secs">0.0 s</b></span></div>
+    <div class="timer"><span id="done">Both loaded in <b>2.4 s</b></span></div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2 L4 20 L9 15.5 L12.5 22 L15.5 20.6 L12.2 14.2 L19 14 Z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  </div></div>
+
+  <div class="closing" id="closing">
+    <svg viewBox="0 0 190 190"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6aa8ff"/><stop offset="1" stop-color="#2f7bf6"/></linearGradient></defs>
+      <rect x="10" y="10" width="170" height="170" rx="46" fill="url(#g)"/>
+      <rect x="44" y="52" width="102" height="18" rx="9" fill="#fff"/><rect x="44" y="86" width="102" height="18" rx="9" fill="#fff" opacity=".8"/><rect x="44" y="120" width="64" height="18" rx="9" fill="#fff" opacity=".6"/></svg>
+    <p>Same wait.</p><h2>Feels faster.</h2>
+  </div>
+</div>
+<script>
+  // Motion values (see style.md): eases by direction, duration bands, small overshoot, stagger budget.
+  const EASE = { enter: "expo.out", exit: "power2.in", move: "power2.inOut", drift: "sine.inOut" };
+  const DUR = { small: 0.4, medium: 0.6, large: 0.9, exitScale: 0.7 };
+  const STAGGER = { words: 0.05, items: 0.08 };
+  const OVERSHOOT = 1.02;
+
+  // Model: both cards load the same post over the same time.
+  const loadStart = 1.9, loadTime = 2.4, loaded = loadStart + loadTime;
+
+  const tl = gsap.timeline({ paused: true });
+  // Ambient layer: color fields flow and breathe behind everything. Each field swings back and forth
+  // on its own period (offset phases), with repeats computed to cover the whole duration; seek-safe.
+  const TOTAL = 8.5;
+  const FIELDS = [
+    { id: "#b1", to: { x: 110, y: 70, scale: 1.08, opacity: 0.85 }, period: 3.5 },
+    { id: "#b2", to: { x: -90, y: -80, scale: 0.92, opacity: 1 }, period: 4.25 },
+    { id: "#b3", to: { x: 100, y: -50, scale: 1.06, opacity: 0.8 }, period: 3 },
+  ];
+  FIELDS.forEach((f) => {
+    tl.fromTo(f.id, { x: 0, y: 0, scale: 1, opacity: 1 }, { ...f.to, duration: f.period, ease: EASE.drift,
+      repeat: Math.ceil(TOTAL / f.period) - 1, yoyo: true }, 0);
+  });
+  tl.set(["#l2", "#closing", "#contentA", "#contentB", "#spin", "#skel", "#done"], { opacity: 0 }, 0);
+  tl.set("#cursor", { x: 470, y: 820 }, 0);
+
+  // Intro: the background holds alone until 0.4 s, then words blur in and the cards float up tilted.
+  tl.from("#l1 .w", { opacity: 0, filter: "blur(14px)", y: 16, duration: DUR.medium, ease: EASE.enter, stagger: STAGGER.words }, 0.4);
+  tl.from("#stage", { opacity: 0, y: 60, duration: DUR.large, ease: EASE.enter }, 0.6);
+  tl.fromTo("#tilt", { rotationX: 12, rotationY: -18, rotationZ: 2, scale: 0.94 },
+    { rotationX: 0, rotationY: 0, rotationZ: 0, scale: 1, duration: 2.2, ease: EASE.move }, 0.6);
+
+  // The cursor taps to refresh both feeds: a small dip on press, loading starts.
+  tl.to("#cursor", { x: 470, y: 760, duration: DUR.medium, ease: EASE.move }, 1.1);
+  tl.to("#cursor", { scale: 0.9, duration: 0.08, ease: EASE.exit, yoyo: true, repeat: 1 }, 1.8);
+  tl.to("#cursor", { opacity: 0, duration: DUR.small, ease: EASE.exit }, 2.1);
+  tl.set(["#spin", "#skel"], { opacity: 1 }, loadStart);
+
+  // Loading: the spinner turns, the skeleton shimmers, the clock counts the same wait for both.
+  tl.fromTo("#arc", { rotation: 0, svgOrigin: "48 48" }, { rotation: 360 * 3, svgOrigin: "48 48", duration: loadTime, ease: "none" }, loadStart);
+  tl.fromTo("#shim", { x: 0 }, { x: 760, duration: 0.8, ease: EASE.move, repeat: 2 }, loadStart);
+  for (let i = 0; i <= 24; i++) tl.set("#secs", { textContent: (i / 10).toFixed(1) + " s" }, loadStart + i / 10);
+
+  // Words change while loading.
+  tl.to("#l1 .w", { opacity: 0, filter: "blur(10px)", duration: DUR.small * DUR.exitScale, ease: EASE.exit }, 3.3);
+  tl.set("#l2", { opacity: 1 }, 3.6);
+  tl.from("#l2 .w", { opacity: 0, filter: "blur(14px)", y: 16, duration: DUR.medium, ease: EASE.enter, stagger: STAGGER.words }, 3.6);
+
+  // Loaded: the spinner card pops in all at once; the skeleton fills in place.
+  tl.set("#spin", { opacity: 0 }, loaded);
+  tl.fromTo("#contentA", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.25, ease: EASE.enter }, loaded);
+  tl.to("#skel", { opacity: 0, duration: DUR.small, ease: EASE.move }, loaded);
+  tl.fromTo("#contentB", { opacity: 0 }, { opacity: 1, duration: DUR.small, ease: EASE.move }, loaded);
+  tl.set("#loading", { opacity: 0 }, loaded + 0.3);
+  tl.set("#done", { opacity: 1 }, loaded + 0.3);
+  tl.to("#cardB", { scale: OVERSHOOT, duration: DUR.small, ease: EASE.enter, yoyo: true, repeat: 1 }, loaded + 0.3);
+  // Camera: a slow push-in while the result holds.
+  tl.to("#tilt", { scale: 1.04, duration: 1.4, ease: EASE.move }, loaded + 0.2);
+
+  // Closing: the UI and words blur away, the payoff lands.
+  tl.to(["#stage", "#l2"], { opacity: 0, filter: "blur(12px)", duration: DUR.medium * DUR.exitScale, ease: EASE.exit }, 6.6);
+  tl.set("#closing", { opacity: 1 }, 6.9);
+  tl.from("#closing svg", { opacity: 0, scale: 0.8, duration: DUR.medium, ease: EASE.enter }, 6.9);
+  tl.from(["#closing p", "#closing h2"], { opacity: 0, filter: "blur(10px)", y: 16, duration: DUR.medium, ease: EASE.enter, stagger: STAGGER.items }, 7.1);
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>

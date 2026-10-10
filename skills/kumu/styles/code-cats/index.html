@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Code cats style sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Style sample: a 2D cartoon backdrop, a bouncy title, rigged cartoon cats that act out the code,
+     a code editor whose highlighted line follows the program, a visual-mode line, and the payoff.
+     Demo topic: how a for loop runs its body once per item. */
+  @font-face { font-family: "Fredoka"; font-weight: 600; src: url("assets/fonts/fredoka-600.woff2") format("woff2"); }
+  @font-face { font-family: "Fredoka"; font-weight: 700; src: url("assets/fonts/fredoka-700.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-700.woff2") format("woff2"); }
+  body { margin: 0; background: #9fd0f2; font-family: "Fredoka", sans-serif; }
+  #root { --ink: #2c2450; --title: #ffd84d; --title-shadow: #2f5d3a; --accent: #ff8a5c; --editor: #1f2033; --on-ground: #2c2450; --on-ground-glow: rgba(255,255,255,.85);
+    position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); }
+  .backdrop { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .title { position: absolute; left: 0; right: 0; top: 120px; text-align: center; }
+  .title h1 { margin: 0; font-size: 128px; font-weight: 700; color: var(--title); letter-spacing: -0.01em;
+    text-shadow: 0 8px 0 var(--title-shadow), 0 14px 24px rgba(40,30,80,.35); }
+  .title p { margin: 4px 0 0; font-size: 44px; font-weight: 600; color: #fff; text-shadow: 0 3px 0 rgba(60,45,110,.5); }
+  .tally { position: absolute; right: 70px; top: 420px; background: #fff; border-radius: 999px; padding: 10px 28px;
+    font-size: 40px; font-weight: 700; box-shadow: 0 6px 0 rgba(60,45,110,.25); }
+  .tally b { color: var(--accent); }
+  .cats { position: absolute; left: 70px; right: 70px; top: 520px; height: 330px; }
+  .cat { position: absolute; top: 0; width: 170px; text-align: center; }
+  .cat svg { width: 170px; height: 212px; overflow: visible; }
+  .cat .name { font-size: 30px; font-weight: 600; color: var(--on-ground); text-shadow: 0 0 10px var(--on-ground-glow); margin-top: 44px; }
+  .cat .bowl { position: absolute; left: 35px; top: 196px; width: 100px; height: 56px; }
+  .editor { position: absolute; left: 70px; right: 70px; top: 1000px; background: var(--editor); border-radius: 28px;
+    box-shadow: 0 16px 0 rgba(40,30,80,.25), 0 30px 60px rgba(20,15,45,.35); overflow: hidden; font-family: "JetBrains Mono", monospace; }
+  .bar { display: flex; align-items: center; gap: 12px; height: 70px; padding: 0 28px; background: #2a2b42; }
+  .bar i { width: 18px; height: 18px; border-radius: 50%; display: block; }
+  .bar span { margin-left: 18px; font-size: 28px; color: #a9abc9; }
+  .code { position: relative; padding: 22px 0 26px; }
+  .ln { position: relative; display: flex; height: 66px; align-items: center; font-size: 40px; color: #f1f1f8; white-space: pre; }
+  .ln code { font: inherit; white-space: pre; }
+  .ln u { flex: 0 0 76px; width: 76px; text-align: right; padding-right: 26px; color: #5f617f; text-decoration: none; font-size: 30px; }
+  .k { color: #ff79c6; } .s { color: #f1fa8c; } .f { color: #50fa7b; } .v { color: #8be9fd; }
+  .hl { position: absolute; left: 0; right: 0; top: 22px; height: 66px; background: rgba(255,216,77,.16); border-left: 8px solid #ffd84d; }
+  .out { margin: 0 28px 26px 102px; font-size: 34px; color: #50fa7b; height: 44px; }
+  .line { position: absolute; left: 70px; right: 70px; bottom: 330px; text-align: center; font-size: 54px; font-weight: 600;
+    color: var(--on-ground); text-shadow: 0 0 14px var(--on-ground-glow); }
+  .line em { font-style: normal; color: var(--accent); }
+  .payoff { position: absolute; left: 0; right: 0; top: 1000px; text-align: center; }
+  .payoff b { display: block; font-size: 150px; font-weight: 700; color: var(--title); text-shadow: 0 10px 0 var(--title-shadow); line-height: 1; }
+  .payoff span { display: block; margin-top: 24px; font-size: 56px; font-weight: 600; color: var(--on-ground); text-shadow: 0 0 14px var(--on-ground-glow); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="10">
+  <img class="backdrop" src="assets/backdrops/park.svg" alt="" />
+  <div class="title" id="title"><h1>For Loops</h1><p>Python</p></div>
+  <div class="tally" id="tally">Fed <b id="fed">0</b>/5</div>
+  <div class="cats" id="cats"></div>
+
+  <div class="editor" id="editor">
+    <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>feed.py</span></div>
+    <div class="code">
+      <div class="hl" id="hl"></div>
+      <div class="ln"><u>1</u><code><span class="v">cats</span> = [<span class="s">"Mochi"</span>, <span class="s">"Nori"</span>, ...]</code></div>
+      <div class="ln"><u>2</u><code><span class="k">for</span> <span class="v">cat</span> <span class="k">in</span> <span class="v">cats</span>:</code></div>
+      <div class="ln"><u>3</u><code>    <span class="f">feed</span>(<span class="v">cat</span>)</code></div>
+      <div class="ln"><u>4</u><code><span class="f">print</span>(<span class="s">"All fed!"</span>)</code></div>
+    </div>
+    <div class="out" id="out">&gt; All fed!</div>
+  </div>
+
+  <div class="line" id="line1">Each pass feeds <em>one</em> cat</div>
+  <div class="line" id="line2">The loop ends after the <em>last</em> cat</div>
+  <div class="payoff" id="payoff"><b>5 cats</b><span>one loop, no copy paste</span></div>
+</div>
+<script>
+  // Motion values (see style.md): playful entrances with a little bounce, quick hops, steady code steps.
+  const EASE = { pop: "back.out(1.7)", enter: "power3.out", exit: "power2.in", hop: "power2.out", land: "bounce.out" };
+  const DUR = { small: 0.35, medium: 0.55, hop: 0.22 };
+  const STAGGER = { cats: 0.08, words: 0.05 };
+
+  // Cat rig: head, ears, eyes (open and happy), body, scarf, paws, and a tail that swishes from its base.
+  const COATS = [
+    { name: "Mochi", coat: "#f2a65a", belly: "#fde2c4", dark: "#d98a3f", scarf: "#ff5f7e" },
+    { name: "Nori", coat: "#9aa3b5", belly: "#e7ebf3", dark: "#7d8699", scarf: "#4fc3f7" },
+    { name: "Taro", coat: "#3d3a4a", belly: "#6d6a7c", dark: "#2a2834", scarf: "#ffd84d" },
+    { name: "Ume", coat: "#f3e0c0", belly: "#fff7ea", dark: "#d9c29c", scarf: "#7bd389" },
+    { name: "Kiki", coat: "#c98b5e", belly: "#f3d6bd", dark: "#a86d43", scarf: "#b48cff" },
+  ];
+  const catSVG = (c, i) => `
+    <svg viewBox="0 0 160 200">
+      <g class="tail" id="tail${i}"><path d="M118 160 Q158 150 150 96" fill="none" stroke="${c.coat}" stroke-width="16" stroke-linecap="round"/></g>
+      <ellipse cx="80" cy="152" rx="52" ry="42" fill="${c.coat}"/>
+      <ellipse cx="80" cy="160" rx="30" ry="27" fill="${c.belly}"/>
+      <ellipse cx="58" cy="190" rx="17" ry="10" fill="${c.dark}"/><ellipse cx="102" cy="190" rx="17" ry="10" fill="${c.dark}"/>
+      <rect x="44" y="112" width="72" height="16" rx="8" fill="${c.scarf}"/>
+      <g class="head" id="head${i}">
+        <path d="M38 62 L44 14 L78 44 Z" fill="${c.coat}"/><path d="M122 62 L116 14 L82 44 Z" fill="${c.coat}"/>
+        <path d="M46 52 L49 28 L66 44 Z" fill="#f7a8b8"/><path d="M114 52 L111 28 L94 44 Z" fill="#f7a8b8"/>
+        <circle cx="80" cy="76" r="48" fill="${c.coat}"/>
+        <ellipse cx="80" cy="94" rx="26" ry="18" fill="${c.belly}"/>
+        <g class="open" id="open${i}"><ellipse cx="61" cy="74" rx="7" ry="10" fill="#2b2433"/><ellipse cx="99" cy="74" rx="7" ry="10" fill="#2b2433"/>
+          <circle cx="63" cy="70" r="2.6" fill="#fff"/><circle cx="101" cy="70" r="2.6" fill="#fff"/></g>
+        <g class="happy" id="happy${i}" opacity="0"><path d="M53 76 Q61 66 69 76" fill="none" stroke="#2b2433" stroke-width="4" stroke-linecap="round"/>
+          <path d="M91 76 Q99 66 107 76" fill="none" stroke="#2b2433" stroke-width="4" stroke-linecap="round"/></g>
+        <path d="M75 88 L85 88 L80 94 Z" fill="#f08aa0"/>
+        <path d="M80 94 Q74 101 68 97 M80 94 Q86 101 92 97" fill="none" stroke="#2b2433" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="50" cy="92" r="7" fill="#ff9aa8" opacity=".45"/><circle cx="110" cy="92" r="7" fill="#ff9aa8" opacity=".45"/>
+        <path d="M44 88 L22 84 M44 94 L22 96 M116 88 L138 84 M116 94 L138 96" stroke="#2b2433" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+      </g>
+    </svg>`;
+  const bowlSVG = (i) => `
+    <svg class="bowl" viewBox="0 0 100 56">
+      <g id="fish${i}" opacity="0"><ellipse cx="50" cy="20" rx="22" ry="10" fill="#7ec8f0"/><path d="M70 20 L84 10 L84 30 Z" fill="#7ec8f0"/><circle cx="38" cy="18" r="2.5" fill="#2b2433"/></g>
+      <path d="M6 24 H94 Q90 54 50 54 Q10 54 6 24 Z" fill="#ff8a5c"/><rect x="2" y="20" width="96" height="8" rx="4" fill="#ffa47d"/>
+    </svg>`;
+  const catsEl = document.getElementById("cats");
+  COATS.forEach((c, i) => {
+    const d = document.createElement("div");
+    d.className = "cat"; d.id = `cat${i}`; d.style.left = `${i * 190}px`;
+    d.innerHTML = catSVG(c, i) + bowlSVG(i) + `<div class="name">${c.name}</div>`;
+    catsEl.appendChild(d);
+  });
+
+  // Model: the loop body runs once per cat; the first pass is slow enough to read, repeats are quicker.
+  const passes = COATS.map((_, i) => 2.4 + (i === 0 ? 0 : 1.3 + (i - 1) * 0.7));
+  const lineY = (n) => 22 + (n - 1) * 66; // highlight position for code line n
+
+  const tl = gsap.timeline({ paused: true });
+  tl.set(["#line2", "#payoff", "#out", "#hl"], { opacity: 0 }, 0);
+  // Intro: the backdrop holds alone until 0.4 s, then the title pops and the cats hop in.
+  tl.from("#title h1", { opacity: 0, scale: 0.6, duration: DUR.medium, ease: EASE.pop }, 0.4);
+  tl.from("#title p", { opacity: 0, y: 20, duration: DUR.small, ease: EASE.enter }, 0.6);
+  tl.from(".cat", { opacity: 0, y: 120, duration: DUR.medium, ease: EASE.pop, stagger: STAGGER.cats }, 0.7);
+  tl.from("#tally", { opacity: 0, scale: 0.7, duration: DUR.small, ease: EASE.pop }, 1.2);
+  tl.from("#editor", { opacity: 0, y: 80, duration: DUR.medium, ease: EASE.enter }, 1.4);
+  tl.set("#hl", { opacity: 1, y: lineY(1) - 22 }, 1.8);
+  tl.from("#line1", { opacity: 0, y: 20, duration: DUR.small, ease: EASE.enter }, 2.0);
+  // Ambient life: tails swish slowly (finite repeats, seek-safe).
+  COATS.forEach((_, i) => tl.fromTo(`#tail${i}`, { rotation: -6, svgOrigin: "118 160" },
+    { rotation: 8, svgOrigin: "118 160", duration: 0.9 + i * 0.07, ease: "sine.inOut", yoyo: true, repeat: 9 }, 0.8 + i * 0.1));
+
+  // Each pass: line 2 checks the next cat, line 3 feeds it, the fish lands, the cat hops happily.
+  passes.forEach((t, i) => {
+    const step = i === 0 ? 0.45 : 0.22;
+    tl.set("#hl", { y: lineY(2) - 22 }, t);
+    tl.set("#hl", { y: lineY(3) - 22 }, t + step);
+    tl.fromTo(`#fish${i}`, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: DUR.small, ease: EASE.land }, t + step);
+    tl.to(`#cat${i}`, { y: -46, duration: DUR.hop, ease: EASE.hop, yoyo: true, repeat: 1 }, t + step + 0.05);
+    tl.set(`#open${i}`, { opacity: 0 }, t + step + 0.05);
+    tl.set(`#happy${i}`, { opacity: 1 }, t + step + 0.05);
+    tl.set("#fed", { textContent: String(i + 1) }, t + step + 0.1);
+  });
+
+  // After the last pass: line 4 prints, the words change.
+  const done = passes[passes.length - 1] + 0.8;
+  tl.set("#hl", { y: lineY(4) - 22 }, done);
+  tl.set("#out", { opacity: 1 }, done + 0.15);
+  tl.to("#line1", { opacity: 0, duration: 0.25, ease: EASE.exit }, done - 0.3);
+  tl.fromTo("#line2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: DUR.small, ease: EASE.enter }, done);
+
+  // Payoff: the editor and words clear, every cat hops together, the answer lands.
+  const pay = done + 1.4;
+  tl.to(["#editor", "#line2"], { opacity: 0, y: 40, duration: DUR.small, ease: EASE.exit }, pay);
+  tl.to(".cat", { y: -60, duration: DUR.hop, ease: EASE.hop, yoyo: true, repeat: 1, stagger: 0.05 }, pay + 0.3);
+  tl.fromTo("#payoff", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: DUR.medium, ease: EASE.pop }, pay + 0.35);
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>

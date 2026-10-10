@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Plain thumbnail sample</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+  /* Static cover sample: title and hero inside the safe box (x 60–960, y 240–1400). */
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #ececec; font-family: "Inter", sans-serif; }
+  #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #111; background: #ececec; }
+  .title { position: absolute; left: 80px; right: 80px; top: 280px; margin: 0;
+    font-size: 94px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
+  .title span { display: block; }
+  .card { position: absolute; left: 80px; right: 120px; top: 640px; height: 720px; background: #fff;
+    border: 2px solid rgba(17,17,17,.14); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+  .card b { position: absolute; left: 56px; top: 48px; font-size: 150px; font-weight: 800; letter-spacing: -0.04em; color: #e4572e; }
+  svg { position: absolute; left: 56px; top: 300px; width: 768px; height: 360px; overflow: visible; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
+  <h1 class="title"><span>How $1,000 Grows</span><span>in 30 Years</span></h1>
+  <div class="card"><b>$7,612</b>
+    <svg viewBox="0 0 768 360" id="chart"><path id="c" fill="none" stroke="#e4572e" stroke-width="8" stroke-linecap="round"/></svg>
+  </div>
+</div>
+<script>
+  const v = Array.from({ length: 31 }, (_, n) => 1000 * Math.pow(1.07, n));
+  document.getElementById("c").setAttribute("d", v.map((x, n) => (n ? "L" : "M") + (n / 30 * 768) + " " + (360 - x / 8000 * 360)).join(" "));
+  window.__timelines.main = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>
