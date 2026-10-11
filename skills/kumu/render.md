@@ -70,8 +70,8 @@ Use the style's `voice` and `voice_speed` from its `style.md` (else `am_adam` at
 `hyperframes tts -v <voice> -s <speed>` and
 probing its duration. Generate one WAV per `SCRIPT.md` heading under
 `.work/vo/` from the spoken text only: no headings, fact IDs, or notes. Before
-generating, replace each word in the plan's Pronunciation table with its
-respelling in the TTS input only, then listen to those words in the output. Measure
+generating, replace each word in the style's Pronunciation table (when it has one) and the
+plan's Pronunciation table with its respelling in the TTS input only, then listen to those words in the output. Measure
 loudness before timing:
 
 ```bash

@@ -11,6 +11,18 @@ from the run directory. Save evidence under `composition/.work/review/`.
 Run all of these. Every error must be fixed; every warning is fixed or
 explained in step 3.
 
+0. **Source scan** before any render, for misses [frame.md](frame.md) rules
+   out: a title broken by hand, and a connecting path drawn from typed
+   coordinates. Every hit is fixed:
+
+   ```bash
+   grep -nE 'class="headline"[^>]*>[^<]*(<br|<span)|id="[^"]*(flow|path|link)[^"]*"[^>]* d="M' composition/index.html composition/scenes/*.html
+   ```
+
+   Then read the timeline for what needs judgment: a person faded out before
+   the scene clears, a value tag still shown while a scale is on screen, and an
+   X drawn over a failure.
+
 1. **Checks.** `npx hyperframes check composition`, lint errors first (a lint
    error disables the layout and contrast audits).
 2. **Draft render** at the final frame rate (a flicker lasts one frame, so a
@@ -30,7 +42,9 @@ explained in step 3.
    It reports `edge` errors (sharp content within 14 px of the frame edge),
    `flicker` warnings (a region that changes for one frame and changes back,
    with a 3-frame crop saved for each), and `dead` warnings (3 s with almost
-   nothing moving, outside `--hold`).
+   nothing moving, outside `--hold`). A push or wipe the style
+   uses between scenes briefly puts sharp content in an edge strip; that `edge`
+   error is intended, so record it in step 3 instead of fixing it.
 4. **Motion audit** (styles built on `SportsRig`, such as boxing): it seeks the
    timeline and lists, with timestamps, punches with no load, twitches, pose
    moves that overlap on one fighter, gloves passing inside each other,

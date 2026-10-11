@@ -18,8 +18,12 @@ locally.
 At 1080×1920, top to bottom:
 
 - **Title zone** from `spacing.edge` down: the concept's title and the anchor
-  when it belongs with the title. At most two balanced lines; never leave one
-  word alone on a line.
+  when it belongs with the title. A title fills the zone's width: one line when
+  it fits at the style's smallest headline size, else two balanced lines;
+  never one word alone on a line, and never a break typed by hand (`<br>`, block
+  spans). Measure the size after the font has loaded (a function value on the
+  timeline), never when the script starts, or it sizes against the fallback
+  font.
 - **Stage zone**: the middle of the frame, owned by the concept.
 - **Words zone**: captions or on-screen lines, anchored `spacing.caption_bottom`
   above the bottom edge, bottom-aligned, growing upward to two lines, 48 px
@@ -97,7 +101,9 @@ scale logic, and shadow. They enter, pop, slide, tilt, or play their clip.
 **Legibility.** About 20 or fewer repeated, readable items per phone screen;
 reduce or group the data rather than shrinking it.
 
-**Variation.** Repeated items follow one design, never one template. Within
+**Variation.** A style's sample sets the quality bar and the helpers, not the
+layout: draw each video's people, objects, and placement for its own topic,
+and keep only what the style fixes. Repeated items follow one design, never one template. Within
 the style's vocabulary, change how each one arrives and leaves (side,
 direction, scale, cut versus slide) and where the subject and any mascot sit,
 so no two items look like the same slide with new words. Each item still shows
@@ -131,6 +137,30 @@ filler. Speed shows the state (a wheel spinning up, flow thickening), and a
 part in focus is lit while the rest dims. Drive all of it from the timeline
 (rotation and `strokeDashoffset` tweens across the state's duration), never
 CSS `infinite` or the clock, so every seek shows the right frame.
+
+A diagram is drawn from what it shows, and every part of it is joined for real:
+
+- **Joins are measured.** A path, arrow, or moving item starts and ends on the
+  objects it joins, from their measured boxes, never from typed coordinates.
+  No path crosses a label; move the label instead.
+- **The main object bookends the video.** When it first appears alone, it is
+  large in the free space under the title, then scales to its spot as the
+  diagram builds around it. It shrinks again only if something else needs
+  the room. On the answer line, the rest of the diagram fades and it returns
+  to its opening size and spot, moving above the fading parts.
+- **People are drawn when the words name them** and enter on that word (a customer, a trader, a
+  saver): one distinct look per role, entering once and staying until the
+  scene clears, never fading in and out between beats.
+- **Exchanges are carried.** What passes between people and objects is a small
+  copy of the scene's own drawing (the coin, one bill from the stack), pulled
+  out at the giver, carried across, and taken in by the receiver; never a new
+  shape, and never a fade.
+- **One way to show a value.** A tag may name the value until a scale (a
+  ruler, axis, gauge) is on screen; then the scale names it by lighting the
+  mark under the object, and the tag leaves.
+- **A failure is the mechanism stopping**, not an overlay: its flow stops and
+  greys, a sign or lock lands on the part that stopped, and what depends on it
+  dims. Never an X drawn over the diagram.
 
 When the style uses camera moves, the stage is one world inside a camera
 layer. Change the view (side, top-down, close-up) by moving that layer, or
