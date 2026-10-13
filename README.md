@@ -1,19 +1,80 @@
 # Kumu
 
 Kumu is a human-in-the-loop agent skill that turns a
-topic, article URL, or notes into any kind of informative short video for
+topic, article URL, or notes into an informative short video for
 TikTok, Reels, and Shorts: how-tos, comparisons, local guides, decision guides,
 warnings, explainers, timelines, lists, and what-ifs. It starts from what the
 viewer should walk away able to do or understand, picks the form that teaches
 it (real screens, a map, an aligned chart, a changing diagram, or a metaphor),
 and builds one stage that changes as the explanation unfolds. Videos are narrated with word-highlighted captions, or
-visual-only with short on-screen lines and music. You approve the concept and
-plan, then the frames, before anything is rendered. Built on
+visual-only with short on-screen lines. Music and sound effects follow the
+style; boxing uses voice and effects without music. You approve the concept and
+plan and still previews before composition, then watch a draft in Studio
+before approving the final export. Built on
 [HyperFrames](https://hyperframes.heygen.com/).
+
+Kumu is an agent-guided workflow, not a standalone video generator. Its
+instructions cover the formats above; the styles currently working in
+practice are `boxing` and `pupukahi-tech`. The other bundled styles are
+samples and should be treated as experimental until demonstrated in finished
+videos. Output still needs human review.
+
+## Examples
+
+### Boxing
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/db6ea4a4-6d0d-4eb3-9538-5bfd2f8f3c22">
+<img src="docs/examples/how-mike-tysons-peek-a-boo-works.jpg" width="180" alt="How Mike Tyson's Peek-a-Boo Works cover">
+</a>
+<br><strong>How Mike Tyson's Peek-a-Boo Works</strong>
+</td>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/9b5299fb-95e1-4541-b000-51918f0abcfb">
+<img src="docs/examples/how-the-slip-counter-works.jpg" width="180" alt="How the Slip Counter Works cover">
+</a>
+<br><strong>How the Slip Counter Works</strong>
+</td>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/c10e44ff-e54a-48a6-a8b0-69fc9c111080">
+<img src="docs/examples/how-the-drunken-master-lost-by-being-too-good.jpg" width="180" alt="How the Drunken Master Lost by Being Too Good cover">
+</a>
+<br><strong>How the Drunken Master Lost by Being Too Good</strong>
+</td>
+</tr>
+</table>
+
+### Pūpūkahi Tech
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/4238f820-7218-4ee9-b844-81bcc50996ff">
+<img src="docs/examples/what-could-ai-do-for-you-before-lunch.jpg" width="180" alt="What Could AI Do for You Before Lunch? cover">
+</a>
+<br><strong>What Could AI Do for You Before Lunch?</strong>
+</td>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/b4e9f06d-ed29-4e8e-8730-2731cc27c93e">
+<img src="docs/examples/why-blockchain-history-is-hard-to-rewrite.jpg" width="180" alt="Why Blockchain History Is Hard to Rewrite cover">
+</a>
+<br><strong>Why Blockchain History Is Hard to Rewrite</strong>
+</td>
+<td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/f4722330-6357-4e18-b38e-c72e831bcbe1">
+<img src="docs/examples/why-stablecoins-stay-at-1.jpg" width="180" alt="Why Stablecoins Stay at $1 cover">
+</a>
+<br><strong>Why Stablecoins Stay at $1</strong>
+</td>
+</tr>
+</table>
 
 ## Where it runs
 
-Kumu renders on your own computer. It needs macOS or Linux.
+Kumu renders on your own computer. Its setup currently targets macOS and
+Linux. Native Windows is not supported yet, Windows through WSL2 is untested.
 
 | App | Status |
 | --- | --- |
@@ -23,7 +84,8 @@ Kumu renders on your own computer. It needs macOS or Linux.
 | OpenCode | Should work, not yet tested |
 | Cloud sessions (claude.ai/code, Codex cloud) | Not supported |
 | Chat apps (claude.ai chat, ChatGPT) | Not supported (they cannot render video) |
-| Windows | Not supported yet |
+| Native Windows | Not supported yet |
+| Windows through WSL2 | Untested |
 
 ## Get started
 
@@ -51,10 +113,9 @@ health check. Ignore the BGM (MusicGen) check; Kumu only uses bundled or
 supplied music. You can also run the
 script yourself at any time; it is safe to repeat.
 
-To use Kumu from another project, install it as a plugin. In Claude Code:
-`/plugin marketplace add blockchain-in-paradise/kumu`, then
-`/plugin install kumu@kumu`. In Codex, add the repo from `/plugins`. Plugin
-installs have not been tested yet.
+The working workflow currently uses this repository as the project folder.
+Plugin metadata is included, but installation and use from another project
+have not been verified. Use the repo-based setup above for now.
 
 ## How to use
 
@@ -67,8 +128,8 @@ installs have not been tested yet.
 ```
 
 - `--mode narrated|visual`: narrated uses a voice and word-highlighted
-  captions (30–90 s). Visual has no voice: short on-screen lines, music, and
-  sound effects (10–90 s). Without it, Kumu recommends one per concept.
+  captions (30–90 s). Visual has no voice: short on-screen lines and the
+  style's audio layers (10–90 s). Without it, Kumu recommends one per concept.
 - `--source <url>`: a web page the video is about (an article, profile, or
   stats page). Kumu reads these before searching and uses search only to fill
   gaps. Repeatable.
@@ -77,9 +138,11 @@ installs have not been tested yet.
   the reference, and never reuses its footage or audio. Repeatable.
 - `--tone` sets the voice of the writing, such as "clear build-along guide".
 - `--duration` sets the target length in seconds, including the closing card.
-- `--format vertical|square|landscape`. Vertical 1080×1920 is the default.
+- `--format vertical|square|landscape` is accepted by the skill. Vertical
+  1080×1920 is the default and the current final-render instructions target
+  that size; square and landscape exports need their dimensions checked.
 - `--style <name>` picks a saved style (see Styles). Without it, Kumu uses
-  the bundled `plain` style: neutral, with no closing card.
+  the bundled `plain` style: neutral, with a payoff ending and no branded CTA.
 - `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
   `--no-voice` is the same as `--mode visual`.
 
@@ -96,31 +159,36 @@ To pick up a saved run in a new session:
    drives the animation (an algorithm, a simulation, real command output).
 2. **Concept.** It names the goal (after watching, the viewer can ___), then
    writes three concepts in at least two different forms, such as a
-   walkthrough, comparison, map, decision path, red flags, or metaphor. Each
-   names the stage, its sources, the value the viewer tracks, and the payoff.
-   It recommends one.
+   walkthrough, comparison, map, decision path, red flags, or metaphor. A style
+   with a fixed form, such as boxing's technique breakdown, gets three angles
+   within that form instead. Each names the stage, its sources, the value the
+   viewer tracks, and the payoff. It recommends one.
 3. **Script and plan.** For the recommended concept it writes the narration
    (`SCRIPT.md`) or the on-screen lines, and the stage's states, each tied to
    the words that trigger it, in `video-plan.md`.
 
-   **Checkpoint 1: plan review.** Check the plan and a still style frame of the
-   opening, then approve, pick another concept, or ask for changes. No audio or
-   animation has been made yet, so changes here are cheap.
+   **Checkpoint 1: plan review.** Check the plan and still previews of the
+   opening, hero state, and closing alongside a cover preview, then approve,
+   pick another concept, or ask for changes. No audio or animation has been
+   made yet, so changes here are cheap.
 
 4. **Compose.** It generates the voice and captions when narrated, builds the
-   animated stage in HyperFrames, mixes music and sound effects, designs the
-   cover.
+   animated stage in HyperFrames, mixes the style's audio layers, and designs
+   the cover.
 
    Before showing you anything, Kumu reviews its own work: it renders a draft
    and measures it (checks, a video audit for edge clipping, flicker, and
-   frozen stretches, a motion audit for fighter styles, and loudness), looks
-   only at the frames those measurements flag, fixes them, and repeats, up to
-   three rounds.
+   frozen stretches, the style's kit audit or a DOM animation map, and
+   loudness). It inspects a contact sheet and flagged frames, fixes defects,
+   and repeats for up to three rounds. Any unresolved issues are reported;
+   technical checks do not prove editorial quality.
 
    **Checkpoint 2: Studio review.** Watch the video in the HyperFrames Studio
    preview it opens, and check `thumbnail.jpg`. Approve it or list changes.
 
-5. **Render.** It encodes the final `video.mp4` and checks it.
+5. **Render.** It encodes the final `video.mp4` at 30 fps, checks its metadata
+   and representative frames, and promotes accepted reusable assets into the
+   style's library when their licenses allow it.
 
 At either checkpoint, reply `Yes` to continue, `No` to stop and keep the files,
 or describe what to change. You can also edit the files directly first.
@@ -148,7 +216,9 @@ a style looks like it belongs to the same page. `skills/kumu/frame.md` holds
 the rules every style follows: layout zones, legibility, honest numbers, and
 pacing.
 
-Bundled styles live in `skills/kumu/styles/`:
+Bundled styles live in `skills/kumu/styles/`. `boxing` and `pupukahi-tech`
+are the working styles featured above; `plain`, `motion`, `code-cats`, and
+`car-cats` are experimental samples:
 
 - `pupukahi-tech`: navy island ground, white Inter type, teal data,
   gold word highlight, and the @pupukahi_tech closing card.
@@ -165,10 +235,10 @@ Bundled styles live in `skills/kumu/styles/`:
   rig (red corner vs blue corner) move through smooth camera views, body marks
   and ghosts point at what the words name, and a quiet broadcast lower third
   carries the words, with punch, whoosh, and bell sounds and the George voice.
-  There is no end card: everything fades out to the backdrop the video opened
-  on, so it loops. A knockout ending (done right the rival drops, then a replay
-  done wrong drops you) is available when the prompt asks for one. Ships the rig, poses, and
-  fighter looks in `assets/characters/`.
+  It opens mid-fight and closes on a title card. A knockout ending (done right
+  the rival drops, then a replay done wrong drops you) is available when the
+  prompt asks for one. Ships the rig, poses, and fighter looks in
+  `assets/characters/`.
 
 Each style also carries its own sound effects in `assets/sfx/`, listed with
 their licenses in `assets/sfx/CREDITS.md`, and a Sound section in `style.md`
