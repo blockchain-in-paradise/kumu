@@ -13,9 +13,8 @@ rendering; it is not a separate agent.
 
 ## Inputs and defaults
 
-Accept a topic in natural language, `--topic`, `--url` (one `--source`), or
-`--source`. Ask for a subject
-only when it is missing.
+Accept a topic in natural language, `--topic`, `--url`, or
+`--source`. Ask for a subject only when it is missing.
 
 - `--mode narrated|visual`. Narrated: the style's `voice` (a Kokoro voice ID in its
   `style.md`), else `am_adam`, with phrase captions
@@ -76,14 +75,18 @@ article's publisher does not replace the style unless requested.
 reference videos: follow [style-builder.md](style-builder.md) instead of the
 workflow below.
 
-Read the selected `style.md`, then [frame.md](frame.md). Copy the style's
+Read the selected `style.md`, then [frame.md](frame.md). The style owns the
+whole look: layout, subjects, words, motion, opening, and closing. For any of
+those sections the style leaves out, read that section of
+[styles/plain/style.md](styles/plain/style.md); plain is the default. Copy the style's
 `index.html` structure and only the assets used into the composition, and
 record the style path in the plan. Follow what the style's frontmatter sets:
 `skills` lists the HyperFrames skills to load (and no others), `visuals: drawn`
 skips photo and screen research, and `form` fixes the concept's form. Read a
-file the style names (such as `extras.md`) only when the topic needs it. Precedence: user direction, then the style
-(its look, opening, closing, and motion and pacing rules), then [frame.md](frame.md);
-[frame.md](frame.md) always decides legibility, layout safety, and honesty.
+file the style names (such as `extras.md`) only when the topic needs it. 
+Precedence: user direction, then the style, then plain for what the style
+leaves out. [frame.md](frame.md) always decides the safe area, legibility,
+compression, honesty, and seek-safety, and nothing else.
 
 ## Workflow
 
@@ -112,7 +115,7 @@ there.
    from the approved plan only. Inspect one state at phone size before building
    the rest, create `thumbnail.jpg`, then run the self-review in
    [review.md](review.md) until it passes. Stop at the frame checkpoint.
-5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`.
+5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`, then "Grow the style's library" there.
 
 Load `hyperframes-core` and `hyperframes-cli` for implementation. Load
 `media-use` only for speech, transcription, or sourced media, and

@@ -40,9 +40,9 @@ may use one when it helps.
 1. **A concrete stage.** Something the viewer can picture: the real subject,
    simplified (a map, the real app screen, a cross-section) or an everyday
    metaphor. Never abstract boxes, floating icons, or a deck of fact cards.
-2. **One stage that changes.** The same stage stays on screen and changes
-   state. Cuts are rare and deliberate. A list or walkthrough may repeat one
-   frame per item or step.
+2. **One stage that changes.** The stage changes state instead of being
+   replaced by unrelated pictures; how it cuts and moves follows the style. A
+   list or walkthrough may repeat one frame per item or step.
 3. **Real sources behind every state.** Sourced facts, prices, dates, captured
    screens, a real map, an algorithm that actually runs, or real command output.
    Every visible number is computed or cited, never invented for drama.
@@ -66,8 +66,8 @@ Recommend narrated or visual for each concept unless `--mode` was given.
 ## 5. Write three concepts
 
 Write three concepts covering at least two different forms, so the user gets a
-real choice. When the style's `form` is fixed (boxing: a technique breakdown),
-write three different angles on the topic within that form instead. Record the
+real choice. When the style's `form` is fixed (for example, always a technique
+breakdown), write three different angles on the topic within that form instead. Record the
 goal sentence once, then for each concept:
 
 | Field   | What to write                                                       |
@@ -91,8 +91,8 @@ if the user picks it:
   works unchanged, it explains nothing specific.
 - **Mapping test.** A metaphor must preserve the property being taught; one
   that needs a disclaimer to stay true is the wrong metaphor.
-- **First-frame test.** The opening frame shows the title over the style's
-  backdrop and makes the viewer want the answer before the first item appears.
+- **First-frame test.** The opening, as the style defines it, makes the
+  viewer want the answer before the first item appears.
 - **Source test.** Every number and screen on the stage traces to a fact,
   capture, or model run. If the concept needs something research cannot
   support, choose another.
@@ -102,11 +102,10 @@ plan checkpoint.
 
 ## Look
 
-The style decides the look: its `style.md`, its sample `index.html`, and
-[frame.md](frame.md). Concepts describe what happens on the stage, in that
-style. Photos show real things as they are (an animal, a product, a whole
-car); drawings show parts, internals, diagrams, and anything that moves or
-works (see [frame.md](frame.md) Subjects). Say which in the concept.
+The style decides the look: its `style.md` and its sample `index.html`, with
+plain's sections for what it leaves out. Concepts describe what happens on the
+stage, in that style. Say whether the subject is photographed or drawn, as the
+style's Subjects (or plain's) describes.
 
 With `--ref`, apply the notes from [references/ref-video.md](references/ref-video.md):
 borrow structure, pacing, layout, and devices. Never copy a reference's

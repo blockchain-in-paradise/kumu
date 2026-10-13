@@ -5,34 +5,36 @@
 <meta name="viewport" content="width=1080, height=1920" />
 <title>Pūpūkahi Tech style sample</title>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/characters/people.js"></script>
+<script src="assets/objects/objects.js"></script>
 <style>
-  /* Style sample: the ground, a headline, one proof object built from realistic parts (a glossy coin,
-     a price tag above it, a price ruler, drawn reserves on a lit shelf that feed the $1.00 peg), a caption with the current word highlighted, a
-     left-push seam, the payoff, and the closing card. Demo topic: why a dollar stablecoin stays at $1. */
+  /* Style sample, from the stablecoins v2 run (narration words embedded, audio omitted). It shows: the titled opening with
+     the hero large under the title; a USDC coin riding a price ruler that names the price and widens only when the price
+     leaves its range; a firm drawn as large as the issuer's safe (deposit slot, cash in front); carried items that land at
+     the receiver's side and stay until the next spoken step; a swap where both items cross at once; a failure (grey safe,
+     sunset lock pill) with an explicit starting filter; captions with the current word highlighted; the end held after the
+     last word, the stage clearing, the hero returning, then the closing card. Helpers: ws() (one-time phrase anchors that
+     fail on a repeat), box/at/to (layout coordinates, so previews match renders), pull/carry/take, tick/price/widen, fit. */
   @font-face { font-family: "Inter"; font-weight: 400; src: url("assets/fonts/inter-400.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/inter-600.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 800; src: url("assets/fonts/inter-800.woff2") format("woff2"); }
   body { margin: 0; background: #0e394e; font-family: "Inter", sans-serif; }
   #root {
     --canvas: #0e394e; --ink: #fcfaf8; --on-highlight: #1d2930; --accent: #39a1ac;
-    --highlight: #d19847; --panel: rgba(14,57,78,.72); --border: rgba(252,250,248,.22); --support-sunset: #ee7c2b;
+    --highlight: #d19847; --panel: rgba(14,57,78,.72); --border: rgba(252,250,248,.22);
+    --support-primary: #196d76; --support-palm: #367d65; --support-sunset: #ee7c2b;
     position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink);
   }
   .ground { position: absolute; inset: 0; overflow: hidden; background: var(--canvas); }
   .ground-photo { position: absolute; inset: 0; opacity: 0.15; background: url("assets/ground.webp") center / cover no-repeat; }
-  .grain { position: absolute; inset: 0; opacity: 0.045; mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E"); }
   .clip { position: absolute; inset: 0; }
   .headline { position: absolute; left: 92px; right: 92px; top: 200px; margin: 0;
-    font-size: 104px; font-weight: 800; line-height: 0.92; letter-spacing: -0.04em; }
+    font-size: 104px; font-weight: 800; line-height: 0.92; letter-spacing: -0.04em; text-wrap: balance; }
 
-  /* Realistic coin: gold radial body, ridged rim, inner ring, embossed label. */
-  .mover { position: absolute; left: 420px; top: 430px; width: 240px; }
-  .tag { position: absolute; left: 50%; top: 0; transform: translateX(-50%); background: var(--ink); color: var(--on-highlight);
-    font-size: 64px; font-weight: 800; letter-spacing: -0.03em; padding: 6px 26px; border-radius: 18px; white-space: nowrap;
-    box-shadow: 0 10px 24px rgba(0,0,0,.25); }
-  .coin { position: absolute; left: 0; top: 110px; width: 240px; height: 240px; border-radius: 50%;
-    background: repeating-conic-gradient(#b8860b 0 1.5deg, #e8bb3a 1.5deg 3deg);
+  /* The coin rides the ruler; its center sits over the tick of its price. */
+  /* The v1 coin: ridged gold rim, radial gold face, a pressed inner ring, an embossed USDC. */
+  #coin { position: absolute; left: 420px; top: 470px; width: 240px; height: 240px; z-index: 4; }
+  .coin { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(#b8860b 0 1.5deg, #e8bb3a 1.5deg 3deg);
     box-shadow: 0 24px 48px rgba(0,0,0,.4); }
   .coin::before { content: ""; position: absolute; inset: 10px; border-radius: 50%;
     background: radial-gradient(circle at 34% 28%, #fff4c8 0%, #f6cf55 22%, #dcaa2a 58%, #a87a14 100%); }
@@ -40,147 +42,207 @@
     box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
   .coin span { position: absolute; inset: 0; display: grid; place-items: center; z-index: 1;
     font-size: 58px; font-weight: 800; letter-spacing: -0.02em; color: #6b4600; text-shadow: 0 2px 0 rgba(255,236,170,.6); }
+  #mini .coin { box-shadow: 0 10px 20px rgba(0,0,0,.4); } #mini .coin::before { inset: 4px; } #mini .coin::after { inset: 13px; border-width: 3px; }
+  #mini .coin span { font-size: 21px; }
+  #ruler { position: absolute; left: 200px; width: 680px; top: 772px; height: 6px; border-radius: 3px; background: rgba(252,250,248,.45); }
+  .tick { position: absolute; top: -14px; width: 4px; height: 34px; margin-left: -2px; border-radius: 2px; background: rgba(252,250,248,.45); }
+  .tick b { position: absolute; top: 46px; left: 50%; transform: translateX(-50%); font-size: 40px; font-weight: 600; white-space: nowrap; color: var(--ink); }
 
-  /* Price ruler the coin slides along. */
-  .ruler { position: absolute; left: 220px; right: 220px; top: 880px; height: 4px; background: var(--border); }
-  .tick { position: absolute; top: -14px; width: 4px; height: 32px; background: var(--border); }
-  .tick b { position: absolute; top: 44px; left: 50%; transform: translateX(-50%); font-size: 40px; font-weight: 600; white-space: nowrap; }
+  /* The firm and the issuer's safe (cash on top, a deposit slot on the door). */
+  #firm { position: absolute; left: 140px; top: 990px; width: 240px; text-align: center; z-index: 2; }
+  #firm svg { display: block; width: 240px; height: 290px; filter: drop-shadow(0 18px 24px rgba(0,0,0,.35)); }
+  #firm b { display: block; margin: 8px -40px 0; font-size: 40px; font-weight: 600; }
+  #issuer { position: absolute; left: 610px; top: 1000px; width: 280px; text-align: center; z-index: 2; }
+  #safe { position: relative; width: 250px; height: 281px; margin: 0 auto; }
+  #safe .obj { width: 250px; height: 281px; }
+  #slot { position: absolute; left: 25%; top: 19%; width: 40%; height: 18px; border-radius: 9px; background: #0b161b;
+    box-shadow: inset 0 3px 4px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.5); }
+  #cash { position: absolute; left: -72px; top: 160px; width: 160px; z-index: 3; }
+  #cash .obj { width: 160px; height: 112px; }
+  #issuer > b { display: block; margin-top: 6px; font-size: 40px; font-weight: 600; }
+  .lock-row { position: absolute; left: 0; right: 0; top: -38px; display: flex; justify-content: center; z-index: 5; }
+  .lock { display: flex; align-items: center; gap: 12px; background: var(--support-sunset); color: var(--on-highlight);
+    font-size: 40px; font-weight: 800; padding: 8px 26px; border-radius: 999px; white-space: nowrap; box-shadow: 0 12px 28px rgba(0,0,0,.4); }
+  .lock svg { width: 38px; height: 38px; }
 
-  /* Reserve shelf: a lighter navy than the ground with a teal border, holding drawn reserves. */
-  .shelf { position: absolute; left: 120px; right: 120px; top: 1070px; height: 340px; border-radius: 28px;
-    background: linear-gradient(180deg, #1f6a80 0%, #175469 100%); border: 3px solid rgba(57,161,172,.9);
-    box-shadow: 0 24px 48px rgba(0,0,0,.35), inset 0 2px 0 rgba(252,250,248,.12); }
-  .shelf h4 { position: absolute; left: 0; right: 0; top: 22px; margin: 0; text-align: center; font-size: 40px; font-weight: 600; }
-  .reserve { position: absolute; top: 96px; filter: drop-shadow(0 14px 18px rgba(0,0,0,.4)); }
-  .flow { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; overflow: visible; }
-  .flow path { fill: none; stroke: #6fd0da; stroke-width: 11; stroke-linecap: round; stroke-dasharray: 3 19; filter: drop-shadow(0 0 8px rgba(57,161,172,.9)); }
+  /* Carried items: a small copy of the coin and one dollar bill. */
+  #mini { position: absolute; left: 0; top: 0; width: 96px; height: 96px; z-index: 6; }
+  #bill { position: absolute; left: 0; top: 0; width: 150px; height: 72px; z-index: 6; filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)); }
+  #bill svg { display: block; width: 150px; height: 72px; overflow: visible; }
 
-  .caption { position: absolute; left: 92px; right: 92px; bottom: 340px; text-align: center;
-    font-size: 52px; font-weight: 800; line-height: 1.2; }
-  .caption span { padding: 0 8px; border-radius: 8px; }
-  .payoff { position: absolute; left: 92px; right: 92px; top: 760px; text-align: center; }
-  .payoff b { display: block; font-size: 220px; font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
-  .payoff span { display: block; margin-top: 24px; font-size: 52px; opacity: .85; }
+  .caps { position: absolute; left: 92px; right: 92px; bottom: 340px; height: 130px; }
+  .cp { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; font-size: 52px; font-weight: 800; line-height: 1.2; opacity: 0; text-wrap: balance; }
+  .cp span { padding: 0 8px; border-radius: 8px; }
   .cta-lockup { position: absolute; inset: 0; display: flex; flex-direction: column;
     align-items: center; justify-content: center; padding: 0 60px; text-align: center; }
   .cta-kicker { color: var(--highlight); font-size: 45px; font-weight: 800; letter-spacing: 0.18em; }
   .cta-handle { margin: 30px 0 0; color: var(--ink); font-size: 82px; font-weight: 800; line-height: 1; letter-spacing: -0.06em; }
   .socials { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 48px; }
-  .socials svg { display: block; width: 94px; height: 94px; flex: 0 0 94px; fill: var(--ink); }
+  .socials svg { display: block; width: 94px; height: 94px; flex: 0 0 94px; color: var(--ink); }
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="10.4">
-  <div class="ground"><div class="ground-photo"></div><div class="grain"></div></div>
+<div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="43.79">
+  <div class="ground"><div class="ground-photo"></div></div>
 
-  <section id="scene" class="clip" data-start="0" data-duration="6.2">
-    <h1 class="headline" id="hl">Why it stays $1</h1>
-    <div class="ruler" id="ruler">
-      <div class="tick" style="left:0"><b>$0.99</b></div>
-      <div class="tick" style="left:calc(50% - 2px)"><b id="peg">$1.00</b></div>
-      <div class="tick" style="right:0"><b>$1.01</b></div>
+  <section id="scene" class="clip" data-start="0" data-duration="39.79">
+    <h1 class="headline" id="hl">Why Stablecoins Stay at $1</h1>
+    <div id="ruler">
+      <div class="tick" id="k97" style="left:40px"><b id="t97" data-layout-allow-overflow>$0.97</b></div>
+      <div class="tick" id="k98" style="left:40px"><b id="t98" data-layout-allow-overflow>$0.98</b></div>
+      <div class="tick" id="k99" style="left:40px"><b id="t99" data-layout-allow-overflow>$0.99</b></div>
+      <div class="tick" id="k100" style="left:340px"><b id="t100" data-layout-allow-overflow>$1.00</b></div>
+      <div class="tick" id="k101" style="left:640px"><b id="t101" data-layout-allow-overflow>$1.01</b></div>
     </div>
-    <div class="mover" id="mover">
-      <div class="tag" id="tag">$1.00</div>
-      <div class="coin"><span>USDC</span></div>
+    <div id="coin"><div class="coin"><span>USDC</span></div></div>
+    <div id="firm"></div>
+    <div id="issuer">
+      <div id="safe"><div id="sobj"></div><div id="slot"></div><div id="cash" data-layout-allow-overflow></div>
+        <div class="lock-row"><div class="lock" id="lock"><svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><rect x="4" y="10" width="16" height="12" rx="3" fill="currentColor"/></svg>Paused</div></div>
+      </div>
+      <b>Issuer</b>
     </div>
-    <svg class="flow" id="flow" viewBox="0 0 1080 1920">
-      <path id="flowL" d="M330 1166 C330 1060 470 1050 522 984" />
-      <path id="flowR" d="M750 1166 C750 1060 610 1050 558 984" />
-    </svg>
-    <div class="shelf" id="shelf">
-      <h4>Cash and Treasuries</h4>
-      <!-- Cash: banded stack of bills, drawn with paper gradients and edges. -->
-      <svg class="reserve" id="cash" viewBox="0 0 300 210" style="left:60px; width:300px">
-        <defs>
-          <linearGradient id="bill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe3c4"/><stop offset="1" stop-color="#8fb784"/></linearGradient>
-          <linearGradient id="band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6efdc"/><stop offset="1" stop-color="#d9cdaa"/></linearGradient>
-        </defs>
-        <g stroke="#4f7a4c" stroke-width="2">
-          <rect x="22" y="132" width="256" height="64" rx="6" fill="#7fa774"/>
-          <rect x="16" y="112" width="256" height="64" rx="6" fill="#8db582"/>
-          <rect x="26" y="92" width="256" height="64" rx="6" fill="#9cc391"/>
-          <rect x="18" y="40" width="256" height="116" rx="8" fill="url(#bill)"/>
-        </g>
-        <rect x="30" y="52" width="232" height="92" rx="5" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
-        <ellipse cx="146" cy="98" rx="30" ry="34" fill="#b7d3aa" stroke="#5d8a59" stroke-width="2.5"/>
-        <circle cx="62" cy="98" r="16" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
-        <circle cx="230" cy="98" r="16" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
-        <rect x="128" y="28" width="38" height="178" rx="4" fill="url(#band)" stroke="#a8996f" stroke-width="2"/>
-      </svg>
-      <!-- Treasury bill: cream certificate with a double border, seal, and printed lines. -->
-      <svg class="reserve" id="bond" viewBox="0 0 280 210" style="right:60px; width:280px; transform: rotate(-4deg)">
-        <defs>
-          <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf5e3"/><stop offset="1" stop-color="#e3d6b2"/></linearGradient>
-          <radialGradient id="seal" cx=".35" cy=".3"><stop offset="0" stop-color="#7fd3db"/><stop offset="1" stop-color="#196d76"/></radialGradient>
-        </defs>
-        <rect x="16" y="14" width="248" height="182" rx="6" fill="url(#paper)" stroke="#a8996f" stroke-width="2"/>
-        <rect x="28" y="26" width="224" height="158" rx="3" fill="none" stroke="#8a7a4a" stroke-width="3"/>
-        <rect x="35" y="33" width="210" height="144" rx="2" fill="none" stroke="#8a7a4a" stroke-width="1.5"/>
-        <path d="M58 60 H222 M78 80 H202" stroke="#6f6440" stroke-width="5" stroke-linecap="round"/>
-        <path d="M58 150 H150 M58 164 H130" stroke="#a89a70" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="198" cy="140" r="26" fill="url(#seal)" stroke="#145a62" stroke-width="2"/>
-        <circle cx="198" cy="140" r="17" fill="none" stroke="#e8f6f7" stroke-width="2" stroke-dasharray="3 4"/>
-      </svg>
-    </div>
-    <div class="caption" id="cap"><span id="w1">Traders</span> <span id="w2">pull</span> <span id="w3">it</span> <span id="w4">back</span> <span id="w5">to</span> <span id="w6">one.</span></div>
+    <div id="mini" data-layout-allow-overlap><div class="coin"><span>USDC</span></div></div>
+    <div id="bill">    <svg viewBox="12 34 268 128"><defs><linearGradient id="billg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3f0da"/><stop offset=".35" stop-color="#cfe3c4"/><stop offset=".7" stop-color="#a9cc9d"/><stop offset="1" stop-color="#86ad7b"/></linearGradient></defs>
+      <rect x="18" y="40" width="256" height="116" rx="8" fill="url(#billg)" stroke="#4f7a4c" stroke-width="2"/><rect x="30" y="52" width="232" height="92" rx="5" fill="none" stroke="#5d8a59" stroke-width="2.5"/>
+      <ellipse cx="146" cy="98" rx="30" ry="34" fill="#b7d3aa" stroke="#5d8a59" stroke-width="2.5"/><text x="62" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="40" fill="#3f6a3c">1</text><text x="230" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="40" fill="#3f6a3c">1</text></svg></div>
+    <div class="caps" id="caps"></div>
   </section>
 
-  <section id="pay" class="clip" data-start="6.2" data-duration="1.8">
-    <div class="payoff" id="payoff"><b>1 : 1</b><span>Every coin backed by a dollar</span></div>
-  </section>
-
-  <section id="closing" class="clip" data-start="8" data-duration="2.4">
+  <section id="closing" class="clip" data-start="39.19" data-duration="4.6">
     <div class="cta-lockup">
       <div class="cta-kicker" id="kicker">FOLLOW</div>
       <h1 class="cta-handle" id="handle">@pupukahi_tech</h1>
       <div class="socials" id="socials" aria-label="tiktok, linkedin, instagram">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
-  <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
-</svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
-  <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
-</svg><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 7.917v4.034A9.95 9.95 0 0 1 16 10v4.5a6.5 6.5 0 1 1-8-6.326V12.5a2.5 2.5 0 1 0 4 2V3h4.083A6.005 6.005 0 0 0 21 7.917"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 11v5m0-8v.01M12 16v-5m4 5v-3a2 2 0 1 0-4 0"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></g></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M8.5 12a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0-7 0M17 7v.01"/></g></svg>
       </div>
     </div>
   </section>
 </div>
 <script>
-  // Motion values for this style (see style.md).
   const ENTER = "power3.out", EXIT = "power3.in", MOVE = "power2.inOut", STAGGER = 0.08;
-  // Model: the coin's x position on the ruler is its market price ($0.01 = 320 px).
-  const priceX = (p) => (p - 1) * 32000;
+  // Measured words (Whisper small.en on the final af_heart voice); every state is anchored to its spoken phrase.
+  const WORDS = /*W*/[{"text":"Why","start":0.06,"end":0.28},{"text":"does","start":0.32,"end":0.68},{"text":"a","start":0.68,"end":0.75},{"text":"stablecoin","start":0.79,"end":1.73},{"text":"like","start":1.75,"end":2.14},{"text":"USDC","start":2.14,"end":2.52},{"text":"stay","start":2.52,"end":2.91},{"text":"at","start":2.91,"end":3.1},{"text":"one dollar?","start":3.1,"end":3.86},{"text":"It","start":3.92,"end":4.0},{"text":"comes","start":4.0,"end":4.34},{"text":"down","start":4.34,"end":4.61},{"text":"to","start":4.61,"end":4.73},{"text":"a","start":4.79,"end":4.8},{"text":"swap.","start":4.86,"end":5.12},{"text":"The","start":5.705,"end":5.865},{"text":"issuer","start":5.865,"end":6.295},{"text":"holds","start":6.295,"end":6.655},{"text":"cash","start":6.655,"end":6.935},{"text":"and","start":7.035,"end":7.135},{"text":"similar","start":7.285,"end":7.665},{"text":"assets","start":7.665,"end":8.095},{"text":"for","start":8.175,"end":8.235},{"text":"every","start":8.315,"end":8.875},{"text":"coin,","start":8.885,"end":9.375},{"text":"and","start":9.425,"end":9.565},{"text":"approved","start":9.565,"end":10.055},{"text":"firms","start":10.125,"end":10.395},{"text":"can","start":10.395,"end":10.585},{"text":"trade","start":10.585,"end":10.855},{"text":"one","start":11.005,"end":11.095},{"text":"coin","start":11.095,"end":11.335},{"text":"in","start":11.345,"end":11.465},{"text":"for","start":11.465,"end":11.655},{"text":"a","start":11.655,"end":11.685},{"text":"dollar.","start":11.765,"end":12.325},{"text":"Everyone","start":12.695,"end":13.165},{"text":"else","start":13.165,"end":13.415},{"text":"trades","start":13.415,"end":13.795},{"text":"on","start":13.795,"end":13.925},{"text":"the","start":13.925,"end":14.115},{"text":"market,","start":14.115,"end":14.565},{"text":"where","start":14.575,"end":14.655},{"text":"the","start":14.655,"end":14.735},{"text":"price","start":14.845,"end":15.085},{"text":"can","start":15.125,"end":15.245},{"text":"drift","start":15.245,"end":15.435},{"text":"a","start":15.525,"end":15.535},{"text":"little.","start":15.535,"end":15.855},{"text":"Then","start":16.451,"end":16.581},{"text":"a","start":16.721,"end":16.741},{"text":"firm","start":16.741,"end":17.011},{"text":"buys","start":17.011,"end":17.281},{"text":"coins","start":17.281,"end":17.611},{"text":"there","start":17.611,"end":17.951},{"text":"and","start":17.971,"end":18.181},{"text":"swaps","start":18.231,"end":18.591},{"text":"each","start":18.591,"end":18.901},{"text":"for","start":18.901,"end":19.121},{"text":"a dollar,","start":19.121,"end":19.611},{"text":"and","start":19.651,"end":19.781},{"text":"that","start":19.921,"end":20.031},{"text":"buying","start":20.031,"end":20.391},{"text":"lifts","start":20.391,"end":20.691},{"text":"the","start":20.691,"end":20.861},{"text":"price","start":20.871,"end":21.151},{"text":"back","start":21.171,"end":21.381},{"text":"up.","start":21.431,"end":21.721},{"text":"Above","start":22.097,"end":22.367},{"text":"a","start":22.407,"end":22.467},{"text":"dollar,","start":22.467,"end":23.027},{"text":"firms","start":23.127,"end":23.377},{"text":"get","start":23.417,"end":23.657},{"text":"new","start":23.657,"end":23.887},{"text":"coins","start":23.887,"end":24.287},{"text":"from","start":24.357,"end":24.497},{"text":"the","start":24.497,"end":24.637},{"text":"issuer","start":24.637,"end":24.917},{"text":"for","start":25.017,"end":25.067},{"text":"a dollar","start":25.067,"end":25.427},{"text":"each","start":25.517,"end":25.787},{"text":"and","start":25.807,"end":26.057},{"text":"sell","start":26.057,"end":26.397},{"text":"them,","start":26.397,"end":26.787},{"text":"which","start":26.807,"end":26.877},{"text":"pulls","start":26.937,"end":27.207},{"text":"it","start":27.207,"end":27.327},{"text":"back","start":27.327,"end":27.567},{"text":"down.","start":27.567,"end":28.007},{"text":"This","start":29.171,"end":29.361},{"text":"only","start":29.361,"end":29.611},{"text":"works","start":29.611,"end":29.901},{"text":"while","start":29.911,"end":30.231},{"text":"reserves","start":30.231,"end":30.731},{"text":"hold","start":30.731,"end":30.981},{"text":"up","start":30.981,"end":31.021},{"text":"and","start":31.211,"end":31.351},{"text":"redemption","start":31.391,"end":32.121},{"text":"stays","start":32.121,"end":32.501},{"text":"open.","start":32.501,"end":33.051},{"text":"If","start":33.111,"end":33.181},{"text":"it","start":33.241,"end":33.391},{"text":"pauses,","start":33.391,"end":34.111},{"text":"the","start":34.111,"end":34.321},{"text":"price","start":34.321,"end":34.671},{"text":"can","start":34.671,"end":34.881},{"text":"stay","start":34.881,"end":35.161},{"text":"low.","start":35.161,"end":35.591}]/*/W*/;
+  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, ""), N = WORDS.map((w) => norm(w.text));
+  // ws(): the start of a spoken phrase. It must occur exactly once, so an animation can never attach to an earlier
+  // line that happens to share the words (a check, not a guess).
+  const ws = (phrase, d = 0) => { const p = phrase.split(" ").map(norm), hits = [];
+    for (let i = 0; i + p.length <= N.length; i++) if (p.every((x, j) => N[i + j] === x)) hits.push(i);
+    if (hits.length !== 1) throw new Error((hits.length ? "ambiguous" : "no") + " words: " + phrase);
+    return WORDS[hits[0]].start + d; };
+  const L = WORDS.at(-1).end;
   const tl = gsap.timeline({ paused: true });
-  // Intro: the ground holds alone until 0.4 s, then the headline, coin, and ruler enter.
-  tl.from(["#hl", "#mover", "#ruler"], { opacity: 0, y: 40, duration: 0.6, ease: ENTER, stagger: STAGGER }, 0.4);
-  tl.set(["#shelf", "#cap", "#flow path"], { opacity: 0 }, 0);
-  // State 1: the reserves arrive on their shelf below the ruler.
-  tl.fromTo("#shelf", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: ENTER }, 1.0);
-  tl.from(["#cash", "#bond"], { y: 30, opacity: 0, duration: 0.5, ease: ENTER, stagger: STAGGER }, 1.2);
-  // State 2: selling drags the price down to $0.99; the coin tilts as it slides.
-  tl.to("#mover", { x: priceX(0.99), rotation: -8, duration: 0.8, ease: MOVE }, 1.9);
-  tl.set("#tag", { textContent: "$0.99", backgroundColor: "#ee7c2b", color: "#fcfaf8" }, 2.3);
-  // State 3: each coin redeems for a dollar of reserves, so traders buy below $1.00 and the price returns.
-  // The reserves pulse and flow into the $1.00 mark, then the coin is pulled back to it.
-  tl.to(["#cash", "#bond"], { scale: 1.08, duration: 0.22, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.1 }, 2.9);
-  tl.to("#flow path", { opacity: 1, duration: 0.2 }, 3.0);
-  tl.fromTo("#flow path", { strokeDashoffset: 0 }, { strokeDashoffset: -220, duration: 2.6, ease: "none" }, 3.0);
-  tl.to("#peg", { color: "#39a1ac", duration: 0.3, ease: ENTER }, 3.3);
-  tl.to("#mover", { x: priceX(1.00), rotation: 0, duration: 0.8, ease: MOVE }, 3.5);
-  tl.set("#tag", { textContent: "$1.00", backgroundColor: "#fcfaf8", color: "#1d2930" }, 3.9);
-  tl.fromTo("#cap", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
-  [[3.4, 3.8], [3.8, 4.0], [4.0, 4.15], [4.15, 4.45], [4.45, 4.6], [4.6, 5.1]].forEach(([s, e], i) => {
-    tl.set(`#w${i + 1}`, { backgroundColor: "#d19847", color: "#1d2930" }, s);
-    tl.set(`#w${i + 1}`, { backgroundColor: "rgba(0,0,0,0)", color: "#fcfaf8" }, e);
-  });
-  // Seam: the scene leaves with a left push, then the payoff holds alone.
-  tl.to(["#hl", "#mover", "#ruler", "#flow", "#shelf", "#cap"], { x: "-=1080", duration: 0.6, ease: EXIT }, 5.6);
-  tl.from("#payoff", { opacity: 0, y: 30, duration: 0.6, ease: ENTER }, 6.3);
-  // Closing card entry.
-  tl.fromTo("#kicker", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, 8.3);
-  tl.fromTo("#handle", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "power4.out" }, 8.48);
-  tl.fromTo("#socials svg", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.48, ease: ENTER, stagger: 0.1 }, 8.98);
+  const root = document.querySelector("#root");
+  // Layout coordinates (offsets, not screen rects), so a preview that scales the frame measures the same as the render.
+  const box = (el) => { let x = 0, y = 0, e = el; while (e && e !== root) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
+    return { x, y, w: el.offsetWidth, h: el.offsetHeight }; };
+  const at = (sel, ax = 0.5, ay = 0.5) => { const b = box(document.querySelector(sel)); return { x: b.x + b.w * ax, y: b.y + b.h * ay }; };
+  const to = (sel, p) => { const b = box(document.querySelector(sel)); return { x: p.x - b.x - b.w / 2, y: p.y - b.y - b.h / 2 }; };
+  const fit = (t) => { const h = document.querySelector("#hl"), c = h.cloneNode(); c.textContent = t; h.after(c); let s = 112;
+    c.style.cssText = "visibility:hidden;white-space:nowrap;right:auto";
+    for (; s >= 80; s -= 2) { c.style.fontSize = s + "px"; if (c.offsetWidth <= h.clientWidth) break; }
+    if (s < 80) { c.style.cssText = "visibility:hidden"; for (s = 112; s > 80; s -= 2) { c.style.fontSize = s + "px"; if (c.offsetHeight <= s * 0.92 * 2 + 2) break; } }
+    c.remove(); return s; };
+  // Exchanges: an item appears at the giver, makes one move to the receiver, and is taken in there.
+  const pull = (sel, p, t) => { tl.set(sel, { ...to(sel, p), scale: 0, opacity: 1 }, t); tl.to(sel, { scale: 1, duration: 0.3, ease: ENTER }, t); };
+  const carry = (sel, p, t, d = 0.7) => tl.to(sel, { ...to(sel, p), duration: d, ease: MOVE }, t);
+  const take = (sel, t) => tl.to(sel, { scale: 0, duration: 0.25, ease: EXIT }, t);
+  // Model: the ruler is linear. It starts at 300 px per cent ($0.99 to $1.01) and widens to 150 px per cent
+  // ($0.97 to $1.01) when the price falls further; the coin's x offset is always its price on the current ruler.
+  const XA = (p) => 540 + (p - 1) * 30000, XB = (p) => 690 + (p - 1) * 15000;
+  let X = XA; const priceX = (p) => X(p) - 540;
+  const TICKS = { 0.97: "#t97", 0.98: "#t98", 0.99: "#t99", 1.00: "#t100", 1.01: "#t101" };
+  // The ruler names the price: the tick under the coin lights teal at $1.00, sunset off it.
+  const tick = (p, t) => { tl.set(Object.values(TICKS), { color: "#fcfaf8", fontWeight: 600 }, t);
+    tl.set(TICKS[p], { color: p === 1 ? "#6fd0da" : "#f29a52", fontWeight: 800 }, t); };
+  const price = (p, t) => { tl.to("#coin", { x: priceX(p), duration: 0.8, ease: MOVE }, t); tick(p, t + 0.4); };
+  const widen = (t) => { X = XB;
+    ["#k99", "#k100", "#k101"].forEach((sel, i) => { const p = [0.99, 1.00, 1.01][i]; tl.to(sel, { x: XB(p) - XA(p), duration: 0.6, ease: MOVE }, t); });
+    tl.to(["#k97", "#k98"], { opacity: 1, duration: 0.4, ease: ENTER }, t + 0.6); tl.to("#coin", { x: priceX(1.0), duration: 0.6, ease: MOVE }, t); };
+
+  Objects.mount("#sobj", "safe");
+  Objects.mount("#cash", "cash");
+  People.mount("#firm", { ...People.LOOKS.trader, skin: "olive", shirt: "#196d76", prop: "lanyard" }, "Firm");
+
+  // Measure before anything moves.
+  const coinAt = (p) => ({ x: X(p), y: 590 }), firmHand = { x: at("#firm", 0.92, 0).x, y: at("#firm", 0, 0).y + 290 * 0.72 }, slot = at("#slot");
+
+  // First frame: the title and one large USDC coin under it.
+  const INTRO = { scale: 1.6, x: 0, y: 70 };
+  gsap.set("#coin", { ...INTRO, transformOrigin: "50% 50%" });
+  gsap.set(["#ruler", "#firm", "#issuer", "#cash", "#mini", "#bill", "#lock", "#k97", "#k98"], { opacity: 0 });
+  // Tick spots: the three first ticks sit on the narrow ruler; $0.97 and $0.98 wait, hidden, at their wide-ruler spots.
+  const K = { 0.97: "#k97", 0.98: "#k98", 0.99: "#k99", 1.00: "#k100", 1.01: "#k101" };
+  [0.99, 1.00, 1.01].forEach((p) => { document.querySelector(K[p]).style.left = XA(p) - 200 + "px"; });
+  [0.97, 0.98].forEach((p) => { document.querySelector(K[p]).style.left = XB(p) - 200 + "px"; });
+  // An explicit starting filter, so greying the safe interpolates instead of flashing black.
+  gsap.set(["#sobj", "#cash"], { filter: "grayscale(0) brightness(1)" });
+  document.fonts.ready.then(() => gsap.set("#hl", { fontSize: fit("Why Stablecoins Stay at $1") }));
+
+  // 1: the question, then the issuer's safe, the cash it holds, and the firm.
+  tl.to("#coin", { scale: 1.7, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1 }, ws("usdc"));
+  tl.fromTo("#issuer", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: ENTER, immediateRender: false }, ws("a swap"));
+  tl.fromTo("#cash", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: ENTER, immediateRender: false }, ws("cash"));
+  tl.fromTo("#firm", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.6, ease: ENTER, immediateRender: false }, ws("approved firms"));
+  tl.to("#slot", { backgroundColor: "#196d76", duration: 0.3, ease: ENTER, yoyo: true, repeat: 1, repeatDelay: 0.6 }, ws("trade one coin"));
+
+  // 2: the market. The ruler arrives and the coin settles on $1.00, then drifts to $0.99.
+  tl.fromTo("#ruler", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: ENTER, immediateRender: false }, ws("everyone else"));
+  tl.to("#coin", { scale: 1, x: priceX(1.0), y: 0, duration: 0.8, ease: MOVE }, ws("everyone else"));
+  tick(1.0, ws("everyone else", 0.6));
+  price(0.99, ws("drift"));
+
+  // 3: below a dollar. The firm buys a coin at $0.99, swaps it at the safe for a dollar, and the price lifts.
+  pull("#mini", coinAt(0.99), ws("buys coins")); carry("#mini", firmHand, ws("buys coins", 0.2), 0.7);
+  // The swap: the coin goes into the slot while the dollar comes out to the firm, at the same time.
+  pull("#bill", slot, ws("swaps")); carry("#mini", slot, ws("swaps", 0.2), 0.8); carry("#bill", firmHand, ws("swaps", 0.2), 0.8);
+  take("#mini", ws("swaps", 1.0)); take("#bill", ws("lifts", 0.4));
+  price(1.0, ws("lifts"));
+
+  // 4: above a dollar. The firm hands the safe a dollar, gets a new coin, and sells it; the price comes back down.
+  price(1.01, ws("above"));
+  pull("#bill", firmHand, ws("firms get"));
+  pull("#mini", slot, ws("from the issuer", -0.3)); carry("#bill", slot, ws("from the issuer", -0.1), 0.8); carry("#mini", firmHand, ws("from the issuer", -0.1), 0.8);
+  take("#bill", ws("from the issuer", 0.7));
+  carry("#mini", coinAt(1.01), ws("sell them"), 0.7); take("#mini", ws("sell them", 0.7));
+  price(1.0, ws("pulls"));
+
+  // 5: the limit. The safe's cash and slot are what make it work; if redemption pauses, the price can stay low.
+  tl.to(["#cash", "#safe"], { scale: 1.06, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.1 }, ws("reserves"));
+  tl.to("#slot", { backgroundColor: "#39a1ac", duration: 0.3, ease: ENTER }, ws("redemption"));
+  tl.set("#slot", { backgroundColor: "#0b161b" }, ws("if it pauses"));
+  tl.to(["#sobj", "#cash"], { filter: "grayscale(1) brightness(.75)", duration: 0.4 }, ws("if it pauses"));
+  tl.fromTo("#lock", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.5, ease: ENTER, immediateRender: false }, ws("if it pauses"));
+  widen(ws("pauses", 0.4)); price(0.97, ws("can stay"));
+
+  // Closing: the stage fades and the coin returns to its opening size and spot, then everything fades and the card enters.
+  // Hold the paused state 1.2 s after the last word, clear the stage, hold the coin alone, then the card.
+  const A = L + 1.2, P = L + 3.6;
+  tl.to(["#ruler", "#firm", "#issuer"], { opacity: 0, duration: 0.6, ease: EXIT }, A);
+  tl.to("#coin", { ...INTRO, duration: 0.9, ease: MOVE }, A + 0.2);
+  tl.to(["#coin", "#caps", "#hl"], { opacity: 0, duration: 0.6, ease: EXIT }, P - 0.8);
+  tl.fromTo("#kicker", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, P + 0.3);
+  tl.fromTo("#handle", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.72, ease: "power4.out" }, P + 0.48);
+  tl.fromTo("#socials svg", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.48, ease: ENTER, stagger: 0.1 }, P + 0.98);
+
+  // Captions: split at punctuation, long clauses cut in two before a joining word; only the current word is highlighted.
+  const phrases = [], clauses = []; let cur = [];
+  WORDS.forEach((w, i) => { cur.push(i); if (/[.,?]$/.test(w.text)) { clauses.push(cur); cur = []; } });
+  if (cur.length) clauses.push(cur);
+  clauses.forEach((c, k) => { if (c.length < 3 && clauses[k + 1]) { clauses[k + 1].unshift(...c); return; }
+    if (c.length <= 7) return phrases.push(c);
+    const JOIN = /^(and|or|so|which|from|to|in|like|before)$/i, cost = (j) => Math.abs(j - c.length / 2) - (JOIN.test(WORDS[c[j]].text) ? 2 : 0);
+    let cut = 2; for (let j = 2; j <= c.length - 2; j++) if (cost(j) < cost(cut)) cut = j;
+    phrases.push(c.slice(0, cut), c.slice(cut)); });
+  phrases.forEach((p, pi) => { const d = document.createElement("div"); d.className = "cp"; d.id = "cp" + pi;
+    d.innerHTML = p.map((i) => `<span id="w${i}">${WORDS[i].text}</span>`).join(" "); document.querySelector("#caps").append(d); });
+  phrases.forEach((p, pi) => { const a = WORDS[p[0]].start, b = WORDS[p.at(-1)].end, nx = phrases[pi + 1] ? WORDS[phrases[pi + 1][0]].start : Infinity;
+    tl.set("#cp" + pi, { opacity: 1 }, a); tl.set("#cp" + pi, { opacity: 0 }, nx - b < 0.5 ? nx : b + 0.05);
+    p.forEach((i, k) => { const ns = k + 1 < p.length ? WORDS[p[k + 1]].start : Infinity;
+      if (ns - WORDS[i].start < 0.1) return; // a word too short to see would flash for one frame
+      tl.set("#w" + i, { backgroundColor: "#d19847", color: "#1d2930" }, WORDS[i].start);
+      tl.set("#w" + i, { backgroundColor: "rgba(0,0,0,0)", color: "#fcfaf8" }, Math.min(Math.max(WORDS[i].end, WORDS[i].start + 0.1), ns)); }); });
+  window.__timelines = window.__timelines || {};
   window.__timelines.main = tl;
 </script>
 </body>
