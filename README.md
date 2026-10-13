@@ -23,31 +23,47 @@ videos. Output still needs human review.
 
 ### Boxing
 
-**Tyson peekaboo**
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<img src="docs/examples/how-mike-tysons-peek-a-boo-works.jpg" width="180" alt="How Mike Tyson&#x27;s Peek-a-Boo Works cover">
+<br><strong>How Mike Tyson's Peek-a-Boo Works</strong>
 
-<!-- Paste the GitHub video attachment URL for Tyson peekaboo here. -->
+</td>
+<td align="center" width="33%">
+<img src="docs/examples/how-the-slip-counter-works.jpg" width="180" alt="How the Slip Counter Works cover">
+<br><strong>How the Slip Counter Works</strong>
 
-**Slip counter**
+</td>
+<td align="center" width="33%">
+<img src="docs/examples/how-the-drunken-master-lost-by-being-too-good.jpg" width="180" alt="How the Drunken Master Lost by Being Too Good cover">
+<br><strong>How the Drunken Master Lost by Being Too Good</strong>
 
-<!-- Paste the GitHub video attachment URL for Slip counter here. -->
+</td>
+</tr>
+</table>
 
-**Emmanuel**
+### Pūpūkahi Tech
 
-<!-- Paste the GitHub video attachment URL for Emmanuel here. -->
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<img src="docs/examples/what-could-ai-do-for-you-before-lunch.jpg" width="180" alt="What Could AI Do for You Before Lunch? cover">
+<br><strong>What Could AI Do for You Before Lunch?</strong>
 
-### Pūpūkahi Tech (`pupukahi-tech`)
+</td>
+<td align="center" width="33%">
+<img src="docs/examples/why-blockchain-history-is-hard-to-rewrite.jpg" width="180" alt="Why Blockchain History Is Hard to Rewrite cover">
+<br><strong>Why Blockchain History Is Hard to Rewrite</strong>
 
-**AI before lunch**
+</td>
+<td align="center" width="33%">
+<img src="docs/examples/why-stablecoins-stay-at-1.jpg" width="180" alt="Why Stablecoins Stay at $1 cover">
+<br><strong>Why Stablecoins Stay at $1</strong>
 
-<!-- Paste the GitHub video attachment URL for AI before launch here. -->
-
-**Blockchain history**
-
-<!-- Paste the GitHub video attachment URL for Blockchain history here. -->
-
-**Stablecoins**
-
-<!-- Paste the GitHub video attachment URL for Stablecoins here. -->
+</td>
+</tr>
+</table>
 
 ## Where it runs
 
