@@ -26,19 +26,22 @@ videos. Output still needs human review.
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<img src="docs/examples/how-mike-tysons-peek-a-boo-works.jpg" width="180" alt="How Mike Tyson&#x27;s Peek-a-Boo Works cover">
+<a href="https://github.com/user-attachments/assets/db6ea4a4-6d0d-4eb3-9538-5bfd2f8f3c22">
+<img src="docs/examples/how-mike-tysons-peek-a-boo-works.jpg" width="180" alt="How Mike Tyson's Peek-a-Boo Works cover">
+</a>
 <br><strong>How Mike Tyson's Peek-a-Boo Works</strong>
-
 </td>
 <td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/9b5299fb-95e1-4541-b000-51918f0abcfb">
 <img src="docs/examples/how-the-slip-counter-works.jpg" width="180" alt="How the Slip Counter Works cover">
+</a>
 <br><strong>How the Slip Counter Works</strong>
-
 </td>
 <td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/c10e44ff-e54a-48a6-a8b0-69fc9c111080">
 <img src="docs/examples/how-the-drunken-master-lost-by-being-too-good.jpg" width="180" alt="How the Drunken Master Lost by Being Too Good cover">
+</a>
 <br><strong>How the Drunken Master Lost by Being Too Good</strong>
-
 </td>
 </tr>
 </table>
@@ -48,19 +51,22 @@ videos. Output still needs human review.
 <table width="100%">
 <tr>
 <td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/4238f820-7218-4ee9-b844-81bcc50996ff">
 <img src="docs/examples/what-could-ai-do-for-you-before-lunch.jpg" width="180" alt="What Could AI Do for You Before Lunch? cover">
+</a>
 <br><strong>What Could AI Do for You Before Lunch?</strong>
-
 </td>
 <td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/b4e9f06d-ed29-4e8e-8730-2731cc27c93e">
 <img src="docs/examples/why-blockchain-history-is-hard-to-rewrite.jpg" width="180" alt="Why Blockchain History Is Hard to Rewrite cover">
+</a>
 <br><strong>Why Blockchain History Is Hard to Rewrite</strong>
-
 </td>
 <td align="center" width="33%">
+<a href="https://github.com/user-attachments/assets/f4722330-6357-4e18-b38e-c72e831bcbe1">
 <img src="docs/examples/why-stablecoins-stay-at-1.jpg" width="180" alt="Why Stablecoins Stay at $1 cover">
+</a>
 <br><strong>Why Stablecoins Stay at $1</strong>
-
 </td>
 </tr>
 </table>
