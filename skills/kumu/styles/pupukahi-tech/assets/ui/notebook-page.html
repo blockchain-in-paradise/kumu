@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pūpūkahi sealed notebook page</title>
+<!--
+  Reusable sealed notebook page (from the blockchain v2 run): white lined paper with a red margin, a top-left hash box
+  (chain-link icon and the previous page's code; the first page holds 0000), one payment line, a wax seal with its code,
+  and an optional "Redone" tag. Copy the CSS between the markers. Seals come from a real model (first four hex of
+  SHA-256 over "previous|payment"); never type codes by hand. A broken link: set the hash box's code to the sunset text
+  colour #a8461a on rgba(238,124,43,.18) and grey the seal (filter grayscale(1), set an explicit starting filter first).
+  The seal SVG is Objects.draw("seal", { color: "#0f4f57" }) from assets/objects/objects.js.
+-->
+<script src="../objects/objects.js"></script>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("../fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("../fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #0e394e; font-family: "Inter", sans-serif; color: #fcfaf8; --print: #1d2930; --mark: #196d76; }
+  .stage { position: relative; width: 1080px; height: 520px; }
+  /* CSS START */
+  /* Paper: white lined notebook paper with a red margin. */
+  .paper { color: var(--print); border-radius: 6px;
+    background: repeating-linear-gradient(180deg, transparent 0 55px, rgba(57,161,172,.25) 55px 57px),
+      linear-gradient(135deg, #ffffff 0%, #f4f7f8 40%, #e3e9eb 75%, #d3dcdf 100%);
+    box-shadow: 0 14px 18px rgba(0,0,0,.4), inset 2px 2px 0 #fff; }
+  .paper::before { content: ""; position: absolute; left: 40px; top: 0; bottom: 0; width: 3px; background: rgba(214,92,80,.55); }
+  .page { position: absolute; left: 92px; width: 896px; height: 184px; }
+  /* The copied seal: a small box at the top left with a chain-link icon and the previous page's code. */
+  .page .top { position: absolute; left: 66px; top: 14px; display: flex; align-items: center; gap: 10px; padding: 2px 14px 2px 10px;
+    border-radius: 10px; border: 3px solid rgba(25,109,118,.55); background: rgba(127,211,219,.18); color: var(--mark); font-size: 40px; font-weight: 800; }
+  .page .top svg { width: 34px; height: 34px; }
+  .page .top b { padding: 0 6px; border-radius: 6px; font-weight: 800; }
+  .page .pay { position: absolute; left: 66px; top: 92px; font-size: 56px; font-weight: 800; letter-spacing: -0.01em; }
+  .amt { padding: 0 6px; border-radius: 8px; }
+  .seal { position: absolute; right: 22px; top: 22px; width: 140px; height: 140px; }
+  .seal svg { width: 140px; height: 140px; }
+  /* The pressed center of the seal carries its code on a dark disc, so the code keeps contrast on the lit wax. */
+  .seal span { position: absolute; left: 50%; top: 50%; width: 104px; height: 104px; margin: -52px 0 0 -52px; border-radius: 50%;
+    display: grid; place-items: center; background: radial-gradient(circle at 40% 35%, #145a62, #0b3a40); font-size: 40px; font-weight: 800;
+    color: #fcfaf8; letter-spacing: -0.03em; box-shadow: inset 0 2px 3px rgba(0,0,0,.4); }
+  .tag { position: absolute; right: 180px; top: 18px; padding: 2px 18px; border-radius: 999px; font-size: 40px; font-weight: 800;
+    background: var(--mark); color: #fcfaf8; }
+  /* CSS END */
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="page paper" style="top:60px"><div class="top"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M13 17a5 5 0 0 0 7 0l4-4a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M17 13a5 5 0 0 0-7 0l-4 4a5 5 0 0 0 7 7l1.5-1.5"/></svg><b>0000</b></div>
+    <div class="pay">Lani pays Kai <span class="amt">$2</span></div><div class="seal"><span>bda7</span></div></div>
+  <div class="page paper" style="top:270px"><div class="top"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M13 17a5 5 0 0 0 7 0l4-4a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M17 13a5 5 0 0 0-7 0l-4 4a5 5 0 0 0 7 7l1.5-1.5"/></svg><b>bda7</b></div><div class="tag">Redone</div>
+    <div class="pay">Kai pays Noe <span class="amt">$5</span></div><div class="seal"><span>ba08</span></div></div>
+</div>
+<script>document.querySelectorAll(".seal").forEach((s) => s.insertAdjacentHTML("afterbegin", Objects.draw("seal", { color: "#0f4f57" })));</script>
+</body>
+</html>

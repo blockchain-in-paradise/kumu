@@ -13,7 +13,7 @@
   #root { position: relative; width: 100%; height: 100%; overflow: hidden; color: #111; background: #ececec; }
   .title { position: absolute; left: 80px; right: 80px; top: 280px; margin: 0;
     font-size: 94px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
-  .title span { display: block; }
+  .title { text-wrap: balance; }
   .card { position: absolute; left: 80px; right: 120px; top: 640px; height: 720px; background: #fff;
     border: 2px solid rgba(17,17,17,.14); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
   .card b { position: absolute; left: 56px; top: 48px; font-size: 150px; font-weight: 800; letter-spacing: -0.04em; color: #e4572e; }
@@ -22,7 +22,7 @@
 </head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="1">
-  <h1 class="title"><span>How $1,000 Grows</span><span>in 30 Years</span></h1>
+  <h1 class="title">How $1,000 Grows in 30 Years</h1>
   <div class="card"><b>$7,612</b>
     <svg viewBox="0 0 768 360" id="chart"><path id="c" fill="none" stroke="#e4572e" stroke-width="8" stroke-linecap="round"/></svg>
   </div>

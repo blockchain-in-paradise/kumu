@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pūpūkahi chat phone</title>
+<!--
+  Reusable chat phone for this style (from the AI before lunch run). Copy the CSS between the markers into the
+  composition and the markup below into a scene; position the phone with left/top on its id. Parts:
+  .apphead (centered "AI Assistant" with its dot hung to the left), .msgs (scrolls up with a y tween when a reply lands),
+  .me (teal user bubble; type into it word by word with tl.set steps), .ai (white reply), .file (attachment chip),
+  .composer (message bar: an attachment chip appears in it, the prompt types into .typed, the send button pulses,
+  then both move into .msgs). Text stays at 40 px or more. Logo badges (.logos, .badge) use assets/logos/.
+-->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("../fonts/inter-400.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("../fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("../fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #0e394e; font-family: "Inter", sans-serif; color: #fcfaf8; }
+  .stage { position: relative; width: 1080px; height: 1000px; }
+  /* CSS START */
+  /* Phone: steel body with a lit rim, glass bezel, and a chat app (header, messages, input with send button). */
+  .phone { position: absolute; width: 460px; height: 830px; border-radius: 64px;
+    background: linear-gradient(135deg, #f2f6f7 0%, #c4d0d4 30%, #8a9ca3 65%, #56696f 100%);
+    box-shadow: 0 14px 18px rgba(0,0,0,.4), inset 2px 2px 0 rgba(255,255,255,.6); }
+  .phone .glass { position: absolute; inset: 14px; border-radius: 52px; background: linear-gradient(160deg, #26404c, #0f222a); }
+  .phone .screen { position: absolute; inset: 26px; border-radius: 42px; overflow: hidden; background: #f4f7f8; color: #1d2930; }
+  .phone .notch { position: absolute; left: 50%; top: 38px; width: 110px; height: 26px; margin-left: -55px; border-radius: 13px; background: #0b161b; z-index: 3; }
+  .apphead { position: absolute; left: 0; right: 0; top: 0; height: 128px; z-index: 2; background: #ffffff; border-bottom: 2px solid #dfe6e8;
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 18px; box-sizing: border-box; font-size: 40px; font-weight: 600; }
+  .apphead .ttl { position: relative; }
+  .apphead .dot { position: absolute; right: calc(100% + 12px); bottom: 7px; }
+  .dot { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #7fd3db, #196d76); flex: 0 0 34px; }
+  .msgs { position: absolute; left: 0; right: 0; top: 146px; padding: 0 16px; }
+  .me { margin: 0 0 16px auto; max-width: 300px; width: fit-content; padding: 14px 22px; border-radius: 30px 30px 8px 30px;
+    background: linear-gradient(135deg, #2a8a95, #196d76); color: #fcfaf8; font-size: 40px; line-height: 1.15; }
+  .ai { margin: 0 34px 16px 0; padding: 18px 22px; border-radius: 30px 30px 30px 8px; background: #ffffff; border: 2px solid #dfe6e8;
+    font-size: 40px; line-height: 1.15; box-shadow: 0 4px 10px rgba(29,41,48,.08); }
+  .ai b { display: block; font-weight: 800; margin-bottom: 8px; }
+  .file { margin: 0 0 14px auto; width: fit-content; display: flex; align-items: center; gap: 16px; padding: 14px 22px 14px 14px;
+    border-radius: 24px; background: #ffffff; border: 2px solid #c9d6d9; font-size: 40px; font-weight: 600; }
+  .file svg { width: 56px; height: 66px; flex: 0 0 56px; }
+  .inputbar { position: absolute; left: 16px; right: 16px; bottom: 18px; height: 84px; border-radius: 42px; background: #fff; z-index: 2;
+    border: 2px solid #c9d6d9; display: flex; align-items: center; padding: 0 10px 0 28px; box-sizing: border-box; font-size: 40px; color: #7a8a90; white-space: nowrap; }
+  .inputbar .send { margin-left: auto; width: 62px; height: 62px; border-radius: 50%; background: #196d76; display: grid; place-items: center; }
+  .inputbar .send svg, .composer .send svg { width: 30px; height: 30px; }
+  .composer { position: absolute; left: 16px; right: 16px; bottom: 18px; z-index: 2; background: #fff; border: 2px solid #c9d6d9; border-radius: 42px;
+    padding: 10px 10px 10px 24px; box-sizing: border-box; }
+  .composer .file { display: none; margin: 6px 0 10px; }
+  .composer .row { display: flex; align-items: flex-end; gap: 10px; min-height: 62px; }
+  .composer .typed { flex: 1; font-size: 40px; line-height: 1.15; color: #7a8a90; padding-bottom: 8px; }
+  .composer .send { flex: 0 0 62px; width: 62px; height: 62px; border-radius: 50%; background: #196d76; display: grid; place-items: center; }
+
+  .logos { position: absolute; left: 584px; top: 760px; width: 404px; display: flex; justify-content: space-between; transform-origin: left top; }
+  .badge { width: 112px; height: 112px; border-radius: 50%; background: linear-gradient(135deg, #ffffff, #e3eaec);
+    box-shadow: 0 14px 18px rgba(0,0,0,.4), inset 2px 2px 0 #fff; display: grid; place-items: center; }
+  .badge svg { width: 62px; height: 62px; }
+  /* CSS END */
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone" id="demo" style="left:92px;top:80px"><div class="glass"></div><div class="notch"></div><div class="screen">
+    <div class="apphead"><span class="ttl"><span class="dot"></span>AI Assistant</span></div>
+    <div class="msgs">
+      <div class="file"><svg viewBox="0 0 56 66"><path d="M4 6a6 6 0 0 1 6-6h26l20 20v40a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z" fill="#196d76"/><path d="M36 0v14a6 6 0 0 0 6 6h14z" fill="#7fd3db"/><path d="M14 32h28M14 42h28M14 52h18" stroke="#fcfaf8" stroke-width="4" stroke-linecap="round"/></svg>notes.txt</div>
+      <div class="me">Turn these into a short email</div>
+      <div class="ai"><b>Reply title</b>The assistant's reply, in a white bubble.</div>
+    </div>
+    <div class="composer"><div class="row"><span class="typed">Message</span><span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#fcfaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+  </div></div>
+</div>
+</body>
+</html>

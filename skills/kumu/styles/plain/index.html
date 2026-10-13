@@ -21,8 +21,7 @@
     position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); background: var(--canvas);
   }
   .headline { position: absolute; left: 80px; right: 80px; top: 200px; margin: 0;
-    font-size: 100px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
-  .headline span { display: block; }
+    font-size: 100px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; text-wrap: balance; }
   .card { position: absolute; left: 80px; right: 80px; top: 520px; height: 880px; background: var(--panel);
     border: 2px solid var(--border); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
   .readout { position: absolute; left: 56px; top: 44px; }
@@ -42,7 +41,7 @@
 </head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1920" data-duration="9.5">
-  <h1 class="headline" id="hl"><span>How $1,000 grows</span><span>in 30 years</span></h1>
+  <h1 class="headline" id="hl">How $1,000 grows in 30 years</h1>
   <div class="card" id="card">
     <div class="readout"><b id="val">$1,000</b><span id="yr">Year 0, at 7% a year</span></div>
     <!-- An open wide-mouth glass jar: coins drop in through the rim. -->
@@ -106,10 +105,18 @@
     c.slot = g; c.el = g.firstChild; document.getElementById("coins").appendChild(g);
   });
 
+  // Headline size: one line at 80 px or more, else two balanced lines, measured after the font loads.
+  const fit = (t) => { const h = document.querySelector("#hl"), c = h.cloneNode(); c.textContent = t; h.after(c); let s = 100;
+    c.style.cssText = "visibility:hidden;white-space:nowrap;right:auto";
+    for (; s >= 80; s -= 2) { c.style.fontSize = s + "px"; if (c.offsetWidth <= h.clientWidth) break; }
+    if (s < 80) { c.style.cssText = "visibility:hidden"; for (s = 100; s > 80; s -= 2) { c.style.fontSize = s + "px"; if (c.offsetHeight <= s * 0.95 * 2 + 2) break; } }
+    c.remove(); return s; };
+
   const tl = gsap.timeline({ paused: true });
+  tl.set("#hl", { fontSize: () => fit(document.querySelector("#hl").textContent) }, 0);
   tl.set("#dot", { attr: { cx: pt(0)[0], cy: pt(0)[1] } }, 0);
   // Intro: the background alone until 0.4 s, then the headline and card enter.
-  tl.from(["#hl span", "#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
+  tl.from(["#hl", "#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
   // The curve draws year by year from 1.2 s to 6.2 s; the readout is set from the model each year.
   tl.fromTo(curve, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: years * YEAR, ease: "none" }, 1.2);
   vals.forEach((v, n) => {

@@ -50,7 +50,7 @@ car culture. `index.html` is the working sample (2024 MX-5 vs GR86 horsepower);
   stroke, sits centered above its head, never over its face. One reaction per
   beat at most. Other transparent cat memes the user supplies may join it.
 - **Parts** (an engine, a turbo, a gearbox) are drawn as in
-  [frame.md](../../frame.md) Real objects, with this finish instead of flat
+  [plain](../plain/style.md) Real objects, with this finish instead of flat
   tones: metal shaded with linear gradients (a bright band along round parts
   such as pistons, pins, and shafts), a thin light edge, and a soft drop
   shadow under the whole drawing. Show the real details that make it read
@@ -97,7 +97,7 @@ Hard and fast. The intro title slams in from the left with a slight skew,
 car names slam into the header, cars arrive and skid to a stop, numbers count
 up, and the mascot pops with a big overshoot. Nothing loops in the
 background; motion only happens on a change, except a mechanism, which runs
-while it is on screen as [frame.md](../../frame.md) Motion describes.
+while it is on screen as [plain](../plain/style.md) Motion describes.
 
 A mechanism scene plays like a dyno run: the drawing draws itself on in
 light gray lines, parts fill in as they are named, then it fires up with a

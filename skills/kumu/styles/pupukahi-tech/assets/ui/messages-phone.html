@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pūpūkahi messages phone</title>
+<!--
+  Reusable texting phone for this style (from the crypto scam red flags run). Copy the CSS between the markers into the
+  composition and the markup below into a scene; position it with left/top on #phone. Parts: .apphead (grey avatar and
+  the sender, a clearly sample number such as (808) 123-4567), .view (clipped) holding .msgs, rows .row.in (grey
+  incoming) and .row.me (teal outgoing), .qr (a card holding a drawn QR pattern), .inputbar with a send button.
+  A message that shows a warning sign gets a sunset border (tl.set borderColor "#ee7c2b"); a phrase wrapped in <u>
+  underlines in sunset with tl.to(u, { backgroundSize: "100% 6px" }). To grey a stopped chat, tween the bubbles'
+  backgroundColor/borderColor to #c9d0d3 and color to #3d4a50 (no filter, so text keeps contrast).
+  Scroll (seek-safe, layout offsets): hide the rows, then land each with
+    const viewH = document.querySelector(".view").clientHeight - 18;
+    const scrollFor = (id) => { const m = document.querySelector(id), end = m.offsetTop + m.offsetHeight;
+      const top = [...document.querySelectorAll("#msgs .row")].find((r) => end - r.offsetTop <= viewH);
+      return -(top ? top.offsetTop : m.offsetTop); };
+    // land: fade the row in, tween #msgs y to scrollFor(id), and fade out rows whose offsetTop + y < 0.
+  The scroll snaps to a row's top, so no half bubble sits under the app header. Text stays at 40 px or more.
+-->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 400; src: url("../fonts/inter-400.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("../fonts/inter-600.woff2") format("woff2"); }
+  body { margin: 0; background: #0e394e; font-family: "Inter", sans-serif; color: #fcfaf8; }
+  .stage { position: relative; width: 1080px; height: 1000px; }
+  /* CSS START */
+  #phone { position: absolute; width: 460px; height: 840px; border-radius: 64px; z-index: 2;
+    background: linear-gradient(135deg, #f2f6f7 0%, #c4d0d4 30%, #8a9ca3 65%, #56696f 100%);
+    box-shadow: 0 14px 18px rgba(0,0,0,.4), inset 2px 2px 0 rgba(255,255,255,.6); }
+  #phone .glass { position: absolute; inset: 14px; border-radius: 52px; background: linear-gradient(160deg, #26404c, #0f222a); }
+  #phone .screen { position: absolute; inset: 26px; border-radius: 42px; overflow: hidden; background: #f4f7f8; color: #1d2930; }
+  #phone .notch { position: absolute; left: 50%; top: 38px; width: 110px; height: 26px; margin-left: -55px; border-radius: 13px; background: #0b161b; z-index: 3; }
+  .apphead { position: absolute; left: 0; right: 0; top: 0; height: 150px; z-index: 2; background: #ffffff; border-bottom: 2px solid #dfe6e8;
+    display: flex; align-items: flex-end; justify-content: center; gap: 16px; padding-bottom: 20px; box-sizing: border-box; font-size: 40px; font-weight: 600; }
+  .avatar { width: 56px; height: 56px; flex: 0 0 56px; border-radius: 50%; background: linear-gradient(135deg, #c9d3d7, #8a9ca3); overflow: hidden; position: relative; }
+  .avatar::before { content: ""; position: absolute; left: 18px; top: 10px; width: 20px; height: 20px; border-radius: 50%; background: #f4f7f8; }
+  .avatar::after { content: ""; position: absolute; left: 10px; top: 34px; width: 36px; height: 30px; border-radius: 18px 18px 0 0; background: #f4f7f8; }
+  .view { position: absolute; left: 0; right: 0; top: 152px; bottom: 112px; overflow: hidden; }
+  .msgs { position: absolute; left: 0; right: 0; top: 18px; padding: 0 16px; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .row.me { justify-content: flex-end; }
+  .bub { max-width: 340px; padding: 14px 22px; font-size: 40px; line-height: 1.15; box-sizing: border-box; }
+  .in .bub { background: #e3e9eb; border: 3px solid #e3e9eb; border-radius: 30px 30px 30px 8px; }
+  .me .bub { background: linear-gradient(135deg, #2a8a95, #196d76); color: #fcfaf8; border-radius: 30px 30px 8px 30px; }
+  .qr { background: #ffffff; border: 3px solid #dfe6e8; border-radius: 26px; padding: 18px; }
+  .qr svg { display: block; width: 200px; height: 200px; }
+  .bub u { text-decoration: none; background: linear-gradient(#ee7c2b, #ee7c2b) 0 100% / 0% 6px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .inputbar { position: absolute; left: 16px; right: 16px; bottom: 18px; height: 84px; border-radius: 42px; background: #fff; z-index: 2;
+    border: 2px solid #c9d6d9; display: flex; align-items: center; padding: 0 10px 0 28px; box-sizing: border-box; font-size: 40px; color: #7a8a90; white-space: nowrap; }
+  .inputbar .send { margin-left: auto; width: 62px; height: 62px; border-radius: 50%; background: #196d76; display: grid; place-items: center; }
+  .inputbar .send svg { width: 30px; height: 30px; }
+  /* CSS END */
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="phone" style="left:92px;top:80px"><div class="glass"></div><div class="notch"></div><div class="screen">
+    <div class="apphead"><span class="avatar"></span>(808) 123-4567</div>
+    <div class="view"><div class="msgs" id="msgs">
+      <div class="row in"><div class="bub">An incoming message.</div></div>
+      <div class="row me"><div class="bub">The viewer's reply.</div></div>
+      <div class="row in"><div class="bub" style="border-color:#ee7c2b">A message with a <u style="background-size:100% 6px">warning sign</u>.</div></div>
+    </div></div>
+    <div class="inputbar">Message<span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#fcfaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  </div></div>
+</div>
+</body>
+</html>

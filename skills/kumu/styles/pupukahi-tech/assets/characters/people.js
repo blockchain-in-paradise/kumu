@@ -43,7 +43,7 @@ function person(id, look = {}, label = "") {
   const neckline = {
     crew: `<path d="M80 146 Q95 158 110 146" fill="none" stroke="${line}" stroke-width="7" stroke-linecap="round"/>`,
     collar: `<path d="M80 146 L70 168 L93 158 Z M110 146 L120 168 L97 158 Z" fill="${shirt}" stroke="${line}" stroke-width="2.5" stroke-linejoin="round"/>`,
-    hoodie: `<path d="M62 156 C62 128 128 128 128 156" fill="none" stroke="${shirt}" stroke-width="16" stroke-linecap="round"/><path d="M62 156 C62 128 128 128 128 156" fill="none" stroke="${line}" stroke-width="16" stroke-linecap="round" opacity=".5"/><path d="M86 160 L84 194 M104 160 L106 194" stroke="#fcfaf8" stroke-width="3" stroke-linecap="round"/>`,
+    hoodie: `<path d="M56 162 C66 150 124 150 134 162" fill="none" stroke="${shirt}" stroke-width="15" stroke-linecap="round"/><path d="M56 162 C66 150 124 150 134 162" fill="none" stroke="${line}" stroke-width="15" stroke-linecap="round" opacity=".5"/><path d="M86 166 L84 196 M104 166 L106 196" stroke="#fcfaf8" stroke-width="3" stroke-linecap="round"/>`,
   }[top];
   const props = {
     lanyard: `<path d="M80 152 L90 196 M110 152 L100 196" stroke="#fcfaf8" stroke-width="3" fill="none"/><rect x="83" y="194" width="24" height="30" rx="4" fill="#fcfaf8"/><rect x="88" y="202" width="14" height="4" rx="2" fill="#39a1ac"/>`,

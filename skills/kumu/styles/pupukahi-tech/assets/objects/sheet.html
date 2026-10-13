@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /><title>Pūpūkahi objects</title>
+<style>
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("../fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("../fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #0e394e; color: #fcfaf8; font-family: "Inter", sans-serif; }
+  .g { position: fixed; inset: 0; background: #0e394e; } .g::before { content: ""; position: absolute; inset: 0; opacity: .15; background: url("../ground.webp") center / cover; }
+  main { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 40px; padding: 70px 80px; max-width: 1200px; margin: 0 auto; }
+  figure { margin: 0; text-align: center; } .box { height: 260px; display: grid; place-items: center; } .box svg { height: 250px; width: auto; max-width: 100%; }
+  figcaption { margin-top: 14px; font-size: 22px; font-weight: 600; opacity: .85; }
+</style></head><body><div class="g"></div><main id="m"></main>
+<script src="objects.js"></script>
+<script>
+  const O = [["coin", { label: "USDC" }], ["cash"], ["page"], ["seal", { label: "481b" }], ["padlock"], ["key"], ["safe"], ["ledger"], ["receipt"], ["phone"], ["laptop"], ["mailbox"], ["letter", { lines: 5, sign: true }], ["notes"], ["envelope"]];
+  document.getElementById("m").innerHTML = O.map(([n, o]) => `<figure><div class="box">${Objects.draw(n, o)}</div><figcaption>${n}</figcaption></figure>`).join("");
+</script></body></html>

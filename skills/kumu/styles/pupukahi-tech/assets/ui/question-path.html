@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Pūpūkahi question path</title>
+<!--
+  Reusable decision path for this style (from the crypto scam red flags run): a vertical track (a scale, not a
+  connector) with up to five stops and an end pill. Copy the CSS between the markers and the markup; position #path
+  at least 80 px clear of the object beside it. Stops are 140 px apart; labels are short (two or three words).
+  States, set with tweens at the spoken phrase:
+    unasked: grey ring (the default)
+    asked:   tl.to("#r1", { borderColor: "#39a1ac" })
+    yes:     tl.to("#r1", { borderColor: "#ee7c2b", backgroundColor: "#ee7c2b" }) and fade in "#r1 svg" (the pennant)
+  Routes: tl.to("#fillY", { scaleY: 1 }) lights the yes route sunset down to the end, where the sunset lock pill
+  ("Blocked") lands; tl.to("#fillN", { scaleY: 1 }) lights the no route teal for the teal "Check first" pill.
+  Build-in: fade the stops in top to bottom (stagger 0.12 s) first, then the track, so the line never shows alone.
+-->
+<style>
+  @font-face { font-family: "Inter"; font-weight: 600; src: url("../fonts/inter-600.woff2") format("woff2"); }
+  @font-face { font-family: "Inter"; font-weight: 800; src: url("../fonts/inter-800.woff2") format("woff2"); }
+  body { margin: 0; background: #0e394e; font-family: "Inter", sans-serif; color: #fcfaf8;
+    --canvas: #0e394e; --on-highlight: #1d2930; --accent: #39a1ac; --support-sunset: #ee7c2b; }
+  .stage { position: relative; width: 1080px; height: 1000px; }
+  /* CSS START */
+  #path { position: absolute; width: 348px; height: 780px; z-index: 2; }
+  .track { position: absolute; left: 27px; top: 28px; width: 6px; height: 680px; border-radius: 3px; background: rgba(252,250,248,.45); }
+  .fill { position: absolute; inset: 0; border-radius: 3px; transform-origin: 50% 0; transform: scaleY(0); }
+  #fillY { background: var(--support-sunset); } #fillN { background: var(--accent); }
+  .stop { position: absolute; left: 0; height: 60px; display: flex; align-items: center; gap: 20px; width: 348px; }
+  .ring { position: relative; flex: 0 0 60px; width: 60px; height: 60px; border-radius: 50%; box-sizing: border-box;
+    border: 5px solid rgba(252,250,248,.6); background: var(--canvas); display: grid; place-items: center; color: var(--on-highlight); }
+  .ring svg { width: 32px; height: 32px; opacity: 0; }
+  .stop b { font-size: 40px; font-weight: 600; line-height: 1.05; text-wrap: balance; }
+  .endpill { position: absolute; left: -4px; top: 680px; display: flex; align-items: center; gap: 12px; font-size: 40px; font-weight: 800;
+    padding: 8px 26px; border-radius: 999px; white-space: nowrap; color: var(--on-highlight); box-shadow: 0 12px 28px rgba(0,0,0,.4); }
+  .endpill svg { width: 38px; height: 38px; }
+  #lock { background: var(--support-sunset); } #check { background: #6fd0da; }
+  /* CSS END */
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="path" style="left:92px;top:80px">
+    <div class="track"><div class="fill" id="fillY" style="transform:scaleY(1)"></div><div class="fill" id="fillN"></div></div>
+    <div class="stop" style="top:0px"><div class="ring" id="r1" style="border-color:#ee7c2b;background:#ee7c2b"><svg viewBox="0 0 24 24" style="opacity:1"><path d="M6 21V3" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 4h12l-3 4.5 3 4.5H6z" fill="currentColor"/></svg></div><b>Answered yes</b></div>
+    <div class="stop" style="top:140px"><div class="ring" id="r2" style="border-color:#39a1ac"><svg viewBox="0 0 24 24"><path d="M6 21V3" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 4h12l-3 4.5 3 4.5H6z" fill="currentColor"/></svg></div><b>Being asked</b></div>
+    <div class="stop" style="top:280px"><div class="ring" id="r3"><svg viewBox="0 0 24 24"><path d="M6 21V3" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6 4h12l-3 4.5 3 4.5H6z" fill="currentColor"/></svg></div><b>Not asked yet</b></div>
+    <div class="endpill" id="lock" style="top:400px"><svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><rect x="4" y="10" width="16" height="12" rx="3" fill="currentColor"/></svg>Blocked</div>
+    <div class="endpill" id="check" style="top:480px"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Check first</div>
+  </div>
+</div>
+</body>
+</html>
