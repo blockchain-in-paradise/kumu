@@ -44,7 +44,7 @@ them. Pick the cheapest that carries the look:
   A new sport or fighter style is new looks, poses, and sounds on that kit, not
   a new rig.
 - **A new kit.** Only when no kit fits and the style will be reused. Build it
-  to this contract, which is what makes boxing reliable:
+  to this contract:
   - **Seek-safe.** Everything is driven by the HyperFrames timeline. No clock,
     no `requestAnimationFrame`, no random at render time. WebGL is allowed;
     seeking any time must show the right frame.
@@ -55,8 +55,8 @@ them. Pick the cheapest that carries the look:
     loads, snaps, recoils, and settles, so a run cannot write a robotic move.
   - **Measurable.** The kit exposes its stages (for example
     `window.__<kit>Stages`) so an audit script can seek the timeline and check
-    joints, as `scripts/motion-audit.mjs` does for boxing. Add the checks the
-    new kit needs.
+    joints, as `scripts/motion-audit.mjs` does for the boxing kit. Ship the
+    kit's audit with it and name it in `style.md`, so the review runs it.
   - **Survives TikTok.** Outlines at least 3 px at 1080 wide, no noise or
     grain, no vignette ([frame.md](frame.md)).
 
@@ -125,10 +125,14 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   - `skills`: the HyperFrames skills a run needs (usually
     `[hyperframes-core, hyperframes-cli]`), and no others.
 
-  Then short sections for Character, Look, Type and captions, Motion, Motion
-  values, Sound (events, files, gains, music), and Closing, written from
-  `notes.md` and the chosen direction. Look says how drawn objects are finished
-  (realistic, minimal flat, or cartoon). Motion values is a table of eases by
+  Then short sections written from `notes.md` and the chosen direction:
+  Character, Layout (where the title, subject, and words sit, or that there
+  are no fixed zones), Look (how drawn objects are finished: realistic,
+  minimal flat, or cartoon), Text and color, Subjects (photos, drawings, and
+  how characters are rigged), Opening, Motion, Motion values, Captions, Sound
+  (events, files, gains, music), Checks (source scans or the kit's audit), and
+  Closing. A section left out follows [plain](styles/plain/style.md), so write
+  one whenever the look differs; never put a style's rule in the root files. Motion values is a table of eases by
   direction, duration bands, overshoot, and stagger, and the sample defines the
   same values as constants at the top of its script. Put topic-specific recipes
   (a named subject, an optional ending) in an `extras.md` the style points to,

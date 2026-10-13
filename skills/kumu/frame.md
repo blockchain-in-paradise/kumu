@@ -1,59 +1,29 @@
 # Frame
 
-The frame is the law every style follows. The selected style's `style.md`
-supplies the look (colors, type, background, subject treatment, motion
-vocabulary, captions, and closing card) and its `index.html` is a working
-sample of it. Start each composition from that sample. When a style and this
-file disagree, the style decides the look and the video's structure (its
-opening, closing, and pacing rules) and this file decides legibility, layout
-safety, and honesty.
+The frame is the floor every style stands on: what keeps a video postable on
+TikTok, Reels, and Shorts, readable on a phone, and honest. It sets no look.
+The selected style's `style.md` and its sample `index.html` decide the layout,
+look, subjects, motion, words, opening, and closing. A section the style leaves
+out comes from [styles/plain/style.md](styles/plain/style.md). When a style and
+this file disagree, this file wins only on what it covers below.
 
-Declare the style's colors as CSS custom properties on the composition root
-(`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`, `--panel`,
-`--border`, and each `support` color as `--support-<name>`). Load its fonts
-locally.
+## Safe area
 
-## Layout
+At 1080×1920, keep text and the subject inside the style's `spacing`: `edge`
+from every side and `platform_ui_bottom` clear of the platform's caption and
+buttons. Small labels sit at least 250 px from the top and 84 px from the left,
+clear of the platform's header. Nothing important comes within 40 px of the
+frame edge in any pose or camera move. Scale these for square and landscape.
 
-At 1080×1920, top to bottom:
+## Legibility
 
-- **Title zone** from `spacing.edge` down: the concept's title and the anchor
-  when it belongs with the title. A title fills the zone's width: one line when
-  it fits at the style's smallest headline size, else two balanced lines;
-  never one word alone on a line, and never a break typed by hand (`<br>`, block
-  spans). Measure the size after the font has loaded (a function value on the
-  timeline), never when the script starts, or it sizes against the fallback
-  font.
-- **Stage zone**: the middle of the frame, owned by the concept.
-- **Words zone**: captions or on-screen lines, anchored `spacing.caption_bottom`
-  above the bottom edge, bottom-aligned, growing upward to two lines, 48 px
-  clear of the stage. Keep words here even when replicating a reference, unless
-  the user asks otherwise.
-
-Use the whole frame: no empty band taller than about 15% of the height. Keep
-small labels (a chapter tag) at least 250 px from the top and 84 px from the
-left, clear of the platform's own header. Scale the zones for square and
-landscape. Check text at roughly 360 px display width;
-shorten labels rather than shrinking essential text below 40 px.
-
-## Text and color
-
-- Labels sit on a calm area or a small local backing, never on busy detail,
-  edges, or a full-opacity photo. Over a busy scene, captions and lines get a
-  dark outline and soft shadow on the text itself, never a band behind them.
-- `--ink` carries text, `--accent` marks state, action, and data, and
-  `--highlight` belongs to the caption's current word, a visual-mode line's key
-  word, and a closing kicker. Never use `--highlight` for titles or values.
-- Depicted objects keep their real colors.
-- **Text budget.** Besides the title and the caption or line, one frame
-  carries at most one short label and one key number. A label is a few words on
-  one line; drop anything that needs a second line.
-- **No separators.** On-screen text never uses middle dots, bullets, pipes, or
-  slashes to join facts ("Ages 3–5 · $12 a month"). Pick the one fact that
-  matters, put two facts on separate lines, or write them as words.
-- Captions follow the style's caption treatment and highlight only the current
-  word. A visual-mode line is one phrase in the style's type with its key word
-  in `--highlight`; a new line replaces the last with a short fade or rise.
+Check text at roughly 360 px display width. Essential text is at least 40 px;
+shorten it rather than shrinking it. Show about 20 or fewer repeated, readable
+items per screen; reduce or group the data instead. Text never sits on busy
+detail or a full-opacity photo without a backing, outline, or shadow that
+keeps it readable. Size text after its font has loaded (a function value on
+the timeline), never when the script starts, or it sizes against the fallback
+font.
 
 ## Survives TikTok
 
@@ -63,116 +33,34 @@ no film grain, noise, or animated texture, and no vignette. Keep large
 near-black gradients few and soft, since they band. [render.md](render.md) sets
 the render settings.
 
-## Subjects
+## Honest
 
-SVG, HTML, and CSS, plus the WebGL kit a style ships (boxing's `SportsRig`);
-no other 3D engines. Show depth with layering, isometric drawing, shading, or a
-cross-section.
+- Every visible number is computed or cited, never invented for drama.
+- Interfaces, command output, and results are captured or run, never made up.
+  Mockup and terminal fields hold real or clearly sample data.
+- A real object, drawn in any finish, keeps its true shape, proportions,
+  layout, and colors. Its parts sit in their real arrangement and overlap
+  only where they do in the object. A placeholder box standing in for a part
+  is not a drawing.
+- Photos show real things as they are; a crop never changes what they show.
 
-**Photo or drawing.** Photos show real things as they are and stay still
-except for entering and leaving: an animal, a product, a whole car. Drawings
-show parts, internals, diagrams, and anything that moves or works: gears
-turning, water through a pump, money moving between accounts.
+## Seek-safe
 
-**Real objects** (a coin, a phone, a lock, a plant cell) are drawn from a real
-reference found in research, used as reference only. Unless the style's Look
-sets another treatment (minimal or cartoon), draw them as a clean
-illustration: the real shape with a few telling details, each part in two or
-three flat tones of its real color with a light outline, a cutaway when the
-inside matters. Not photoreal. Whatever the treatment,
-keep the true shape, proportions, and layout, show the parts that matter by
-their real arrangement (gears meshing at their real centers, a valve where the pipe enters), and let
-parts overlap only where they do in the object. An object seen from a new
-angle keeps its real outline and proportions. One
-diagram keeps one scale and position across scenes. A simple drawing is fine;
-a placeholder box standing in for a part is not.
+Everything moves from the HyperFrames timeline, so every seek shows the right
+frame: no clock, `requestAnimationFrame`, CSS `infinite`, or random at render
+time. Set displayed values with `tl.set`, never by counting during playback.
+Set the first frame's state (hidden parts, opening size, header size) with
+`gsap.set` outside the timeline, sizing text inside `document.fonts.ready`: a
+`tl.set` at time 0 is skipped on the very first frame, which then shows the
+wrong state and becomes the fallback cover.
+Use SVG, HTML, and CSS, plus a WebGL kit only when the style ships one.
 
-**Drawn characters** come from the style's `assets/characters/` kit when it
-ships one: use its rigs and named poses, and add a missing pose in the same
-joint-angle format rather than redrawing the figure. Otherwise design them for
-the video, minimal and consistent. Build each as an SVG rig with separate groups for head, body, and
-each limb, and animate rotations around the joints with GSAP `svgOrigin`, for
-example `tl.to(".leg-l", { rotation: 18, svgOrigin: "85 206", duration: 0.25 }, t)`.
-Characters move to what they act on; never one static pose for the whole video.
+## Pace
 
-**Photo subjects** (cut out with `remove-background`) share one crop style,
-scale logic, and shadow. They enter, pop, slide, tilt, or play their clip.
+While the voice speaks, something visible changes on every clause, never more
+than 3 s apart. An idle loop is not a change.
 
-**Legibility.** About 20 or fewer repeated, readable items per phone screen;
-reduce or group the data rather than shrinking it.
+## End
 
-**Variation.** A style's sample sets the quality bar and the helpers, not the
-layout: draw each video's people, objects, and placement for its own topic,
-and keep only what the style fixes. Repeated items follow one design, never one template. Within
-the style's vocabulary, change how each one arrives and leaves (side,
-direction, scale, cut versus slide) and where the subject and any mascot sit,
-so no two items look like the same slide with new words. Each item still shows
-its name and its key number.
-
-**State contrast.** The active item is the most visible thing on screen.
-Finished items dim to about 40%; eliminated ranges dim as one block. A viewer
-sees each change without reading a number.
-
-## Motion
-
-Open with an intro, not the first item: the title (or one hook line) lands
-alone over the style's backdrop and holds long enough to read, then clears or
-shrinks away before the first item enters. The first frame already shows the
-backdrop and title. A style may define its own opening instead (boxing opens
-cold, mid-fight, with the title only on its closing card); then follow the
-style. Show one
-change at a time and let it settle. Teach each new kind of change slowly
-enough to follow on first watch, speed up repeats of it, and slow down for the
-payoff. No ambient motion added to fill time; characters may keep the small
-idle loop their style defines, so a held figure never freezes, but an idle loop
-is not a change: while the voice speaks, something visible changes on every
-clause, never more than 3 s apart.
-
-A mechanism is shown working, not labeled. Build its drawing up on screen
-(outline first, then each part as the words name it), then run it: parts turn,
-slide, or pump, and whatever flows through it (air, fuel, current, money)
-travels its real path as moving dashes or particles. Once running, it keeps
-running while it is on screen; that motion is the explanation, not ambient
-filler. Speed shows the state (a wheel spinning up, flow thickening), and a
-part in focus is lit while the rest dims. Drive all of it from the timeline
-(rotation and `strokeDashoffset` tweens across the state's duration), never
-CSS `infinite` or the clock, so every seek shows the right frame.
-
-A diagram is drawn from what it shows, and every part of it is joined for real:
-
-- **Joins are measured.** A path, arrow, or moving item starts and ends on the
-  objects it joins, from their measured boxes, never from typed coordinates.
-  No path crosses a label; move the label instead.
-- **The main object bookends the video.** When it first appears alone, it is
-  large in the free space under the title, then scales to its spot as the
-  diagram builds around it. It shrinks again only if something else needs
-  the room. On the answer line, the rest of the diagram fades and it returns
-  to its opening size and spot, moving above the fading parts.
-- **People are drawn when the words name them** and enter on that word (a customer, a trader, a
-  saver): one distinct look per role, entering once and staying until the
-  scene clears, never fading in and out between beats.
-- **Exchanges are carried.** What passes between people and objects is a small
-  copy of the scene's own drawing (the coin, one bill from the stack), pulled
-  out at the giver, carried across, and taken in by the receiver; never a new
-  shape, and never a fade.
-- **One way to show a value.** A tag may name the value until a scale (a
-  ruler, axis, gauge) is on screen; then the scale names it by lighting the
-  mark under the object, and the tag leaves.
-- **A failure is the mechanism stopping**, not an overlay: its flow stops and
-  greys, a sign or lock lands on the part that stopped, and what depends on it
-  dims. Never an X drawn over the diagram.
-
-When the style uses camera moves, the stage is one world inside a camera
-layer. Change the view (side, top-down, close-up) by moving that layer, or
-with the rig's camera when the style's kit ships one, and
-keep the style's anchor object across views; cut to a new scene only when the
-topic changes. [review.md](review.md) checks the
-pace against the animation map.
-
-## Closing
-
-Every video ends on its payoff: the answer, held long enough to read. The
-payoff is its own closing frame: the title, stage, labels, and captions clear,
-leaving one large phrase and at most one short line under it on the backdrop.
-Then, if the style has a `cta`, its closing card follows, standing alone in the
-video's world with no logo. A style without a `cta` ends on that closing frame. A style may define its own closing instead (boxing fades every element out so the video loops); then follow the style.
+The video ends on something readable, held long enough to read, so the frame a
+looping viewer lands on makes sense.

@@ -10,7 +10,7 @@ Use research to answer one audience question. Draft the narration as connected
 paragraphs before deciding scene boundaries. Write to someone who wants to
 understand or do the thing. Preserve useful reasoning and prerequisites, and
 let the explanation determine its length within 30–90 seconds, including the
-frame-required closing card. An explicit duration takes precedence.
+style's closing. An explicit duration takes precedence.
 
 Write inside the chosen concept. Its metaphor or stage is the only framing
 device: introduce it in a few words, stay inside it, and say plainly when the
@@ -73,7 +73,7 @@ There is no `SCRIPT.md`. The on-screen lines carry the words:
 
 - One short line per state group, about eight words or fewer, naming what just
   changed or why it matters. Mark its one key
-  word in bold in the plan; it renders in `--highlight`.
+  word in bold in the plan; it renders in the style's highlight.
 - Hold each line at least 0.3 s per word plus 0.8 s after it settles.
 - The final line lands the payoff and may leave the metaphor.
 - Lines follow the same factual boundary as narration.
@@ -88,16 +88,14 @@ tables. State each decision once; never restate it in another section. After
 the header (run path, options, status) and the three concepts, record for the
 chosen concept:
 
-**Stage.** What is on screen the whole time; the layout zones (title, stage,
-words) at the chosen format; the setting, illustration style, and palette; any
-character's design.
+**Stage.** What is on screen the whole time; the style's layout at the chosen
+format; the setting and any character's design.
 
 **Sources.** What backs each state: fact IDs, captured screens, map data, or a
 model (its inputs, the rules or code that compute each state, and its outputs).
 Visible values must come from these.
 
-**States.** One row per state, starting with the intro beat (or the style's own
-opening, when it defines one):
+**States.** One row per state, starting with the style's opening:
 
 | # | Words | Stage change | Anchor | Facts | Time |
 | - | ----- | ------------ | ------ | ----- | ---- |
@@ -108,10 +106,6 @@ A hold is not a stage change, so no row says "hold" or "settle", and
 consecutive rows are never more than 3 s apart while the voice speaks (the
 title and closing card excepted).
 
-Keep the title, anchor, and the frame's required marks as the only persistent
-elements. A list format's n/N counter is the anchor. Do not add step rails,
-chapter tabs, or progress bars.
-
 **Audio.** Music track and level, SFX tied to specific state changes.
 
 **Pronunciation.** When narrated, list every word the voice may mispronounce,
@@ -119,18 +113,15 @@ especially non-English words, names, and place names, as word and TTS
 respelling pairs. `SCRIPT.md` keeps the correct spelling. Confirm
 uncertain pronunciations with a reliable source or the user.
 
-## Picture rules
+## On-screen words
 
-- The stage fills roughly 40–60% of the frame. When a state looks empty,
-  enlarge the stage or add a meaningful change rather than adding text.
-- Follow the text budget in [frame.md](frame.md); labels sit next to what they
-  name. Never set a narration sentence or footnote on screen.
+- Never set a narration sentence or footnote on screen.
 - One qualifier per item at most. State a comparison's scope, or that an
   example is illustrative, once where it is introduced, briefly on screen or
   in speech; never pin it for the whole video.
-- Mockup and terminal fields hold real or clearly sample data, never script text.
-- Weight comes from contrast before thickness: at 1080 px wide, strokes at
-  least 3 px, no cards inside cards.
+- On-screen text never joins facts with middle dots, bullets, pipes, or
+  slashes ("Ages 3–5 · $12 a month"). Pick the one fact that matters, put two
+  facts on separate lines, or write them as words.
 
 ## Thumbnail brief
 

@@ -11,17 +11,9 @@ from the run directory. Save evidence under `composition/.work/review/`.
 Run all of these. Every error must be fixed; every warning is fixed or
 explained in step 3.
 
-0. **Source scan** before any render, for misses [frame.md](frame.md) rules
-   out: a title broken by hand, and a connecting path drawn from typed
-   coordinates. Every hit is fixed:
-
-   ```bash
-   grep -nE 'class="headline"[^>]*>[^<]*(<br|<span)|id="[^"]*(flow|path|link)[^"]*"[^>]* d="M' composition/index.html composition/scenes/*.html
-   ```
-
-   Then read the timeline for what needs judgment: a person faded out before
-   the scene clears, a value tag still shown while a scale is on screen, and an
-   X drawn over a failure.
+0. **Style checks** before any render: run the style's Checks section, or
+   plain's when the style has none and inherits plain's layout and motion.
+   Every hit is fixed.
 
 1. **Checks.** `npx hyperframes check composition`, lint errors first (a lint
    error disables the layout and contrast audits).
@@ -45,18 +37,10 @@ explained in step 3.
    nothing moving, outside `--hold`). A push or wipe the style
    uses between scenes briefly puts sharp content in an edge strip; that `edge`
    error is intended, so record it in step 3 instead of fixing it.
-4. **Motion audit** (styles built on `SportsRig`, such as boxing): it seeks the
-   timeline and lists, with timestamps, punches with no load, twitches, pose
-   moves that overlap on one fighter, gloves passing inside each other,
-   fighters held where their guards tangle, limbs near the frame edge, skids,
-   overlapping torsos, and pose changes during camera moves:
-
-   ```bash
-   node <kumu skill>/scripts/motion-audit.mjs composition
-   ```
-
-5. **Animation map** (styles that are not `SportsRig`; it only counts DOM
-   tweens, so it cannot see fighters). Flags `paced-fast` (under 0.2 s),
+4. **Kit audit**, when the style's kit names an audit script: run it as the
+   style says and fix what it lists.
+5. **Animation map** (styles without a kit audit; it only counts DOM
+   tweens, so it cannot see a WebGL kit). Flags `paced-fast` (under 0.2 s),
    `paced-slow` (over 2 s), dead zones, offscreen elements, and collisions, from
    the installed `hyperframes-animation` skill's
    `scripts/animation-map.mjs composition --out composition/.work/review`.
@@ -100,16 +84,28 @@ fixed or explained, or after three rounds; list anything still open as a
 limitation. A passing review is the agent's judgment, not proof of quality;
 the user decides in Studio.
 
-When the user asks for a fix to something that looked wrong (a limb clipping, a
-punch that snaps, flicker, a drag), fix it, and if it can be measured from the
-timeline or the render, add a check for it to `scripts/motion-audit.mjs` or
-`scripts/video-audit.mjs` so the next run catches it first.
+When the user asks for a fix to something that looked wrong (a limb clipping,
+a snap, flicker, a drag), fix it, and if it can be measured, add a check so the
+next run catches it first. Put both where they belong:
+
+- A fix or check that matters for one style goes in that style's files: its
+  `style.md`, sample, kit, or the kit's audit script.
+- Only a pipeline step or a [frame.md](frame.md) floor rule goes in the root
+  files, and only a check true for every style goes in
+  `scripts/video-audit.mjs`.
+
+After editing root files, this must print nothing (style names never appear
+in them):
+
+```bash
+grep -niE 'boxing|sportsrig|fighter|pupukahi|car-cats|code-cats|glove' <kumu skill>/{SKILL,concept,frame,render,research,review,script}.md | grep -v 'grep -niE'
+```
 
 ## Plan preview (plan checkpoint)
 
 View `composition/frames/plan-preview.png` once. Fix the stills before asking if
 the first state, hero, or closing is hard to read at 360 px, or if the hero
-graphic does not look like the real thing ([frame.md](frame.md) Subjects).
+graphic does not look like the real thing ([frame.md](frame.md) Honest).
 
 ## The user's review (frame checkpoint)
 

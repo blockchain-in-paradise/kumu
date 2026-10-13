@@ -1,11 +1,15 @@
 # Render
 
 Use `video-plan.md` as the storyboard, `SCRIPT.md` as the narration source when
-narrated, and the selected style's `style.md` and sample `index.html` with
-[frame.md](frame.md) as the styling record. Start the composition from the
-style's sample: its background, type, caption, and closing code, and the
-motion-value constants at the top of its script instead of new durations and
-eases. Resolve skill assets relative to this skill directory. Use the installed
+narrated, and the selected style's `style.md` and sample `index.html` (with
+plain's sections for what it leaves out) as the styling record, inside the
+floor [frame.md](frame.md) sets. Start the composition from the style's
+sample: its background, type, caption, and closing code, and the motion-value
+constants at the top of its script instead of new durations and eases.
+Declare the style's colors as CSS custom properties on the composition root
+(`--canvas`, `--ink`, `--on-highlight`, `--accent`, `--highlight`, `--panel`,
+`--border`, and each `support` color as `--support-<name>`) and load its fonts
+locally. Resolve skill assets relative to this skill directory. Use the installed
 CLI's `--help` for version-dependent flags.
 
 ## Output layout
@@ -26,8 +30,9 @@ if the style's sample lacks the motion needed, and consult
 `hyperframes-registry` before hand-building a named visual such as a code
 window, terminal, chart, or map.
 
-Build the stage, title, words zone, and closing card first. Inspect one state
-at phone size with active captions or lines before building the rest.
+Build the style's fixed parts first (its layout, words, and closing). Inspect
+one state at phone size with active captions or lines before building the
+rest.
 
 When the concept has a model, compute states from it at load time, then place
 one tween per state at its planned time. Set displayed values with `tl.set`, so they are correct at
@@ -101,21 +106,21 @@ correct `SCRIPT.md` spelling, including diacritics. Never distribute
 timestamps by word-count ratios. A displayed `$4.99` may highlight as one unit
 over its spoken interval.
 
-If the style's sample already has caption code (boxing), reuse it with the
-transcript. Otherwise install and adapt HyperFrames' `caption-highlight`
-component rather than hand-rolling captions:
+Captions look and sit as the style's Captions section (or plain's) says. If
+the style's sample already has caption code, reuse it with the transcript.
+Otherwise install and adapt HyperFrames' `caption-highlight` component rather
+than hand-rolling captions:
 
 ```bash
 hyperframes add caption-highlight --dir <composition-dir>
 ```
 
 Embed the transcript at build time and derive caption offsets and
-`<audio data-start>` from one timing record. Phrases of 3–6 words over at most
-two lines. Set colors with absolute `tl.set` calls at word starts and ends, not
-class toggles, so the state survives any seek. Clear the highlight at each word
-end and the phrase when finished; the last phrase clears before the closing
-card. No bounce, zoom, typewriter, or reflowing weight changes. Seek across a
-word boundary and a pause, forward and backward, to confirm.
+`<audio data-start>` from one timing record. Set colors with absolute `tl.set`
+calls at word starts and ends, not class toggles, so the state survives any
+seek. Clear the highlight at each word end and the phrase when finished; the
+last phrase clears before the closing. Seek across a word boundary and a
+pause, forward and backward, to confirm.
 
 ## Audio
 
@@ -159,8 +164,22 @@ After the frame checkpoint is approved, render once at 1080×1920 for TikTok wit
 `--fps 30 --video-bitrate 20M --output ../video.mp4`. Never 4K (TikTok
 downscales and recompresses it harder), never 60 fps, and never moving grain
 or other animated noise: each gives TikTok's re-encode more to compress and
-the posted video comes out soft. Tested on the boxing style: 30 fps, no grain,
-20 Mbps posts sharp. Verify dimensions, duration, and
+the posted video comes out soft. Tested on a 3D style: 30 fps, no grain, 20 Mbps
+posts sharp. Verify dimensions, duration, and
 audio streams with `ffprobe`, and inspect the opening, a middle state, and the
 ending. Re-render only for an observed defect or an intentional revision.
 Record the CLI version, output duration, and render wall time in the plan.
+
+## Grow the style's library
+
+After a successful final render, compare every asset the run used with the
+style's `assets/` and promote what a later video could reuse: drawn objects
+(into its object library and sheet), icons, logos, sounds, music, textures,
+fonts, and reusable components (an interface, a prop with parts). Each goes
+into the matching `assets/` folder with any credit or license note beside it
+(a `CREDITS.md`), and gets one line in the style's `style.md` saying what it is
+and how to use it. Promote only assets the user accepted in the final video and
+whose license allows reuse. Promote generic versions: strip the run's sample
+text, names, and timings, keep the drawing. Skip one-off scenery and anything
+the library already has; improve the existing entry instead of adding a near
+copy. Record what was promoted in the plan.
