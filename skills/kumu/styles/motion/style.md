@@ -6,12 +6,12 @@ colors:
   canvas: "#f5f7fa" # near-white base under the color fields
   ink: "#1d1d1f"
   on-highlight: "#ffffff"
-  accent: "#2f7bf6" # key words, overlays, active state
-  highlight: "#2f7bf6" # visual-mode key word (text color)
+  accent: "#1765ce" # key words, overlays, active state
+  highlight: "#1765ce" # visual-mode key word (text color)
   panel: "#ffffff" # UI cards
   border: "rgba(0,0,0,.06)"
   support:
-    muted: "#8e8e93" # secondary line and labels
+    muted: "#66666c" # secondary line and labels
     alert: "#f0544f" # a wrong or warning state
     field-blue: "rgba(120,170,255,.55)"
     field-peach: "rgba(255,190,170,.35)"
@@ -52,7 +52,8 @@ interface or a clean object being used. `index.html` is the working sample;
 - Overlays explain: a translucent `--accent` shape or ring, dotted paths, a
   check that pops on success, a ring that pulses on a target. Use
   `support.alert` only for a wrong or failing state.
-- A faint static grain (3%) over the fields prevents gradient banding.
+- A faint static grain (3%) is optional, not required for banding prevention.
+  Keep it only when a compressed draft retains clean foreground detail.
 - Real product names and screenshots only when sourced; otherwise neutral
   sample UI.
 
@@ -61,7 +62,7 @@ interface or a clean object being used. `index.html` is the working sample;
 The words zone is at the top (`spacing.words_top`), centered. Visual mode is
 the default: each beat has one headline (about 68 px, weight 600, at most two
 balanced lines) with one key word in `--accent`, and an optional gray line
-under it (38 px, `support.muted`). Headline words blur in one by one (blur 14 px
+under it (40 px, `support.muted`). Headline words blur in one by one (blur 14 px
 to 0, small rise, 0.07–0.08 s stagger) and blur out before the next. When
 narrated, captions replace the gray line, in the top zone, current word in
 `--accent` text.
@@ -94,6 +95,42 @@ them instead of typing durations and eases per tween.
 | Density | At most a third of the elements move at once |
 | Camera | UI tilts in (rotateX about 12°, rotateY about -18°) and settles flat; a slow push-in to 1.04 while a result holds |
 | Cursor | Glides on the move ease; a 0.9 scale dip on click, and the target reacts just after |
+
+# Choreography
+
+Use shared resources for UI continuity and attention, keeping this style's
+calm cursor-led action and motion values. A beat is target → cursor action →
+response → readable result. The destination exists before a panel or overlay
+moves toward it. Cursor clicks have a consequence; never use the cursor as an
+unconnected pointer drifting around the composition.
+
+| Before | Action | Result |
+| --- | --- | --- |
+| A neutral example form with a missing field | Cursor focuses the field, enters sample input, then submits | The submitted state visibly reflects that input |
+| Two views of the same loading example | Placeholder slots become content in place under equal timing | The shared geometry explains continuity without a product-speed claim |
+
+Reject a panel entrance unrelated to the action or a success check before
+submission. Keep active UI flat and large enough to read after the intro tilt;
+use motion from the source or target rather than an arbitrary screen edge.
+Background drift is atmosphere, not progress. Give completed results reading
+holds and simplify competing headlines before adding camera movement.
+
+# Checks
+
+- Inspect each input, cursor target, response, and completed result at phone
+  size; essential labels are at least 40 px at 1080 wide. Tiny sample UI text
+  may be decorative only if no teaching claim depends on reading it.
+- Play every click and panel handoff. The target reacts after the input and
+  the cursor lands inside the control in the rendered coordinate system.
+- Compare before and after geometry: corresponding fields remain identifiable
+  through transitions, and perspective never hides an essential result.
+- Background drift and shimmer cannot excuse a missing explanatory action.
+  Check the result's reading interval independently of ambient motion.
+- The field repeats may extend beyond the root's finite duration to cover
+  a partial cycle; that lint warning is intentional only for this ambient
+  layer, not a reason to excuse clipped explanatory actions.
+- Source actual product behavior, or explicitly identify neutral sample UI.
+  Equal illustrative waits are model inputs, not measured performance claims.
 
 # Sound
 

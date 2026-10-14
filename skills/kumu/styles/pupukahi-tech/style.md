@@ -35,7 +35,7 @@ official_asset_urls:
   logo_color: "https://storage.googleapis.com/gpt-engineer-file-uploads/VT5rFLkaTBYAF9U6C2W1ZYRJAHj2/social-images/social-1784764299804-Color_logo_with_background.webp"
   ground: "https://pupukahitech.org/assets/hero-bg-DlfPret3.webp"
 visuals: drawn # proof objects are built, not sourced; skip photo and screen research
-skills: [hyperframes-core, hyperframes-cli, media-use] # media-use for speech and captions; load no other HyperFrames skills
+skills: [hyperframes-core, hyperframes-cli, media-use] # implementation; shared pipeline loads design resources
 opening: "titled" # the video title as the header and the proof object on screen from frame 0 (see Opening)
 closing: "fade" # no payoff: the diagram fades, the object and header fade out together, then the closing card (see Closing)
 cta:
@@ -418,30 +418,49 @@ Before the Studio checkpoint, besides the root review:
   tweening a grey-out, or the first frames flash black.
 - **Every exchange is checked frame by frame.** Take a frame every 0.3 s across
   each carry and swap from a draft render, and confirm each item starts on the
-  giver and ends on the receiver's side.
+  giver's edge and ends on the receiver's side, without covering the hero's
+  label while a copy is drawn out or taken in.
+- **Results convince.** Inspect each task's final result at phone size: it
+  looks like finished work, its example content fits the task, and its claims
+  agree with research. Compare the before and after without relying on speech.
+- **Attention stays clear.** Play each important handoff with its caption;
+  the destination is visible before transfer and the item stays identifiable.
+  A 0.3 s frame series supplements playback; it cannot prove absence of a
+  one-frame flash, so retain the root frame-rate video audit.
 - **The end has room.** About 1 s of silence before the answer line and 1.2 s held
   after the last word.
 
-# Building a new topic
+# Choreography
 
-1. **Decide literal or metaphor** per idea (see Literal or metaphor), then pick
-   the objects from `assets/objects/` or draw them by the recipe and add them
-   to the library.
-2. **Plan the scenes.** A mechanism is one diagram that changes: the hero stays
-   and parts arrive as the words name them. A list is one before-and-after scene
-   per item. Every state is anchored to a spoken phrase (look the phrase up in
-   the measured words) so retiming after speech follows automatically, and
-   something visible changes at least every 3 s.
-3. **Layout (1080×1920).** A two-line header from y 200 and the diagram 60 px or
-   more below it. At most three repeated objects with their gaps. A counter sits
-   beside the diagram, vertically centered on it, and appears on the phrase that
-   introduces it. Bystanders stand 80 to 100 px under the diagram, with 48 px
-   clear above the captions. Captions stay where `spacing` puts them, because
-   lower sits under the platform's own UI; move the graphics up instead.
-4. **State grammar.** Teal for what matches or works, a changed value alone in
-   sunset-toned text, grey for what stopped. No mark that signals nothing.
-5. **Check** text contrast on objects, that travel points are measured before the
-   opening scale, and the first frame.
+Use shared creative and animation references for craft, filtered through this
+style's material recipe, restrained motion, and measured transfer helpers.
+Design each task as a recognizable before and after; keep abstract parts to
+one faithful metaphor. Preserve a clear main object and hand attention to
+its result instead of adding a new prop for each spoken clause.
+
+| Before | Action | Result |
+| --- | --- | --- |
+| Rough stock notes beside an empty table | Each item and its quantity travel together into their matching cells | A readable organized table preserves the example's values |
+| A promotion with content but no finished design | Type, illustration, and spacing form one deliberate composition | A convincing poster shows what the tool helped finish |
+| Two people discussing a delivery | A relevant phrase leaves the transcript and lands in the decision area | A decision and assigned next step can be distinguished |
+
+These are patterns, not a mandatory cast or layout. A real task may use a
+screen, a document, a scene, or an object, whichever best shows the work.
+Reject a generic page or device that only identifies the tool; show the
+operation and its visible result. Decorative writing, arbitrary product
+assembly, and repeated price changes do not substitute for the task.
+
+Anchor actions to unique measured phrases. An action may span several clauses;
+allow a purposeful reading hold after it finishes. Use 3 s as a pacing review
+signal, not a reason to invent an incidental change. For continuous mechanisms,
+the actual working motion remains visible while the mechanism is explained.
+
+At 1080×1920, use a two-line header from y 200, with the diagram at least 60 px
+below. Keep repeated objects few and phone-readable; the main band is y 470–1400.
+A counter may sit beside the diagram, vertically centered, when introduced.
+Bystanders stand 80–100 px below it, leaving 48 px clear above captions.
+Teal marks what works, sunset text marks a changed value, and grey marks what
+stopped. Every mark denotes a real explanatory state.
 
 Three finished runs show the style at work, in `video-output/`: AI before lunch
 (literal, three scenes: notes into an email in a phone chat, a flyer and a

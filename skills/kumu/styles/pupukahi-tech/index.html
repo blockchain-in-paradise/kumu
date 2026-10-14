@@ -164,8 +164,9 @@
   Objects.mount("#cash", "cash");
   People.mount("#firm", { ...People.LOOKS.trader, skin: "olive", shirt: "#196d76", prop: "lanyard" }, "Firm");
 
+  // Dock copies beside the hero's rim so transfers never cover its label.
   // Measure before anything moves.
-  const coinAt = (p) => ({ x: X(p), y: 590 }), firmHand = { x: at("#firm", 0.92, 0).x, y: at("#firm", 0, 0).y + 290 * 0.72 }, slot = at("#slot");
+  const coinAt = (p) => ({ x: X(p) + (p < 1 ? 180 : -180), y: 590 }), firmHand = { x: at("#firm", 0.92, 0).x, y: at("#firm", 0, 0).y + 290 * 0.72 }, slot = at("#slot");
 
   // First frame: the title and one large USDC coin under it.
   const INTRO = { scale: 1.6, x: 0, y: 70 };

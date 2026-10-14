@@ -14,38 +14,39 @@
   @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/jetbrains-mono-400.woff2") format("woff2"); }
   @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/jetbrains-mono-700.woff2") format("woff2"); }
   body { margin: 0; background: #9fd0f2; font-family: "Fredoka", sans-serif; }
-  #root { --ink: #2c2450; --title: #ffd84d; --title-shadow: #2f5d3a; --accent: #ff8a5c; --editor: #1f2033; --on-ground: #2c2450; --on-ground-glow: rgba(255,255,255,.85);
+  #root { --ink: #2c2450; --title: #ffd84d; --title-shadow: #2f5d3a; --accent: #ff8a5c; --accent-ink: #9b421f; --editor: #1f2033; --on-ground: #2c2450; --on-ground-glow: rgba(255,255,255,.85);
     position: relative; width: 100%; height: 100%; overflow: hidden; color: var(--ink); }
   .backdrop { position: absolute; inset: 0; width: 100%; height: 100%; }
   .title { position: absolute; left: 0; right: 0; top: 120px; text-align: center; }
   .title h1 { margin: 0; font-size: 128px; font-weight: 700; color: var(--title); letter-spacing: -0.01em;
     text-shadow: 0 8px 0 var(--title-shadow), 0 14px 24px rgba(40,30,80,.35); }
-  .title p { margin: 4px 0 0; font-size: 44px; font-weight: 600; color: #fff; text-shadow: 0 3px 0 rgba(60,45,110,.5); }
+  .title h1, .payoff b { display: inline-block; padding: 0 24px; border-radius: 24px; background: var(--title-shadow); }
+  .title p { margin: 4px 0 0; font-size: 44px; font-weight: 600; color: var(--ink); text-shadow: 0 0 10px rgba(255,255,255,.85); }
   .tally { position: absolute; right: 70px; top: 420px; background: #fff; border-radius: 999px; padding: 10px 28px;
     font-size: 40px; font-weight: 700; box-shadow: 0 6px 0 rgba(60,45,110,.25); }
-  .tally b { color: var(--accent); }
+  .tally b { color: var(--accent-ink); }
   .cats { position: absolute; left: 70px; right: 70px; top: 520px; height: 330px; }
   .cat { position: absolute; top: 0; width: 170px; text-align: center; }
   .cat svg { width: 170px; height: 212px; overflow: visible; }
-  .cat .name { font-size: 30px; font-weight: 600; color: var(--on-ground); text-shadow: 0 0 10px var(--on-ground-glow); margin-top: 44px; }
+  .cat .name { font-size: 40px; font-weight: 600; color: var(--on-ground); text-shadow: 0 0 10px var(--on-ground-glow); margin-top: 44px; }
   .cat .bowl { position: absolute; left: 35px; top: 196px; width: 100px; height: 56px; }
   .editor { position: absolute; left: 70px; right: 70px; top: 1000px; background: var(--editor); border-radius: 28px;
     box-shadow: 0 16px 0 rgba(40,30,80,.25), 0 30px 60px rgba(20,15,45,.35); overflow: hidden; font-family: "JetBrains Mono", monospace; }
   .bar { display: flex; align-items: center; gap: 12px; height: 70px; padding: 0 28px; background: #2a2b42; }
   .bar i { width: 18px; height: 18px; border-radius: 50%; display: block; }
-  .bar span { margin-left: 18px; font-size: 28px; color: #a9abc9; }
+  .bar span { margin-left: 18px; font-size: 40px; color: #a9abc9; }
   .code { position: relative; padding: 22px 0 26px; }
   .ln { position: relative; display: flex; height: 66px; align-items: center; font-size: 40px; color: #f1f1f8; white-space: pre; }
   .ln code { font: inherit; white-space: pre; }
-  .ln u { flex: 0 0 76px; width: 76px; text-align: right; padding-right: 26px; color: #5f617f; text-decoration: none; font-size: 30px; }
+  .ln u { flex: 0 0 76px; width: 76px; text-align: right; padding-right: 26px; color: #c9cbe5; text-decoration: none; font-size: 30px; }
   .k { color: #ff79c6; } .s { color: #f1fa8c; } .f { color: #50fa7b; } .v { color: #8be9fd; }
   .hl { position: absolute; left: 0; right: 0; top: 22px; height: 66px; background: rgba(255,216,77,.16); border-left: 8px solid #ffd84d; }
-  .out { margin: 0 28px 26px 102px; font-size: 34px; color: #50fa7b; height: 44px; }
+  .out { margin: 0 28px 26px 102px; font-size: 40px; color: #50fa7b; height: 44px; }
   .line { position: absolute; left: 70px; right: 70px; bottom: 330px; text-align: center; font-size: 54px; font-weight: 600;
     color: var(--on-ground); text-shadow: 0 0 14px var(--on-ground-glow); }
-  .line em { font-style: normal; color: var(--accent); }
+  .line em { font-style: normal; color: var(--accent-ink); }
   .payoff { position: absolute; left: 0; right: 0; top: 1000px; text-align: center; }
-  .payoff b { display: block; font-size: 150px; font-weight: 700; color: var(--title); text-shadow: 0 10px 0 var(--title-shadow); line-height: 1; }
+  .payoff b { display: inline-block; font-size: 150px; font-weight: 700; color: var(--title); text-shadow: 0 10px 0 var(--title-shadow); line-height: 1; }
   .payoff span { display: block; margin-top: 24px; font-size: 56px; font-weight: 600; color: var(--on-ground); text-shadow: 0 0 14px var(--on-ground-glow); }
 </style>
 </head>
@@ -57,10 +58,10 @@
   <div class="cats" id="cats"></div>
 
   <div class="editor" id="editor">
-    <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>feed.py</span></div>
+    <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>feed.py (excerpt)</span></div>
     <div class="code">
       <div class="hl" id="hl"></div>
-      <div class="ln"><u>1</u><code><span class="v">cats</span> = [<span class="s">"Mochi"</span>, <span class="s">"Nori"</span>, ...]</code></div>
+      <div class="ln"><u>1</u><code><span class="v">cats</span> = <span class="v">names</span></code></div>
       <div class="ln"><u>2</u><code><span class="k">for</span> <span class="v">cat</span> <span class="k">in</span> <span class="v">cats</span>:</code></div>
       <div class="ln"><u>3</u><code>    <span class="f">feed</span>(<span class="v">cat</span>)</code></div>
       <div class="ln"><u>4</u><code><span class="f">print</span>(<span class="s">"All fed!"</span>)</code></div>
@@ -126,7 +127,7 @@
   const lineY = (n) => 22 + (n - 1) * 66; // highlight position for code line n
 
   const tl = gsap.timeline({ paused: true });
-  tl.set(["#line2", "#payoff", "#out", "#hl"], { opacity: 0 }, 0);
+  gsap.set(["#line2", "#payoff", "#out", "#hl"], { opacity: 0 });
   // Intro: the backdrop holds alone until 0.4 s, then the title pops and the cats hop in.
   tl.from("#title h1", { opacity: 0, scale: 0.6, duration: DUR.medium, ease: EASE.pop }, 0.4);
   tl.from("#title p", { opacity: 0, y: 20, duration: DUR.small, ease: EASE.enter }, 0.6);
@@ -145,10 +146,10 @@
     tl.set("#hl", { y: lineY(2) - 22 }, t);
     tl.set("#hl", { y: lineY(3) - 22 }, t + step);
     tl.fromTo(`#fish${i}`, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: DUR.small, ease: EASE.land }, t + step);
-    tl.to(`#cat${i}`, { y: -46, duration: DUR.hop, ease: EASE.hop, yoyo: true, repeat: 1 }, t + step + 0.05);
-    tl.set(`#open${i}`, { opacity: 0 }, t + step + 0.05);
-    tl.set(`#happy${i}`, { opacity: 1 }, t + step + 0.05);
-    tl.set("#fed", { textContent: String(i + 1) }, t + step + 0.1);
+    tl.to(`#cat${i}`, { y: -46, duration: DUR.hop, ease: EASE.hop, yoyo: true, repeat: 1 }, t + step + DUR.small);
+    tl.set(`#open${i}`, { opacity: 0 }, t + step + DUR.small);
+    tl.set(`#happy${i}`, { opacity: 1 }, t + step + DUR.small);
+    tl.set("#fed", { textContent: String(i + 1) }, t + step + DUR.small);
   });
 
   // After the last pass: line 4 prints, the words change.

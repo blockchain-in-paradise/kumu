@@ -13,7 +13,7 @@ typography:
   display: { fontFamily: "Inter", weight: 800, lineHeight: 0.95, tracking: "-0.03em" }
   body: { fontFamily: "Inter", weight: 400, lineHeight: 1.4 }
   fonts: "assets/fonts/inter-{400,600,800}.woff2"
-preview_at: [0.2, 4.69, 9] # empty, jar and chart mid-growth with caption, payoff
+preview_at: [0.2, 4.69, 9] # title, jar and chart mid-growth with caption, payoff
 spacing:
   edge: "80px"
   platform_ui_bottom: "420px"
@@ -90,14 +90,43 @@ scale logic, and shadow. They enter, pop, slide, tilt, or play their clip.
 
 **Variation.** The sample sets the quality bar and the helpers, not the
 layout: draw each video's people, objects, and placement for its own topic.
-Repeated items follow one design, never one template: change how each one
-arrives and leaves (side, direction, scale, cut versus slide) and where the
-subject sits, so no two items look like the same slide with new words. Each
+Repeated items follow one coherent design. Vary placement or transitions
+when the explanation changes, not to manufacture novelty; comparable items
+retain comparable layouts. Each
 item still shows its name and its key number.
 
 **State contrast.** The active item is the most visible thing on screen.
 Finished items dim to about 40%; eliminated ranges dim as one block. A viewer
 sees each change without reading a number.
+
+# Writing and visual lines
+
+Use connected, direct language. In agent-written audience copy avoid em dashes,
+semicolons, canned contrasts, middle-dot separators, and clipped slogan chains.
+Use colons for necessary notation, not hook formulas. Preserve supplied copy.
+In visual mode use one complete short phrase per state group, about eight
+words or fewer, with one key word emphasized. Hold it at least 0.3 s per word
+plus 0.8 s after it becomes readable. Keep narration sentences and footnotes
+out of diagram labels; retain essential qualifications in speech or beside
+the claim. Put separate facts on separate lines or express their relationship
+in words. Cover titles name the subject, with no subtitle by default.
+
+# Choreography
+
+Use shared resource loading for animation craft and diagram layout; this
+style's grammar is a changing mechanism with one clear active relationship.
+Let the first unfamiliar action read fully before accelerating repetitions.
+Keep the result still long enough to understand; no activity added for pacing.
+
+| Before | Action | Result |
+| --- | --- | --- |
+| An unsorted row with two active items | The pair moves into the other's measured slot while the rest stays put | The new order and swap count agree with the computed model |
+| A mechanism with an inactive outlet | Its working parts move and material follows the connected path | The output changes as a visible consequence of the mechanism |
+
+Reject a label changing while the pictured mechanism does nothing: that names
+the result without explaining it. Diagram nodes are appropriate for abstract
+relationships when their topology teaches something; real objects retain
+recognizable parts. Keep identities and scale stable while rearranging.
 
 # Opening
 
@@ -167,14 +196,18 @@ connecting path drawn from typed coordinates; fix every hit:
 grep -nE 'class="headline"[^>]*>[^<]*(<br|<span)|id="[^"]*(flow|path|link)[^"]*"[^>]* d="M' composition/index.html composition/scenes/*.html
 ```
 
-Then read the timeline for a person faded out before the scene clears, a
-value tag still shown while a scale is on screen, and an X drawn over a
-failure.
+Then inspect every scene's result and play its important action. Confirm
+that active items, paths, and units agree with the model; transfers reach the
+correct endpoint without crossing labels; finished items remain identifiable;
+and reading holds begin after the result becomes legible. Check a person
+faded out before the scene clears, a value tag still shown while a scale is
+on screen, and an X drawn over a failure. Apply these checks to inherited
+behavior only; a style with its own Checks owns its subject-specific review.
 
 # Look
 
 Plain `--canvas` background, no texture. Props and diagrams are flat white
-cards with a 2 px `--border` and a soft shadow (`0 12px 32px rgba(0,0,0,.08)`).
+cards with a 3 px `--border` and a soft shadow (`0 12px 32px rgba(0,0,0,.08)`).
 Captions are `--ink` with only the current word on a `--highlight` background.
 Scenes change in place or slide; no decorative motion.
 

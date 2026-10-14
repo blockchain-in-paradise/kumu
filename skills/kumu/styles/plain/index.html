@@ -23,7 +23,7 @@
   .headline { position: absolute; left: 80px; right: 80px; top: 200px; margin: 0;
     font-size: 100px; font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; text-wrap: balance; }
   .card { position: absolute; left: 80px; right: 80px; top: 520px; height: 880px; background: var(--panel);
-    border: 2px solid var(--border); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+    border: 3px solid var(--border); border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,.08); }
   .readout { position: absolute; left: 56px; top: 44px; }
   .readout b { display: block; font-size: 120px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
   .readout span { display: block; margin-top: 10px; font-size: 40px; color: #555; }
@@ -115,8 +115,8 @@
   const tl = gsap.timeline({ paused: true });
   tl.set("#hl", { fontSize: () => fit(document.querySelector("#hl").textContent) }, 0);
   tl.set("#dot", { attr: { cx: pt(0)[0], cy: pt(0)[1] } }, 0);
-  // Intro: the background alone until 0.4 s, then the headline and card enter.
-  tl.from(["#hl", "#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
+  // Intro: title visible from frame zero; the explanatory stage follows.
+  tl.from(["#card", "#cap"], { opacity: 0, y: 40, duration: 0.5, ease: ENTER, stagger: STAGGER }, 0.4);
   // The curve draws year by year from 1.2 s to 6.2 s; the readout is set from the model each year.
   tl.fromTo(curve, { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: years * YEAR, ease: "none" }, 1.2);
   vals.forEach((v, n) => {
