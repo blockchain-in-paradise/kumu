@@ -12,18 +12,21 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/42f8e02d-6ed4-4eab-be61-f45acae5715a">
 <img src="docs/examples/how-the-slip-counter-works-preview.jpg" width="180" alt="How the Slip Counter Works cover">
+</a>
 <br><strong>How the Slip Counter Works</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/8f649263-39c4-45f7-b509-b0f9553ffad5">
 <img src="docs/examples/how-does-the-philly-shell-stop-a-punch-preview.jpg" width="180" alt="How Does the Philly Shell Stop a Punch and Set Up a Counter? cover">
+</a>
 <br><strong>How Does the Philly Shell Stop a Punch and Set Up a Counter?</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/77413758-8900-4f04-9985-b19ec71dbd85">
 <img src="docs/examples/how-does-the-jab-set-up-the-right-hand-preview.jpg" width="180" alt="How Does the Jab Set Up the Right Hand? cover">
+</a>
 <br><strong>How Does the Jab Set Up the Right Hand?</strong>
 </td>
 </tr>
@@ -34,18 +37,21 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/92d70801-e772-41df-9912-ab8cc3e71a8e">
 <img src="docs/examples/mx-5-versus-gr86-horsepower-preview.jpg" width="180" alt="MX-5 Versus GR86 Horsepower cover">
+</a>
 <br><strong>MX-5 Versus GR86 Horsepower</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/6ad74c1e-b754-47b9-a167-c441c3d87e59">
 <img src="docs/examples/how-does-a-turbo-work-preview.jpg" width="180" alt="How Does a Turbo Work? cover">
+</a>
 <br><strong>How Does a Turbo Work?</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/751265aa-5afa-45d4-9e32-5aa1b7bbe4ba">
 <img src="docs/examples/how-does-a-differential-let-a-car-turn-preview.jpg" width="180" alt="How Does a Differential Let a Car Turn? cover">
+</a>
 <br><strong>How Does a Differential Let a Car Turn?</strong>
 </td>
 </tr>
@@ -56,18 +62,20 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/fdcb1f7a-8e42-4289-a211-5b6321edf00a">
 <img src="docs/examples/a-for-loop-feeds-each-cat-preview.jpg" width="180" alt="A For Loop Feeds Each Cat cover">
 <br><strong>A For Loop Feeds Each Cat</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/d2dbc811-3e23-4072-9992-5229130639ad">
 <img src="docs/examples/how-does-dijkstras-algorithm-find-the-shortest-path-preview.jpg" width="180" alt="How Does Dijkstra's Algorithm Find the Shortest Path? cover">
+</a>
 <br><strong>How Does Dijkstra's Algorithm Find the Shortest Path?</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/ac8ac662-3c46-42b5-be67-d58611daca8f">
 <img src="docs/examples/how-does-a-hash-map-find-things-instantly-preview.jpg" width="180" alt="How Does a Hash Map Find Things Instantly? cover">
+</a>
 <br><strong>How Does a Hash Map Find Things Instantly?</strong>
 </td>
 </tr>
@@ -78,18 +86,21 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/ee52ff52-5c1a-4706-a6d2-9a074409ab97">
 <img src="docs/examples/loading-without-layout-jumps-preview.jpg" width="180" alt="Loading Without Layout Jumps cover">
+</a>
 <br><strong>Loading Without Layout Jumps</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/6401ac49-5c2e-41c2-9456-a4b8f9668a04">
 <img src="docs/examples/why-does-a-button-feel-broken-preview.jpg" width="180" alt="Why Does a Button Feel Broken Without Instant Feedback? cover">
+</a>
 <br><strong>Why Does a Button Feel Broken Without Instant Feedback?</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/7047b24f-a1d1-4237-ba76-5f0a449f4cc1">
 <img src="docs/examples/how-does-fitts-law-make-buttons-easier-to-hit-preview.jpg" width="180" alt="How Does Fitts's Law Make Buttons Easier to Hit? cover">
+</a>
 <br><strong>How Does Fitts's Law Make Buttons Easier to Hit?</strong>
 </td>
 </tr>
@@ -100,18 +111,21 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/c9802665-3cad-474c-9dd2-9d1d9547e0b7">
 <img src="docs/examples/how-compound-interest-builds-preview.jpg" width="180" alt="How Compound Interest Builds cover">
+</a>
 <br><strong>How Compound Interest Builds</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/84cd7183-ca7f-4e65-a5fd-0a6dd286b365">
 <img src="docs/examples/why-does-the-double-slit-experiment-break-physics-preview.jpg" width="180" alt="Why Does the Double-Slit Experiment Break Physics? cover">
+</a>
 <br><strong>Why Does the Double-Slit Experiment Break Physics?</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/c81b5ec7-1f11-443a-9950-fce3f40861d2">
 <img src="docs/examples/how-does-gps-know-where-you-are-preview.jpg" width="180" alt="How Does GPS Know Where You Are? cover">
+</a>
 <br><strong>How Does GPS Know Where You Are?</strong>
 </td>
 </tr>
@@ -122,18 +136,21 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/15f54c03-8b0c-4bdf-9c4f-e1abdb756f07">
 <img src="docs/examples/how-redemption-supports-a-stablecoin-preview.jpg" width="180" alt="How Redemption Supports a Stablecoin cover">
+</a>
 <br><strong>How Redemption Supports a Stablecoin</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/5b39eced-592f-4628-a249-571e5d0f7657">
 <img src="docs/examples/three-affordable-ai-tools-for-local-businesses-preview.jpg" width="180" alt="3 AI Tools Local Businesses Can Afford cover">
+</a>
 <br><strong>3 AI Tools Local Businesses Can Afford</strong>
 </td>
 <td align="center" width="33%">
-<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<a href="https://github.com/user-attachments/assets/592ab204-a3d5-401b-95b9-8a0765b1a4ee">
 <img src="docs/examples/how-does-an-llm-pick-its-next-word-preview.jpg" width="180" alt="How Does an LLM Pick Its Next Word? cover">
+</a>
 <br><strong>How Does an LLM Pick Its Next Word?</strong>
 </td>
 </tr>
@@ -276,17 +293,6 @@ pacing.
 
 Bundled styles live in `skills/kumu/styles/`, each with finished examples above:
 
-- `pupukahi-tech`: navy island ground, white Inter type, teal data,
-  gold word highlight, and the @pupukahi_tech closing card.
-- `plain` (default): light gray, black type, one orange-red accent, ends on a payoff card.
-- `motion`: light UI motion graphics with drifting color fields, white UI
-  cards, a cursor, blur-in headlines, and a two-line payoff ending.
-- `code-cats`: cartoon cats act out code above a code editor, on switchable
-  2D backdrops (green park, cozy room, night rooftop), with typing and meow
-  sounds.
-- `car-cats`: real car photos in angled panels on a dark carbon racing
-  backdrop, a header that swaps to each car's name, and the gato cat meme
-  reacting, with garage tool and meow sounds.
 - `boxing`: fight night in a spotlit canvas ring. Flat-shaded fighters on a 3D
   rig (red corner vs blue corner) move through smooth camera views, body marks
   and ghosts point at what the words name, and a quiet broadcast lower third
@@ -295,6 +301,17 @@ Bundled styles live in `skills/kumu/styles/`, each with finished examples above:
   the rival drops, then a replay done wrong drops you) is available when the
   prompt asks for one. Ships the rig, poses, and fighter looks in
   `assets/characters/`.
+- `car-cats`: real car photos in angled panels on a dark carbon racing
+  backdrop, a header that swaps to each car's name, and the gato cat meme
+  reacting, with garage tool and meow sounds.
+- `code-cats`: cartoon cats act out code above a code editor, on switchable
+  2D backdrops (green park, cozy room, night rooftop), with typing and meow
+  sounds.
+- `motion`: light UI motion graphics with drifting color fields, white UI
+  cards, a cursor, blur-in headlines, and a two-line payoff ending.
+- `plain` (default): light gray, black type, one orange-red accent, ends on a payoff card.
+- `pupukahi-tech`: navy island ground, white Inter type, teal data,
+  gold word highlight, and the @pupukahi_tech closing card.
 
 Each style also carries its own sound effects in `assets/sfx/`, listed with
 their licenses in `assets/sfx/CREDITS.md`, and a Sound section in `style.md`
