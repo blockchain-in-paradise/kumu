@@ -1,47 +1,118 @@
 # Kumu
 
-Kumu is a human-in-the-loop agent skill that turns a
-topic, article URL, or notes into an informative short video for
-TikTok, Reels, and Shorts: how-tos, comparisons, local guides, decision guides,
-warnings, explainers, timelines, lists, and what-ifs. It starts from what the
-viewer should walk away able to do or understand, picks the form that teaches
-it (real screens, a map, an aligned chart, a changing diagram, or a metaphor),
-and builds one stage that changes as the explanation unfolds. Videos are narrated with word-highlighted captions, or
-visual-only with short on-screen lines. Music and sound effects follow the
-style; boxing uses voice and effects without music. You approve the concept and
-plan and still previews before composition, then watch a draft in Studio
-before approving the final export. Built on
-[HyperFrames](https://hyperframes.heygen.com/).
+Kumu is a human-in-the-loop agent skill that turns a topic, article URL, or notes into an informative short video for TikTok, Reels, and Shorts. It starts from what the viewer should walk away able to do or understand, picks the form that teaches it, and builds one stage that changes as the explanation unfolds. Videos are narrated with word-highlighted captions, or visual-only with short on-screen lines, and are built on [HyperFrames](https://hyperframes.heygen.com/).
 
-Kumu is an agent-guided workflow, not a standalone video generator. Its
-instructions cover the formats above; the styles currently working in
-practice are `boxing` and `pupukahi-tech`. The other bundled styles are
-samples and should be treated as experimental until demonstrated in finished
-videos. Output still needs human review.
+This skill is an agent-guided workflow, not a standalone video generator: you approve the concept and plan, then watch a draft in Studio before the final export. Every bundled style has finished examples below, but output still needs human review.
 
 ## Examples
+~30-second previews "one-shotted" from a single prompt.
 
 ### Boxing
 
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/db6ea4a4-6d0d-4eb3-9538-5bfd2f8f3c22">
-<img src="docs/examples/how-mike-tysons-peek-a-boo-works.jpg" width="180" alt="How Mike Tyson's Peek-a-Boo Works cover">
-</a>
-<br><strong>How Mike Tyson's Peek-a-Boo Works</strong>
-</td>
-<td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/9b5299fb-95e1-4541-b000-51918f0abcfb">
-<img src="docs/examples/how-the-slip-counter-works.jpg" width="180" alt="How the Slip Counter Works cover">
-</a>
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-the-slip-counter-works-preview.jpg" width="180" alt="How the Slip Counter Works cover">
 <br><strong>How the Slip Counter Works</strong>
 </td>
 <td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/c10e44ff-e54a-48a6-a8b0-69fc9c111080">
-<img src="docs/examples/how-the-drunken-master-lost-by-being-too-good.jpg" width="180" alt="How the Drunken Master Lost by Being Too Good cover">
-</a>
-<br><strong>How the Drunken Master Lost by Being Too Good</strong>
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-the-philly-shell-stop-a-punch-preview.jpg" width="180" alt="How Does the Philly Shell Stop a Punch and Set Up a Counter? cover">
+<br><strong>How Does the Philly Shell Stop a Punch and Set Up a Counter?</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-the-jab-set-up-the-right-hand-preview.jpg" width="180" alt="How Does the Jab Set Up the Right Hand? cover">
+<br><strong>How Does the Jab Set Up the Right Hand?</strong>
+</td>
+</tr>
+</table>
+
+### Car Cats
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/mx-5-versus-gr86-horsepower-preview.jpg" width="180" alt="MX-5 Versus GR86 Horsepower cover">
+<br><strong>MX-5 Versus GR86 Horsepower</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-a-turbo-work-preview.jpg" width="180" alt="How Does a Turbo Work? cover">
+<br><strong>How Does a Turbo Work?</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-a-differential-let-a-car-turn-preview.jpg" width="180" alt="How Does a Differential Let a Car Turn? cover">
+<br><strong>How Does a Differential Let a Car Turn?</strong>
+</td>
+</tr>
+</table>
+
+### Code Cats
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/a-for-loop-feeds-each-cat-preview.jpg" width="180" alt="A For Loop Feeds Each Cat cover">
+<br><strong>A For Loop Feeds Each Cat</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-dijkstras-algorithm-find-the-shortest-path-preview.jpg" width="180" alt="How Does Dijkstra's Algorithm Find the Shortest Path? cover">
+<br><strong>How Does Dijkstra's Algorithm Find the Shortest Path?</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-a-hash-map-find-things-instantly-preview.jpg" width="180" alt="How Does a Hash Map Find Things Instantly? cover">
+<br><strong>How Does a Hash Map Find Things Instantly?</strong>
+</td>
+</tr>
+</table>
+
+### Motion
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/loading-without-layout-jumps-preview.jpg" width="180" alt="Loading Without Layout Jumps cover">
+<br><strong>Loading Without Layout Jumps</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/why-does-a-button-feel-broken-preview.jpg" width="180" alt="Why Does a Button Feel Broken Without Instant Feedback? cover">
+<br><strong>Why Does a Button Feel Broken Without Instant Feedback?</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-fitts-law-make-buttons-easier-to-hit-preview.jpg" width="180" alt="How Does Fitts's Law Make Buttons Easier to Hit? cover">
+<br><strong>How Does Fitts's Law Make Buttons Easier to Hit?</strong>
+</td>
+</tr>
+</table>
+
+### Plain
+
+<table width="100%">
+<tr>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-compound-interest-builds-preview.jpg" width="180" alt="How Compound Interest Builds cover">
+<br><strong>How Compound Interest Builds</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/why-does-the-double-slit-experiment-break-physics-preview.jpg" width="180" alt="Why Does the Double-Slit Experiment Break Physics? cover">
+<br><strong>Why Does the Double-Slit Experiment Break Physics?</strong>
+</td>
+<td align="center" width="33%">
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-gps-know-where-you-are-preview.jpg" width="180" alt="How Does GPS Know Where You Are? cover">
+<br><strong>How Does GPS Know Where You Are?</strong>
 </td>
 </tr>
 </table>
@@ -51,41 +122,26 @@ videos. Output still needs human review.
 <table width="100%">
 <tr>
 <td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/4238f820-7218-4ee9-b844-81bcc50996ff">
-<img src="docs/examples/what-could-ai-do-for-you-before-lunch.jpg" width="180" alt="What Could AI Do for You Before Lunch? cover">
-</a>
-<br><strong>What Could AI Do for You Before Lunch?</strong>
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-redemption-supports-a-stablecoin-preview.jpg" width="180" alt="How Redemption Supports a Stablecoin cover">
+<br><strong>How Redemption Supports a Stablecoin</strong>
 </td>
 <td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/b4e9f06d-ed29-4e8e-8730-2731cc27c93e">
-<img src="docs/examples/why-blockchain-history-is-hard-to-rewrite.jpg" width="180" alt="Why Blockchain History Is Hard to Rewrite cover">
-</a>
-<br><strong>Why Blockchain History Is Hard to Rewrite</strong>
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/three-affordable-ai-tools-for-local-businesses-preview.jpg" width="180" alt="3 AI Tools Local Businesses Can Afford cover">
+<br><strong>3 AI Tools Local Businesses Can Afford</strong>
 </td>
 <td align="center" width="33%">
-<a href="https://github.com/user-attachments/assets/f4722330-6357-4e18-b38e-c72e831bcbe1">
-<img src="docs/examples/why-stablecoins-stay-at-1.jpg" width="180" alt="Why Stablecoins Stay at $1 cover">
-</a>
-<br><strong>Why Stablecoins Stay at $1</strong>
+<!-- video link: wrap the image in <a href="UPLOADED_VIDEO_URL"> -->
+<img src="docs/examples/how-does-an-llm-pick-its-next-word-preview.jpg" width="180" alt="How Does an LLM Pick Its Next Word? cover">
+<br><strong>How Does an LLM Pick Its Next Word?</strong>
 </td>
 </tr>
 </table>
 
 ## Where it runs
 
-Kumu renders on your own computer. Its setup currently targets macOS and
-Linux. Native Windows is not supported yet, Windows through WSL2 is untested.
-
-| App | Status |
-| --- | --- |
-| Claude desktop app (Code tab, local session) | Supported, recommended if you don't use a terminal |
-| Claude Code in a terminal | Supported |
-| Codex app or Codex CLI | Should work (skill and plugin formats are supported), not yet tested |
-| OpenCode | Should work, not yet tested |
-| Cloud sessions (claude.ai/code, Codex cloud) | Not supported |
-| Chat apps (claude.ai chat, ChatGPT) | Not supported (they cannot render video) |
-| Native Windows | Not supported yet |
-| Windows through WSL2 | Untested |
+Kumu renders on your own computer, so it needs an agent that can run local commands. It has been tested with Claude Code, Codex, and ChatGPT. Setup targets macOS and Linux. Windows is untested, and cloud sessions and plain chat apps can't render video.
 
 ## Get started
 
@@ -94,8 +150,6 @@ Linux. Native Windows is not supported yet, Windows through WSL2 is untested.
    `brew install node ffmpeg python`.
 2. Download this repo (Code → Download ZIP, or `git clone https://github.com/blockchain-in-paradise/kumu.git`).
 3. Open the `kumu` folder in your agent:
-   - **Claude desktop app:** open the Code tab, choose the `kumu` folder, and
-     make sure the session runs locally, not in the cloud.
    - **Claude Code:** `cd kumu && claude`
    - **Codex:** open the `kumu` folder in the Codex app, or run `codex` in it.
 4. Ask for a video:
@@ -120,31 +174,30 @@ have not been verified. Use the repo-based setup above for now.
 ## How to use
 
 ```text
-/kumu --topic "How bubble sort works" --mode visual
+/kumu --topic "How bubble sort works"
 /kumu --url https://example.com/article --duration 45
 /kumu --topic "7 git commands worth knowing" --ref https://www.tiktok.com/t/XXXX/
 /kumu --style boxing --topic "How Lomachenko takes angles" \
   --source https://example.com/lomachenko-profile --source https://example.com/fight-stats
 ```
 
-- `--mode narrated|visual`: narrated uses a voice and word-highlighted
-  captions (30–90 s). Visual has no voice: short on-screen lines and the
-  style's audio layers (10–90 s). Without it, Kumu recommends one per concept.
-- `--source <url>`: a web page the video is about (an article, profile, or
-  stats page). Kumu reads these before searching and uses search only to fill
-  gaps. Repeatable.
+Give it a topic (`--topic`), an article (`--url`), or notes. Everything else is optional:
+
+- `--mode narrated|visual`: narrated has a voice with word-highlighted captions
+  (30–90 s). Visual has no voice, just short on-screen lines (10–90 s). If you
+  skip it, Kumu recommends one.
+- `--style <name>`: a saved look (see Styles). Defaults to `plain`.
+- `--duration <seconds>`: target length, including the ending.
+- `--source <url>`: a page the video is about, like an article, profile, or stats
+  page. Kumu reads it first and searches only to fill gaps. Repeatable.
 - `--ref <url>`: a video whose structure you like. Kumu studies its layout and
-  pacing; it copies its characters and style only when you ask it to replicate
-  the reference, and never reuses its footage or audio. Repeatable.
-- `--tone` sets the voice of the writing, such as "clear build-along guide".
-- `--duration` sets the target length in seconds, including the closing card.
-- `--format vertical|square|landscape` is accepted by the skill. Vertical
-  1080×1920 is the default and the current final-render instructions target
-  that size; square and landscape exports need their dimensions checked.
-- `--style <name>` picks a saved style (see Styles). Without it, Kumu uses
-  the bundled `plain` style: neutral, with a payoff ending and no branded CTA.
-- `--no-captions`, `--no-music`, `--no-sfx` turn off individual layers.
-  `--no-voice` is the same as `--mode visual`.
+  pacing, but never reuses its footage, audio, or characters. Repeatable.
+- `--tone <direction>`: the writing voice, like "clear build-along guide". The
+  style always wins over it.
+- `--format vertical|square|landscape`: vertical 1080×1920 is the default and
+  the only size the final render is tuned for.
+- `--no-captions`, `--no-music`, `--no-sfx`: turn off a layer. `--no-voice` is the
+  same as `--mode visual`.
 
 To pick up a saved run in a new session:
 
@@ -164,8 +217,9 @@ To pick up a saved run in a new session:
    within that form instead. Each names the stage, its sources, the value the
    viewer tracks, and the payoff. It recommends one.
 3. **Script and plan.** For the recommended concept it writes the narration
-   (`SCRIPT.md`) or the on-screen lines, and the stage's states, each tied to
-   the words that trigger it, in `video-plan.md`.
+   (`SCRIPT.md`) or the on-screen lines, and states in `video-plan.md`:
+   before, action, result, attention handoff, and speech anchors. Reading holds
+   are recorded with their purpose and duration.
 
    **Checkpoint 1: plan review.** Check the plan and still previews of the
    opening, hero state, and closing alongside a cover preview, then approve,
@@ -179,8 +233,9 @@ To pick up a saved run in a new session:
    Before showing you anything, Kumu reviews its own work: it renders a draft
    and measures it (checks, a video audit for edge clipping, flicker, and
    frozen stretches, the style's kit audit or a DOM animation map, and
-   loudness). It inspects a contact sheet and flagged frames, fixes defects,
-   and repeats for up to three rounds. Any unresolved issues are reported;
+   loudness). It inspects every scene's main result and important motion
+   handoffs as well as flagged frames, fixes defects, and repeats for up to
+   three rounds. Any unresolved issues are reported;
    technical checks do not prove editorial quality.
 
    **Checkpoint 2: Studio review.** Watch the video in the HyperFrames Studio
@@ -189,6 +244,9 @@ To pick up a saved run in a new session:
 5. **Render.** It encodes the final `video.mp4` at 30 fps, checks its metadata
    and representative frames, and promotes accepted reusable assets into the
    style's library when their licenses allow it.
+
+Both human checkpoints remain mandatory; there is no autonomous review option.
+Self-review improves what you see, and never replaces your approval.
 
 At either checkpoint, reply `Yes` to continue, `No` to stop and keep the files,
 or describe what to change. You can also edit the files directly first.
@@ -216,9 +274,7 @@ a style looks like it belongs to the same page. `skills/kumu/frame.md` holds
 the rules every style follows: layout zones, legibility, honest numbers, and
 pacing.
 
-Bundled styles live in `skills/kumu/styles/`. `boxing` and `pupukahi-tech`
-are the working styles featured above; `plain`, `motion`, `code-cats`, and
-`car-cats` are experimental samples:
+Bundled styles live in `skills/kumu/styles/`, each with finished examples above:
 
 - `pupukahi-tech`: navy island ground, white Inter type, teal data,
   gold word highlight, and the @pupukahi_tech closing card.
@@ -259,13 +315,17 @@ one, or mix them, and it saves to `styles/<name>/` in your project. Then:
 $kumu --style menu-motion --topic "Why menus stay open when you move diagonally"
 ```
 
-## Credits
+## Resources and inspiration
 
-- Original workflow: [BRAG](https://github.com/latent-spaces/brag), MIT
-- Music: [ende.app](https://ende.app/en), Happy Beats / Business Moves.
-- SFX: [Kenney](https://kenney.nl/)
-- Platform icons: [Bootstrap Icons](https://icons.getbootstrap.com/), MIT
-- Rendering: [HyperFrames](https://hyperframes.heygen.com/)
+Kumu renders with [HyperFrames](https://hyperframes.heygen.com/) and its
+skills (creative, animation, core, CLI, audio, media, and registry). When a
+video calls for it, the pipeline also consults these references and records
+what it used in `video-plan.md`; they are fetched on demand, not bundled
+(see [resource loading](skills/kumu/references/design-resources.md)):
+
+- [IBM animation guidance](https://www.ibm.com/design/language/animation/tips-and-techniques/): attention, rhythm, and sequencing.
+- [IBM technical diagrams](https://www.ibm.com/design/language/infographics/technical-diagrams/design/): systems, sequences, and hierarchies.
+- [Material choreography](https://m1.material.io/motion/choreography.html): UI interaction and object continuity.
 
 ### Workflow inspiration
 
