@@ -64,6 +64,7 @@ This skill is an agent-guided workflow, not a standalone video generator: you ap
 <td align="center" width="33%">
 <a href="https://github.com/user-attachments/assets/fdcb1f7a-8e42-4289-a211-5b6321edf00a">
 <img src="docs/examples/a-for-loop-feeds-each-cat-preview.jpg" width="180" alt="A For Loop Feeds Each Cat cover">
+</a>
 <br><strong>A For Loop Feeds Each Cat</strong>
 </td>
 <td align="center" width="33%">
