@@ -77,8 +77,11 @@ a misleading headline. Share copy follows the same factual boundary.
 
 ## Visual evidence
 
-Skip this section when the style sets `visuals: drawn`: nothing is sourced, the
-subject is drawn.
+When the style sets `visuals: drawn`, skip sourcing finished media. Still study
+references for recognizable objects, actual interfaces, and mechanisms, and
+record them as reference-only visuals. Drawing is not permission to invent
+geometry or product behavior. Neutral sample interfaces and results must be
+identified as examples, not represented as actual vendor output.
 
 Research what the subject looks like as well as what is true about it. For
 recognizable products, places, animals, or objects, find usable material before

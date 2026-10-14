@@ -39,17 +39,18 @@ may use one when it helps.
 
 1. **A concrete stage.** Something the viewer can picture: the real subject,
    simplified (a map, the real app screen, a cross-section) or an everyday
-   metaphor. Never abstract boxes, floating icons, or a deck of fact cards.
-2. **One stage that changes.** The stage changes state instead of being
-   replaced by unrelated pictures; how it cuts and moves follows the style. A
-   list or walkthrough may repeat one frame per item or step.
+   metaphor. The style chooses its representation; explain what each element
+   does rather than using topic labels as the explanation.
+2. **A visual explanation.** Specify the action and result that teach each
+   part of the goal. Stage continuity, scene boundaries, and transitions follow
+   the style. A new scene must serve a new explanatory step.
 3. **Real sources behind every state.** Sourced facts, prices, dates, captured
    screens, a real map, an algorithm that actually runs, or real command output.
    Every visible number is computed or cited, never invented for drama.
 4. **A visible anchor.** One thing the viewer tracks: step 3/5, the price, the
    date, flags found, swaps so far.
-5. **A title the viewer wants answered.** A question or promise held on screen.
-   The final state pays it off.
+5. **A title the viewer wants answered.** Name the question or useful outcome;
+   the final explanation pays it off. Its on-screen treatment follows the style.
 
 Optional, when it fits: a recurring character or mascot, and example data
 themed to it. It adds personality without inventing facts.
@@ -82,6 +83,11 @@ goal sentence once, then for each concept:
 | Payoff  | The final state and the one line it lands on                        |
 | Mode    | Narrated or visual, and estimated duration                          |
 
+Use [references/design-resources.md](references/design-resources.md) to select
+planning guidance. Read the style's Choreography examples (or Motion section
+when absent) before recommending a concept. Identify the hardest visual action and its implementation path
+(existing asset/helper or a new drawing).
+
 Then test the one you will recommend and fix it if it fails; test another only
 if the user picks it:
 
@@ -96,6 +102,10 @@ if the user picks it:
 - **Source test.** Every number and screen on the stage traces to a fact,
   capture, or model run. If the concept needs something research cannot
   support, choose another.
+- **Picture test.** Describe the before, action, and result without repeating
+  the narration. If the picture only identifies the topic, redesign the action.
+- **Feasibility test.** The hardest action can be built and reviewed using
+  the style's permitted assets, runtime, and kit. Simplify the concept if not.
 
 Recommend one and say why in two sentences. The user may pick another at the
 plan checkpoint.

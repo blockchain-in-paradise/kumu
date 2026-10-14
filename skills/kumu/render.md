@@ -25,38 +25,26 @@ Before installing registry items, set `paths.components` to `components` and
 
 ## Building the stage
 
-Read `hyperframes-core` before writing HTML. Read `hyperframes-animation` only
-if the style's sample lacks the motion needed, and consult
-`hyperframes-registry` before hand-building a named visual such as a code
-window, terminal, chart, or map.
+Read `hyperframes-core` before writing HTML. Select implementation references
+through [references/design-resources.md](references/design-resources.md).
+Use the style's existing helpers and motion constants; consult registry before
+hand-building a named reusable visual. Adapt recipes to the style and verify
+seek-safety rather than copying their aesthetics or callback behavior.
 
 Build the style's fixed parts first (its layout, words, and closing). Inspect
 one state at phone size with active captions or lines before building the
-rest.
+rest. Use the reviewed scene results, not the demo's arrangement by default.
+Implement and inspect the hardest planned action before repeating its pattern.
 
 When the concept has a model, compute states from it at load time, then place
-one tween per state at its planned time. Set displayed values with `tl.set`, so they are correct at
+one tween per state at its planned time. Set displayed values as explicit
+timeline states, so they are correct at
 any seek, forward or backward. Never count, simulate, or read the clock during
-playback. This pattern is verified with HyperFrames 0.8:
-
-```html
-<script>
-  // Model: run the real algorithm once and record every state.
-  const values = [5, 2, 4, 1, 3], steps = [], v = values.slice();
-  for (let i = 0; i < v.length - 1; i++)
-    for (let j = 0; j < v.length - 1 - i; j++)
-      if (v[j] > v[j + 1]) { [v[j], v[j + 1]] = [v[j + 1], v[j]]; steps.push(v.slice()); }
-  // Stage: one element per value, set to its index slot in each state, one tween per state at its planned time.
-  const els = new Map(values.map((n) => [n, document.querySelector(`[data-n="${n}"]`)]));
-  const tl = gsap.timeline({ paused: true });
-  steps.forEach((state, k) => {
-    const t = 1 + k * 1.2;   // replace with the measured start from the plan
-    state.forEach((n, i) => tl.to(els.get(n), { x: 90 + i * 190, duration: 0.5, ease: "power2.inOut" }, t));
-    tl.set("#score", { textContent: `Swaps ${k + 1}` }, t + 0.5);   // set, never counted
-  });
-  window.__timelines.main = tl;
-</script>
-```
+playback. Keep model data separate from the style's animation: compute each
+state once,
+then use the style's helpers to present it at the measured time. Do not put
+layout coordinates, materials, or easing choices into the model. Reuse stable
+item identifiers; values alone are not identities when duplicates occur.
 
 The same shape covers a queue simulation, a timeline of sourced dates, or a
 list of items: compute the states, then map them to times. When the model is
@@ -150,7 +138,8 @@ measurement in [review.md](review.md) shows them hot.
 
 ## Review
 
-Follow [review.md](review.md) before the frame checkpoint.
+Follow [review.md](review.md) before the human frame checkpoint. Preserve
+scene-review evidence as well as audit results.
 
 ## Thumbnail
 
@@ -160,15 +149,18 @@ about 150 px wide and save it as `thumbnail.jpg` at the run root.
 
 ## Final render
 
-After the frame checkpoint is approved, render once at 1080×1920 for TikTok with
-`--fps 30 --video-bitrate 20M --output ../video.mp4`. Never 4K (TikTok
-downscales and recompresses it harder), never 60 fps, and never moving grain
-or other animated noise: each gives TikTok's re-encode more to compress and
-the posted video comes out soft. Tested on a 3D style: 30 fps, no grain, 20 Mbps
-posts sharp. Verify dimensions, duration, and
-audio streams with `ffprobe`, and inspect the opening, a middle state, and the
-ending. Re-render only for an observed defect or an intentional revision.
-Record the CLI version, output duration, and render wall time in the plan.
+After self-review passes and the user approves the Studio checkpoint, render
+at the requested dimensions and 30 fps with `--video-bitrate 20M --output
+../video.mp4`. Use `--fps 30`; the final project dimensions must match the
+selected format. A requested partial deliverable is not permission to export.
+Use the current CLI's help to confirm flags. Keep the style's effects subject
+to the compression validation in frame.md.
+
+Verify dimensions, duration, and audio streams with ffprobe. Inspect the first
+frame, each scene's main result, and the ending in the actual export. Check
+important motion intervals if export differs from the draft. Re-render only
+for an observed defect or intentional revision. Record CLI version, duration,
+render wall time, review status, and any inspection limitations in the plan.
 
 ## Grow the style's library
 
@@ -183,3 +175,10 @@ whose license allows reuse. Promote generic versions: strip the run's sample
 text, names, and timings, keep the drawing. Skip one-off scenery and anything
 the library already has; improve the existing entry instead of adding a near
 copy. Record what was promoted in the plan.
+
+Also preserve a small set of accepted choreography examples in the style's
+Choreography section: before, action, result, and why it worked. Save a
+rejected pattern only when it teaches a reusable distinction, without making
+that topic's correction a universal rule. Leave new assets and candidate
+examples in the run until the user accepts them; a technical validation pass
+is not acceptance.

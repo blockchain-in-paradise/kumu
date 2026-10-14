@@ -38,11 +38,9 @@ A kit is the reusable code behind the style's subjects, so a run never redraws
 them. Pick the cheapest that carries the look:
 
 - **None.** Flat shapes, text, diagrams, photos: plain HTML, SVG, and CSS.
-- **An existing kit.** Another bundled style's kit, when the subject fits it:
-  the boxing kit (`styles/boxing/assets/characters/`, `SportsRig`) draws any
-  humanoid in flat-shaded 3D with poses, a camera, floor notes, and a ragdoll.
-  A new sport or fighter style is new looks, poses, and sounds on that kit, not
-  a new rig.
+- **An existing kit.** Reuse one when its documented subjects and actions fit.
+  Read the owning style's kit contract and audit before selecting it. Put
+  adaptations and specialist mechanics in the new style, not this pipeline.
 - **A new kit.** Only when no kit fits and the style will be reused. Build it
   to this contract:
   - **Seek-safe.** Everything is driven by the HyperFrames timeline. No clock,
@@ -51,14 +49,13 @@ them. Pick the cheapest that carries the look:
   - **Data, not drawings.** Figures are rigs (SVG groups per part with named
     pivots, or a 3D skeleton). Poses are named joint angles in a `poses.js`.
     Looks (colors, outfit, hair) are a small object.
-  - **Helpers hold the motion rules.** A punch, step, or hit is one call that
-    loads, snaps, recoils, and settles, so a run cannot write a robotic move.
+  - **Helpers hold the motion rules.** Each reusable action goes through one
+    helper that enforces the style's documented mechanics.
   - **Measurable.** The kit exposes its stages (for example
-    `window.__<kit>Stages`) so an audit script can seek the timeline and check
-    joints, as `scripts/motion-audit.mjs` does for the boxing kit. Ship the
-    kit's audit with it and name it in `style.md`, so the review runs it.
-  - **Survives TikTok.** Outlines at least 3 px at 1080 wide, no noise or
-    grain, no vignette ([frame.md](frame.md)).
+    `window.__<kit>Stages`) so its audit can seek and verify the behavior it
+    owns. Ship the audit and name it in `style.md`, so review runs it.
+  - **Postable.** Validate the actual output against [frame.md](frame.md),
+    including phone-size readability and compression.
 
 ## 3. Build three directions
 
@@ -112,8 +109,8 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   the safe box x 60–960, y 240–1400), with `thumbnail/assets` linked to
   `../assets` (`ln -s ../assets thumbnail/assets`).
 - `preview.png`: four frames side by side (thumbnail, empty, elements with a
-  highlighted caption, closing). The sample keeps its background alone for the
-  first 0.4 s. Set `preview_at: [empty, elements, closing]` in `style.md`, then
+  highlighted caption, closing). The sample's first state follows the chosen
+  opening. Set `preview_at: [first, elements, closing]` in `style.md`, then
   run [scripts/style-preview.sh](scripts/style-preview.sh) `styles/<name>`.
 - `style.md`: frontmatter tokens in the same shape as the bundled styles
   (`colors`, `typography`, `preview_at`, `spacing`, `cta` or `cta: null`,
@@ -122,8 +119,8 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   - `form`: set when the style always teaches one form (`"technique"`), so
     concepts vary the angle instead of the form.
   - `visuals: drawn` when nothing is sourced, so research skips photos and screens.
-  - `skills`: the HyperFrames skills a run needs (usually
-    `[hyperframes-core, hyperframes-cli]`), and no others.
+  - `skills`: required implementation skills, not an exclusive allowlist.
+    Shared resource loading follows [references/design-resources.md](references/design-resources.md).
 
   Then short sections written from `notes.md` and the chosen direction:
   Character, Layout (where the title, subject, and words sit, or that there
@@ -132,7 +129,13 @@ Apply any requested mix, then copy the chosen direction to `styles/<name>/`:
   how characters are rigged), Opening, Motion, Motion values, Captions, Sound
   (events, files, gains, music), Checks (source scans or the kit's audit), and
   Closing. A section left out follows [plain](styles/plain/style.md), so write
-  one whenever the look differs; never put a style's rule in the root files. Motion values is a table of eases by
+  one whenever the look differs; never put a style's rule in the root files.
+  Add a compact **Choreography** section with its distinctive action grammar,
+  two before/action/result examples, and a rejected pattern with its reason.
+  Reference shared resources for general craft and APIs instead of repeating
+  tutorials. **Checks** must validate the style's actual subjects; inherited
+  checks apply only when it inherits the behavior they test.
+  Motion values is a table of eases by
   direction, duration bands, overshoot, and stagger, and the sample defines the
   same values as constants at the top of its script. Put topic-specific recipes
   (a named subject, an optional ending) in an `extras.md` the style points to,

@@ -79,18 +79,39 @@ Read the selected `style.md`, then [frame.md](frame.md). The style owns the
 whole look: layout, subjects, words, motion, opening, and closing. For any of
 those sections the style leaves out, read that section of
 [styles/plain/style.md](styles/plain/style.md); plain is the default. Copy the style's
-`index.html` structure and only the assets used into the composition, and
+`index.html` implementation and only the assets used into the composition, and
 record the style path in the plan. Follow what the style's frontmatter sets:
-`skills` lists the HyperFrames skills to load (and no others), `visuals: drawn`
-skips photo and screen research, and `form` fixes the concept's form. Read a
+`skills` lists required implementation skills, not an exclusive allowlist.
+`visuals: drawn` skips media sourcing, not visual reference research, and
+`form` fixes the concept's form. Read a
 file the style names (such as `extras.md`) only when the topic needs it. 
 Precedence: user direction, then the style, then plain for what the style
 leaves out. [frame.md](frame.md) always decides the safe area, legibility,
 compression, honesty, and seek-safety, and nothing else.
 
+Shared Markdown owns production stages, resource selection, evidence, and
+validation. Every artistic choice belongs in `styles/<name>/style.md`:
+layout, drawing recipe, typography, words, motion vocabulary, pacing, sound,
+opening, and closing. Samples demonstrate those rules; their demo subjects
+and arrangements are not compulsory. Specialist kits retain their own
+helpers and validation. External guidance cannot replace kit mechanics.
+Explicit resource exclusions in a style remain authoritative; a required
+skill list by itself is not an exclusion.
+
+## Resources
+
+Follow [references/design-resources.md](references/design-resources.md) at
+planning, implementation, and review. Load selected HyperFrames Creative and
+Animation references for the capability needed, even when the sample already
+contains a similar pattern. Load core and CLI for implementation; media-use
+for speech, transcription, or sourced media; audio for mixing changes; and
+registry for named reusable visuals. Do not run another workflow's intake.
+Use the selected style's guidance to filter recipes; never import another
+resource's palette, layout, motion values, or mandatory approval flow.
+
 ## Workflow
 
-Run these stages in order, stopping at both checkpoints. After each stage,
+Run these stages in order, stopping at both human checkpoints. After each stage,
 update a `Stage:` line at the top of `video-plan.md` (for example
 `Stage: compose, review round 1`) so an interrupted session resumes exactly
 there.
@@ -109,30 +130,26 @@ there.
    `composition/thumbnail/index.html`. Save them side by side with
    [scripts/style-preview.sh](scripts/style-preview.sh)
    `composition 0,<hero>,<closing> composition/frames/plan-preview.png`.
-   Review it as [review.md](review.md) describes. Run no TTS yet. Stop at the
-   plan checkpoint.
+   Review it as [review.md](review.md) describes. Run no TTS yet. Record the
+   plan-review evidence, then stop at the human plan checkpoint.
 4. **Compose.** Read [frame.md](frame.md) and [render.md](render.md). Build
    from the approved plan only. Inspect one state at phone size before building
    the rest, create `thumbnail.jpg`, then run the self-review in
-   [review.md](review.md) until it passes. Stop at the frame checkpoint.
+   [review.md](review.md) until it passes. Open Studio after self-review, then
+   stop at the human frame checkpoint.
 5. **Render.** Follow "Final render" in [render.md](render.md) and inspect `video.mp4`, then "Grow the style's library" there.
-
-Load `hyperframes-core` and `hyperframes-cli` for implementation. Load
-`media-use` only for speech, transcription, or sourced media, and
-`hyperframes-animation` or `hyperframes-registry` only when the style's sample
-lacks the pattern needed. Do not open their reference folders unless a command
-fails. Pass this brief and plan into production without a generic intake
-interview.
 
 ### Checkpoints
 
-Both checkpoints are required on every run, including requests for a finished
-video. At each, record the status in `video-plan.md`, link the files to review,
+Both human checkpoints are required on every run, including requests for a
+finished video. At each, record the status in `video-plan.md`, link the files to review,
 ask once, and end the turn. The message is a one-line summary, the links, and
 the question; do not quote this skill's rules. No, or no reply, leaves the run
 ready for later. Requested edits update the same run, and the same checkpoint
 asks again. A request to continue a named run approves only its current
-checkpoint.
+checkpoint. Self-review prepares a concrete result for the user to approve;
+it never substitutes for their approval. Do not add an autonomous review mode.
+Approval for local export does not authorize publishing or messaging.
 
 - **Plan:** record `Status: awaiting plan review`, link `research.json`,
   `video-plan.md`, `SCRIPT.md` when narrated, and `plan-preview.png`, name the
@@ -149,7 +166,8 @@ checkpoint.
 
 To resume, read the options, `Stage:`, and status from `video-plan.md` and
 continue from the saved files without repeating completed stages. Preserve approved wording
-and resolve factual gaps before TTS.
+and resolve factual gaps before TTS. A saved run awaiting approval retains its
+checkpoint; absent or stale options never imply approval.
 
 **Revising a run** (change a line, a color, a scene): edit its existing plan
 and composition in place. If the plan lacks a section this workflow expects,
@@ -168,13 +186,9 @@ Spell non-English names and words correctly everywhere they appear, with
 their diacritics. Pronunciation for the voice is handled separately in
 [render.md](render.md).
 
-Use the user's tone and any supplied writing samples without copying anecdotes.
-In agent-written audience copy, including on-screen labels and data lines,
-do not use em dashes, semicolons, canned contrasts, or middle-dot separators. Colons belong in times or necessary
-notation, not hook formulas. Never write staccato copy: no runs of clipped
-sentences or fragments for effect. Join them into sentences that carry the
-reasoning; a visual-mode line is one complete phrase.
-Preserve supplied scripts and verbatim quotations.
+Use the user's tone and supplied writing samples without inventing personal
+experience. Apply the style's writing and on-screen text rules (plain's when
+absent). Preserve supplied scripts and verbatim quotations.
 
 ## Delivery
 
@@ -183,3 +197,6 @@ Return `video.mp4`, `thumbnail.jpg`, `research.json`,
 Report duration, dimensions, the review's results, and unresolved
 limitations. For a partial run, name the completed stage and how to
 resume. Never describe a technical validation pass as proof of editorial quality.
+Keep the draft and review evidence available for later corrections. If review
+still fails after the bounded correction rounds, deliver the draft with the
+specific limitation; do not label it a finished or approved video.

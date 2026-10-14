@@ -17,21 +17,19 @@ frame edge in any pose or camera move. Scale these for square and landscape.
 
 ## Legibility
 
-Check text at roughly 360 px display width. Essential text is at least 40 px;
-shorten it rather than shrinking it. Show about 20 or fewer repeated, readable
-items per screen; reduce or group the data instead. Text never sits on busy
-detail or a full-opacity photo without a backing, outline, or shadow that
-keeps it readable. Size text after its font has loaded (a function value on
-the timeline), never when the script starts, or it sizes against the fallback
-font.
+Check every essential label and result at roughly 360 px display width.
+Essential text is at least 40 px at 1080 wide. If it cannot be read, revise
+content or placement using the style's rules. Check contrast and repeated
+items at their actual display size; source font size alone is not evidence.
+Measure text after its font has loaded, not against a fallback font.
 
 ## Survives TikTok
 
-TikTok re-encodes every upload at a low bitrate, and thin or noisy detail is
-what it loses first. Draw outlines and strokes at least 3 px at 1080 wide. Add
-no film grain, noise, or animated texture, and no vignette. Keep large
-near-black gradients few and soft, since they band. [render.md](render.md) sets
-the render settings.
+Inspect loss of essential detail and gradient banding in a compressed draft.
+Essential strokes must survive at phone size; 3 px at 1080 wide is a useful
+minimum for explanatory marks. Adjust backgrounds and effects within the
+style's rules. This is a compression check, not a rule selecting textures,
+gradients, or effects. [render.md](render.md) sets export settings.
 
 ## Honest
 
@@ -48,19 +46,25 @@ the render settings.
 
 Everything moves from the HyperFrames timeline, so every seek shows the right
 frame: no clock, `requestAnimationFrame`, CSS `infinite`, or random at render
-time. Set displayed values with `tl.set`, never by counting during playback.
+time. Set displayed values from precomputed, explicit timeline states, never
+from an incrementing callback during playback. Whether a value steps or
+animates between states is decided by the style; intermediate values must
+not imply observations or measurements that did not occur.
 Set the first frame's state (hidden parts, opening size, header size) with
 `gsap.set` outside the timeline, sizing text inside `document.fonts.ready`: a
 `tl.set` at time 0 is skipped on the very first frame, which then shows the
 wrong state and becomes the fallback cover.
-Use SVG, HTML, and CSS, plus a WebGL kit only when the style ships one.
+Use the runtime and kit permitted by the style and register them as core
+requires. Precompute simulation states; seeking must not advance physics.
 
 ## Pace
 
-While the voice speaks, something visible changes on every clause, never more
-than 3 s apart. An idle loop is not a change.
+Validate pacing against the style and the plan's timed actions and reading
+holds. Inspect gaps of 3 s or more; they are review signals, not automatic
+failures. Do not add activity to silence a detector. Background motion and
+caption highlights do not establish that the explanation progresses.
 
 ## End
 
-The video ends on something readable, held long enough to read, so the frame a
-looping viewer lands on makes sense.
+Verify that the style's final state can be understood before the video ends
+and that the first frame remains valid on a loop.

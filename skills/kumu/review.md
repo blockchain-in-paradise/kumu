@@ -1,10 +1,10 @@
 # Review
 
-The agent reviews its own work and fixes it before the user sees anything. The
-user's only review is watching the video in HyperFrames Studio. So measure
-first, look only where the measurements point, fix, and repeat. A score the
-agent gives itself proves nothing; a measured error is a fact. Commands run
-from the run directory. Save evidence under `composition/.work/review/`.
+The agent reviews the plan and draft before each human checkpoint.
+Measure technical defects and inspect the explanation independently; neither
+an audit pass nor a self-assigned score establishes design quality. Commands
+run from the run directory. Save evidence under `composition/.work/review/`.
+Use the selected style's Choreography (or Motion) and Checks as the artistic contract.
 
 ## 1. Measure
 
@@ -44,45 +44,63 @@ explained in step 3.
    `paced-slow` (over 2 s), dead zones, offscreen elements, and collisions, from
    the installed `hyperframes-animation` skill's
    `scripts/animation-map.mjs composition --out composition/.work/review`.
-   Side-by-side items and a running mechanism's long tweens are expected.
+   Interpret flags against planned actions, holds, and the style's cadence.
+   An audit cannot infer whether ambient motion explains anything.
 6. **Loudness** of the full mix: integrated LUFS and true peak with FFmpeg's
    `ebur128` filter. At or below -14 LUFS, peak under -1 dBTP (and, when the
    style has music, the bed against the voice per [render.md](render.md)).
 
-## 2. Look where the measurements point
+## 2. Inspect every scene and important handoff
 
-View at about 360 px wide, as a phone shows it, and only what the evidence
-asks for:
+Review at about 360 px wide with actual captions and labels:
 
-- **One contact image** from the draft: the first frame, the hero state, and
-  the closing frame side by side, plus a few evenly spaced frames.
-- **Every crop** the video audit saved (at most 8). A flicker at a hit, a
-  flash, or a camera shake is intended. A part that blinks when nothing lands
-  (hair, clothing, an outline, a label, a shadow) is a defect.
-- **A frame at each flagged time** from steps 3 to 5 that has no crop.
+- **Scene results.** Build a contact sheet containing the opening, the main
+  result of every scene, and the closing. Include important intermediate states
+  when a scene contains several explanations. Inspect each against its planned
+  before, action, result, and the style's drawing and composition rules.
+- **Playback.** Inspect every important transfer, transformation, and scene
+  transition in motion with surrounding context. Use supported video inspection
+  or the seekable preview; if only images are available, sample a sequence
+  across the action and disclose that playback was not assessed. A settled
+  frame alone cannot establish that the action is readable.
+- **Flags.** Inspect every saved audit crop and flagged interval. The audit
+  caps crops at eight, not the number of defects to review. A deliberate effect
+  is excused only with timestamped evidence, not a blanket transition exception.
+- **Speech and sound.** Compare speech anchors and captions with SCRIPT.md.
+  Audition the mix and uncertain pronunciations when supported; otherwise
+  disclose the listening limitation. Loudness measurements are not listening.
 
-Then judge these, with the frame or number that shows each:
+For each scene, record a timestamp and a specific finding:
 
-- **Edges and overlap.** Nothing important within 40 px of the frame edge in any
-  pose; no text or limb over another; the words clear of the subject.
-- **Legibility.** Every title, label, and line reads at 360 px; no contrast
-  failures; the frame's text budget holds.
-- **Motion.** No flicker, jump, or slide; idle loops stay small; every clause
-  changes something visible.
-- **Content.** Walk the States table against the draft: after the last state, a
-  viewer can do or understand the goal sentence; every number and claim matches
-  `research.json`; the opening and closing follow the style.
+- **Explanation.** The pictured action teaches the claim, and its result
+  advances the viewer's goal. Topic labels alone do not demonstrate behavior.
+- **Attention and continuity.** The intended focus and handoff are clear;
+  important identities and relationships remain understandable through motion.
+- **Readability.** Essential text and marks survive at phone size, remain
+  clear of platform UI, and meet the style's text budget. Planned holds give
+  the viewer time to read the result after it becomes legible.
+- **Style adherence.** Compare the scene to style.md and its sample, including
+  its materials, layout, motion values, and bookends. Use the style's Checks
+  for specialist behavior; external recipes cannot overrule it.
+- **Content.** Claims and displayed values trace to research.json or the
+  recorded model; example results are identified; qualifications stay intact.
+
+Record the observed weakness and repair, or concrete evidence of a pass.
+"Looks good" and "zero technical errors" are not scene-review evidence.
 
 ## 3. Fix and repeat
 
 Fix every error and every warning that is a defect, then re-run only the
 measurements the fix affects, including a new draft render. Record each round
 under a **Review** heading in `video-plan.md` as short bullets: what was
-flagged, what was fixed, and the intended warnings with the reason ("62.10 s:
-shake on the knockout hit, intended"). Stop at zero errors with every warning
-fixed or explained, or after three rounds; list anything still open as a
-limitation. A passing review is the agent's judgment, not proof of quality;
-the user decides in Studio.
+flagged, what was fixed, and intended warnings with their reason and timestamp.
+Stop at zero errors with every warning fixed or explained, or after three
+rounds; list anything still open as a
+limitation. Require both technical and scene review to pass before final
+export. After three unsuccessful rounds, retain the draft, name the unresolved
+scene and defect, and stop with a partial deliverable. Do not waive an error
+because the round limit was reached. A passing review remains a judgment,
+not proof that the user will accept the design.
 
 When the user asks for a fix to something that looked wrong (a limb clipping,
 a snap, flicker, a drag), fix it, and if it can be measured, add a check so the
@@ -94,23 +112,27 @@ next run catches it first. Put both where they belong:
   files, and only a check true for every style goes in
   `scripts/video-audit.mjs`.
 
-After editing root files, this must print nothing (style names never appear
-in them):
+After editing shared Markdown, inspect the diff for artistic prescriptions
+and named style mechanics, including in the style builder and references.
+Move those to the owning style. Shared files may route resources and define
+validation steps, but cannot choose a style's look or choreography.
 
-```bash
-grep -niE 'boxing|sportsrig|fighter|pupukahi|car-cats|code-cats|glove' <kumu skill>/{SKILL,concept,frame,render,research,review,script}.md | grep -v 'grep -niE'
-```
+## Plan review
 
-## Plan preview (plan checkpoint)
+Before TTS or full animation, inspect the opening, hero, closing, and cover
+in `composition/frames/plan-preview.png`. Also inspect the main result of every
+other proposed scene at phone size; save those frames beside the preview.
+Read the States table against those images and the style's Choreography or Motion section:
+can each action be built, followed, and understood, and is its result convincing?
+Fix weak visuals before production, then show the reviewed plan and
+wait for human approval as SKILL.md specifies. Existing approvals are not
+reopened needlessly.
 
-View `composition/frames/plan-preview.png` once. Fix the stills before asking if
-the first state, hero, or closing is hard to read at 360 px, or if the hero
-graphic does not look like the real thing ([frame.md](frame.md) Honest).
+## Studio preview
 
-## The user's review (frame checkpoint)
-
-After the review passes, start the scrubbable Studio preview, give the user its
-URL, and stop it after the final render:
+After self-review passes, start the scrubbable preview and provide its URL.
+Pause for human approval before final export.
+Stop a preview started for this run after final rendering:
 
 ```bash
 npx hyperframes preview composition --background
